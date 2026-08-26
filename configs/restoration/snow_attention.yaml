@@ -1,0 +1,24 @@
+run:
+  name: snow_attention_seed42
+  seed: 42
+  device: auto
+  output_dir: artifacts/restoration/snow_attention_seed42
+
+data:
+  manifest: data/manifests/snow.csv
+  image_size: [256, 256]
+  random_flip: true
+  num_workers: 4
+
+model:
+  attention: true
+  features: 64
+
+train:
+  epochs: 100
+  batch_size: 4
+  learning_rate: 0.0001
+  betas: [0.5, 0.999]
+  gan_weight: 1.0
+  l1_weight: 100.0
+  checkpoint_every: 10

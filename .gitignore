@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+
+# Notebooks and editors
+.ipynb_checkpoints/
+.idea/
+.vscode/
+
+# Data and generated artifacts
+data/raw/
+data/interim/
+data/processed/
+data/derived/
+artifacts/
+runs/
+wandb/
+*.pt
+*.pth
+*.onnx
+*.engine
+*.plan
+
+# Local configuration and logs
+.env
+*.log
+*.csv.tmp
