@@ -14,13 +14,13 @@ data/
     fog/{hazy,clean}/
     snow/{snowy,clean}/
     dawn/{images,labels}/
-  derived/              Generated weather and restored images
+  derived/              Restored images and resize-control views
   manifests/            Committed paired split CSVs (when paths are portable)
   dataset_cards/        Source URL, license, version, checksum, and class mapping
 ```
 
-Never edit files below `raw/`. Derived folder names should encode the condition,
-severity/model, and seed.
+Never edit files below `raw/`. Derived folder names should encode the source
+dataset, restoration model/checkpoint, and evaluation split.
 
 ## Paired restoration manifest
 
@@ -63,4 +63,4 @@ Do **not** label an unrelated clear dataset as DAWN's “clean baseline.” For 
 report the same real images before and after restoration, plus a bicubic
 down/up-sampled control at the restoration model's input resolution. Run the full
 clean/degraded/restored comparison only on the same labelled clean scenes with
-geometry-preserving synthetic degradation.
+dataset-provided paired degraded views and compatible annotations.

@@ -14,8 +14,6 @@ The current 13-week scope is deliberately narrow:
 
 Diffusion restoration, foundation-model detectors, domain adaptation, and
 adversarial defence remain future work under the revised execution plan.
-Diffusion-based *weather synthesis* is available only as an optional,
-label-preservation-checked augmentation experiment.
 
 ## Repository map
 
@@ -24,7 +22,7 @@ configs/                 Versioned experiment configurations
 data/                    Local dataset contracts and split manifests (no raw data in Git)
 docs/                    Audit, literature review, protocols, and experiment roadmap
 intern-work/             Historical internship reports (source evidence)
-scripts/                 Dataset, training, evaluation, generation, and export entry points
+scripts/                 Dataset, training, evaluation, and export entry points
 sem5-works/              Original proposal and semester-5 reports
 src/aegis_perception/    Reusable Python package
 tests/                   Lightweight tests
@@ -44,13 +42,6 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -e '.[detection,metrics,dev]'
-```
-
-Install the optional diffusion augmentation adapter only when that ablation is
-approved and compute is available:
-
-```bash
-python -m pip install -e '.[diffusion]'
 ```
 
 ## Reproduce before extending
@@ -76,16 +67,7 @@ Run the attention ablation by changing only `model.attention` and the run name,
 or use `configs/restoration/smoke_vanilla.yaml`. Do not use the historical
 notebook's metrics as a held-out baseline: it evaluates the training loader.
 
-## Weather generation and detection
-
-Deterministic, geometry-preserving rain/fog/snow/smoke generation:
-
-```bash
-python scripts/generate_weather.py \
-  --input-root data/raw/clear/images \
-  --output-root data/derived/rain_s050_seed42/images \
-  --condition rain --severity 0.5 --seed 42 --backend procedural
-```
+## Detection
 
 Evaluate a detector on one prepared Ultralytics dataset YAML:
 

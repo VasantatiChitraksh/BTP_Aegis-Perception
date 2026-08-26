@@ -43,8 +43,6 @@ before starting a result intended for the paper.
 ## Seed and statistics policy
 
 - Main training comparisons: seeds 42, 43, and 44.
-- Deterministic weather generation: record a per-image seed derived from the base
-  seed and relative path.
 - Report mean and standard deviation across training seeds.
 - Add 95% bootstrap confidence intervals over held-out scenes for the main mAP
   differences and restoration metrics.

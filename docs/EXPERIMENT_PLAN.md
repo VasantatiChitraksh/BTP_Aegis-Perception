@@ -8,7 +8,7 @@ Do not begin architecture expansion until Gate 0 and Gate 1 pass.
 - Q1: Can the reported smoke attention improvement be reproduced on unseen scenes?
 - Q2: Does attention help rain, fog, and snow consistently, or only smoke?
 - Q3: Does restoration improve road-object mAP on the same labelled scenes?
-- Q4: Does that gain transfer from synthetic/paired weather to real DAWN images?
+- Q4: Does that gain transfer from controlled paired datasets to real DAWN images?
 - Q5: Is the gain still worthwhile after FP16/INT8 conversion and end-to-end edge timing?
 
 ## Gates
@@ -54,13 +54,14 @@ directly to the notebook's training-set values as though protocols match.
 
 Use COCO-pretrained YOLOv8n at 640 px, batch 1:
 
-1. clean labelled driving scenes;
-2. the same scenes with seeded light/medium/heavy rain, fog, snow, and smoke;
+1. clean labelled scenes from the selected paired driving datasets;
+2. their dataset-provided rain/fog/snow counterparts;
 3. DAWN raw images, per weather;
 4. optionally YOLOv8s once as a capacity sensitivity check.
 
 Output: per-weather/per-class mAP@50 and mAP@50:95, precision, recall, and a
-severity curve. This proves the detector problem exists under the chosen data.
+severity breakdown where the dataset provides severity labels. This proves the
+detector problem exists under the chosen data.
 
 ### E3 — Per-weather restoration extension (core)
 
@@ -77,8 +78,8 @@ available, and GPU latency.
 
 ### E4 — Same-scene task-driven matrix (central paper evidence)
 
-For each labelled clean test scene and each weather/severity, run the same frozen
-detector on the three v2 views plus a resize control:
+For each labelled test pair supplied by the selected driving dataset, run the
+same frozen detector on the three v2 views plus a resize control:
 
 | View | Image | What it isolates |
 |---|---|---|
@@ -93,9 +94,10 @@ historical 256 px restoration bottleneck confounds the result. Compare vanilla
 and attention restoration without changing the detector. Report confidence
 intervals over test images and AP for small/medium/large objects where supported.
 
-Smoke has no DAWN subset; create its task-driven evaluation from labelled clear
-driving scenes with controlled smoke synthesis, not from an unlabelled generic
-smoke restoration test.
+Smoke has no DAWN subset. Run a task-driven smoke experiment only if the
+recovered paired smoke dataset has trustworthy detection annotations or another
+labelled smoke driving dataset is selected. Otherwise report smoke restoration
+metrics without inventing a detection claim.
 
 ### E5 — Real-weather DAWN validation (mandatory)
 
@@ -117,8 +119,8 @@ Fine-tune YOLOv8n with frozen test sets under these controlled regimes:
 | ID | Training images | Test views |
 |---|---|---|
 | D0 | Clean only | Clean, degraded, DAWN raw |
-| D1 | Clean + synthetic weather | Clean, degraded, DAWN raw |
-| D2 | Clean + synthetic weather | Restored paired, DAWN restored |
+| D1 | Clean + adverse-weather dataset images | Clean, degraded, DAWN raw |
+| D2 | Clean + adverse-weather dataset images | Restored paired, DAWN restored |
 
 This separates restoration benefit from ordinary adverse-weather augmentation.
 Avoid training and testing on different renderings of the same base scene.
@@ -161,21 +163,6 @@ Use at least 100 warm-up frames and 1,000 timed frames (or the full fixed test
 set repeated without data-loading time). Also report end-to-end latency including
 preprocessing, restoration, detector, NMS, and transfers. The >30 FPS target is
 an aspiration, not a reason to omit accuracy or power loss.
-
-### E9 — Diffusion weather synthesis (optional augmentation ablation)
-
-The provided adapter can generate training-only weather variants. Run it only
-after the deterministic procedural baseline and use low image-to-image strength.
-
-Before inheriting bounding boxes, verify label preservation with:
-
-- detector agreement against the clean image;
-- image registration/feature correspondence;
-- manual review of a stratified sample including small pedestrians/cyclists;
-- rejection of samples that move, invent, or erase objects.
-
-Never use diffusion-generated images as the held-out test set. Diffusion-based
-*restoration* remains outside the v2 delivery scope.
 
 ## Minimal result tables for the paper
 

@@ -94,9 +94,8 @@ the checkpoint on validation PSNR, and emits machine-readable run metadata.
   paired data and compute are available.
 - DAWN is a real-weather detection benchmark, not a paired restoration dataset.
   It supports raw-adverse vs restored comparisons only.
-- Geometry-preserving synthetic weather supports the same-scene three-way
-  detection experiment. Generic image-to-image diffusion is exploratory because
-  it can move or invent labelled objects.
+- Dataset-provided paired driving scenes support the same-scene three-way
+  detection experiment without adding a local weather-generation pipeline.
 - Diffusion restoration remains future work, in direct conformance with v2.
 
 ## Immediate external blockers
