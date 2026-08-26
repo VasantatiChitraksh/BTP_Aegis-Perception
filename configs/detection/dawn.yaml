@@ -1,0 +1,12 @@
+# Verify class indices against the exact DAWN annotation release before training.
+path: ../../data/raw/dawn
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: bicycle
+  1: bus
+  2: car
+  3: motorcycle
+  4: person
+  5: truck
