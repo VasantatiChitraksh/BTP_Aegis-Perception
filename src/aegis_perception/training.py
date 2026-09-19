@@ -60,6 +60,11 @@ def train_restoration(config: dict[str, Any]) -> list[dict[str, float]]:
     output_dir.mkdir(parents=True, exist_ok=True)
     write_json(output_dir / "run.json", environment_record(config))
 
+    tracking_enabled = config.get("run", {}).get("wandb", False)
+    if tracking_enabled:
+        import wandb
+        wandb.init(project="aegis-perception", config=config, name=output_dir.name)
+
     image_size = tuple(config["data"]["image_size"])
     manifest = config["data"]["manifest"]
     train_dataset = PairedImageDataset(
@@ -152,6 +157,8 @@ def train_restoration(config: dict[str, Any]) -> list[dict[str, float]]:
         }
         history.append(row)
         write_json(output_dir / "history.json", history)
+        if tracking_enabled:
+            wandb.log(row)
         checkpoint = {
             "epoch": epoch,
             "generator": generator.state_dict(),
@@ -170,4 +177,6 @@ def train_restoration(config: dict[str, Any]) -> list[dict[str, float]]:
             f"epoch={epoch} val_l1={validation['l1']:.5f} "
             f"val_psnr={validation['psnr_db']:.2f}dB"
         )
+    if tracking_enabled:
+        wandb.finish()
     return history
