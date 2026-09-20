@@ -5,7 +5,7 @@ run:
   output_dir: artifacts/restoration/snow_attention_seed42
 
 data:
-  manifest: data/manifests/snow.csv
+  manifest: data/manifests/csd.csv
   image_size: [256, 256]
   random_flip: true
   num_workers: 4

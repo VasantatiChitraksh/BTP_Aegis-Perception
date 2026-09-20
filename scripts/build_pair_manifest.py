@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import sys
 from pathlib import Path
@@ -24,6 +25,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--train-fraction", type=float, default=0.8)
     parser.add_argument("--val-fraction", type=float, default=0.1)
+    parser.add_argument(
+        "--absolute-paths",
+        action="store_true",
+        help="Write machine-specific absolute paths instead of paths relative to the manifest",
+    )
     parser.add_argument(
         "--group-regex",
         help="Regex applied to sample IDs; group 1 is kept together across splits",
@@ -49,6 +55,14 @@ def group_id(sample_id: str, expression: str | None) -> str:
     if not match or not match.groups():
         raise ValueError(f"group regex did not capture a group for {sample_id!r}")
     return match.group(1)
+
+
+def output_path(image: Path, manifest: Path, absolute: bool) -> Path:
+    resolved = image.resolve()
+    if absolute:
+        return resolved
+    manifest_parent = manifest.expanduser().resolve().parent
+    return Path(os.path.relpath(resolved, manifest_parent))
 
 
 def main() -> None:
@@ -80,8 +94,8 @@ def main() -> None:
         records.append(
             PairRecord(
                 sample_id=sample_id,
-                input_path=inputs[sample_id],
-                target_path=targets[sample_id],
+                input_path=output_path(inputs[sample_id], args.output, args.absolute_paths),
+                target_path=output_path(targets[sample_id], args.output, args.absolute_paths),
                 split=split,
                 weather=args.weather,
                 source=args.source,

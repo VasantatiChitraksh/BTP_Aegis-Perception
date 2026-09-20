@@ -5,7 +5,7 @@ run:
   output_dir: artifacts/restoration/rain_attention_seed42
 
 data:
-  manifest: data/manifests/rain.csv
+  manifest: data/manifests/realrain1k.csv
   image_size: [256, 256]
   random_flip: true
   num_workers: 4

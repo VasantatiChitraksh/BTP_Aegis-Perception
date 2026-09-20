@@ -1,0 +1,419 @@
+schema_version: 1
+scope:
+  conditions: [smoke, rain, fog, snow]
+  policy: >
+    Keep a compact, complementary core: paired restoration data plus real road
+    imagery/labels. Catalog, but do not automatically download, gated, very
+    large, redundant, or differently tasked sources.
+
+datasets:
+  - id: smoke_historical
+    name: Smoke dataset (ACCV 2022)
+    conditions: [smoke]
+    tasks: [paired-restoration]
+    selection: core
+    auto_download: true
+    source_page: https://github.com/jinyeying/FogRemoval
+    notes: Exact 110-train/12-test archive used previously; official ACCV 2022 release.
+    archive:
+      filename: smoke_historical.zip
+      url: "https://drive.usercontent.google.com/download?id=1HevtcMrK-GYLW9E_a2sC-kl8enFy13PG&export=download&confirm=t"
+      expected_bytes: 144688293
+      sha256: 92c092a9b688871e5b4cd7b58f6438a37bd5933e75cae578d92064569ce628cf
+      format: zip
+    extract_to: data/raw/smoke/historical
+    license:
+      status: verify
+      note: Official repository identifies the dataset, but does not grant clear data redistribution rights.
+
+  - id: smokebench
+    name: SmokeBench
+    conditions: [smoke]
+    tasks: [paired-restoration, surveillance]
+    selection: core
+    auto_download: true
+    source_page: https://github.com/ncfjd/SmokeBench
+    notes: Modern real paired smoke/clear benchmark; complements the small historical archive.
+    archive:
+      filename: smokebench.zip
+      url: "https://drive.usercontent.google.com/download?id=1NfusIRKwB9el2TpD2xYMOB1fIxPf8PW8&export=download&confirm=t"
+      expected_bytes: 1582670081
+      sha256: 0fa5f81e5c1fe7308cab21f14556653db36f7afbd8ed607d57632fc9154c22f0
+      format: zip
+    extract_to: data/raw/smoke/smokebench
+    license:
+      status: verify
+      note: Confirm the dataset terms in the official release before redistribution.
+
+  - id: rain100l
+    name: Rain100L
+    conditions: [rain]
+    tasks: [paired-restoration, benchmark]
+    selection: core
+    auto_download: true
+    source_page: https://github.com/hongwang01/RCDNet
+    notes: Compact standard synthetic benchmark; downloaded from a public mirror.
+    archive:
+      filename: rain100l.zip
+      url: https://www.kaggle.com/api/v1/datasets/download/adeshpal/rain-100l
+      expected_bytes: 52888502
+      sha256: 07237a5830aa0d5b6fd05000185b5fc314fabf4e3731dab06b6f306ab93652bf
+      format: zip
+    extract_to: data/raw/rain/rain100l
+    license:
+      status: verify
+      note: Mirror availability is not proof of redistribution rights; cite the original benchmark.
+
+  - id: realrain1k
+    name: RealRain-1k
+    conditions: [rain]
+    tasks: [paired-restoration]
+    selection: core
+    auto_download: true
+    source_page: https://github.com/hiker-lw/RealRain-1k
+    notes: 1,120 high-resolution realistic paired images; SynRain-13k is omitted as redundant.
+    archive:
+      filename: realrain1k.zip
+      url: "https://drive.usercontent.google.com/download?id=1x1YuRxsykHlMApne2ErChCJ0DuLiq798&export=download&confirm=t"
+      expected_bytes: 4914915619
+      sha256: 8ba06f39bf38345ac277b16d5a96f26b2a25fd530aff0936ae6dba3df8ae7272
+      format: zip
+    extract_to: data/raw/rain/realrain1k
+    license:
+      status: verify
+      note: The repository license may cover code only; verify the data terms.
+
+  - id: o_haze
+    name: O-HAZE
+    conditions: [fog]
+    tasks: [paired-restoration, benchmark]
+    selection: core
+    auto_download: true
+    source_page: https://data.vision.ee.ethz.ch/cvl/ntire18/o-haze/
+    notes: Small real paired outdoor haze benchmark.
+    archive:
+      filename: o_haze.zip
+      url: https://data.vision.ee.ethz.ch/cvl/ntire18/o-haze/O-HAZE.zip
+      expected_bytes: 573320339
+      sha256: 538421bb80798da2298a9b4f0478ca59ff37e5a305ba57a8a9a8e03ec477be09
+      format: zip
+    extract_to: data/raw/fog/o_haze
+    license:
+      status: verify
+      note: Official page provides the data and citation but no explicit redistribution grant.
+
+  - id: rtts
+    name: RESIDE RTTS
+    conditions: [fog]
+    tasks: [object-detection, real-road]
+    selection: core
+    auto_download: true
+    source_page: https://sites.google.com/view/reside-dehaze-datasets/reside-%CE%B2
+    notes: 4,322 real hazy traffic images with Pascal VOC annotations; no clean targets.
+    archive:
+      filename: rtts.zip
+      url: https://utexas.box.com/shared/static/2yekra41udg9rgyzi3ysi513cps621qz.zip
+      expected_bytes: 1067893236
+      sha256: 58e7260460e230efdb38060391789640bfec9bf54308c6943c7cac85e8a9df0e
+      format: zip
+    extract_to: data/raw/fog/rtts
+    license:
+      status: verify
+      note: Use for research with the official citation; verify redistribution terms.
+
+  - id: foggy_driving
+    name: Foggy Driving
+    conditions: [fog]
+    tasks: [semantic-segmentation, object-detection, real-road]
+    selection: core
+    auto_download: true
+    source_page: https://people.ee.ethz.ch/~csakarid/SFSU_synthetic/
+    notes: 101 real foggy driving images and annotations; no clean targets.
+    archive:
+      filename: foggy_driving.zip
+      url: https://data.vision.ee.ethz.ch/csakarid/shared/SFSU_synthetic/Downloads/Foggy_Driving.zip
+      expected_bytes: 100649749
+      sha256: 49544ff675752efef2821fd51e80d6c8d298783617698b7f87a06f9f44c3fcac
+      format: zip
+    extract_to: data/raw/fog/foggy_driving
+    license:
+      status: research-only
+      note: Official page reserves rights; do not redistribute without permission.
+
+  - id: csd
+    name: Comprehensive Snow Dataset (CSD)
+    conditions: [snow]
+    tasks: [paired-restoration]
+    selection: core
+    auto_download: true
+    source_page: https://github.com/weitingchen83/ICCV2021-Single-Image-Desnowing-HDCWNet
+    notes: General paired synthetic desnowing source; large but directly relevant.
+    archive:
+      filename: csd.rar
+      url: "https://drive.usercontent.google.com/download?id=1smNrDvtPs89e0xk336Rt2-2KZffyX5H-&export=download&confirm=t"
+      expected_bytes: 11561938811
+      sha256: 249876fb519efd54a128377eb910395e8cf3f4cdd461c18aa79598a26efadcbb
+      format: rar
+    extract_to: data/raw/snow/csd
+    license:
+      status: verify
+      note: MIT applies to the repository code; confirm separate dataset rights.
+
+  - id: snow_cityscapes
+    name: SnowCityscapes
+    conditions: [snow]
+    tasks: [paired-restoration, synthetic-road]
+    selection: core
+    auto_download: true
+    source_page: https://github.com/weitingchen83/ICCV2021-Single-Image-Desnowing-HDCWNet
+    notes: Road-oriented paired synthetic snow; retain original scene groups in one split.
+    archive:
+      filename: snow_cityscapes.tar
+      url: "https://drive.usercontent.google.com/download?id=1E6iXFV6K5UJ4Mrqer17v6KsHhQOFvjtO&export=download&confirm=t"
+      expected_bytes: 3724673024
+      sha256: 051fb81f9bdcd45022ee385add79ec7ff4601a7a5a41ca4ba2b64eb55675ea2a
+      format: tar
+    extract_to: data/raw/snow/snow_cityscapes
+    license:
+      status: restricted
+      note: Derived from Cityscapes; comply with Cityscapes non-commercial terms.
+
+  - id: dawn_fog
+    name: DAWN Fog
+    conditions: [fog]
+    tasks: [object-detection, real-road]
+    selection: core
+    auto_download: true
+    source_page: https://data.mendeley.com/datasets/766ygrbt8y/3
+    notes: Real adverse-weather road images with Pascal VOC and YOLO annotations.
+    archive:
+      filename: dawn_fog.zip
+      url: https://data.mendeley.com/public-files/datasets/766ygrbt8y/files/c286e791-88c9-4bec-b43d-2ed276dd11ba/file_downloaded
+      expected_bytes: 30571774
+      sha256: 09f4f8987e030b8da9e76eb73ab00b64fb628cd43df42e460bc26b9a0912c7c2
+      format: zip
+    extract_to: data/raw/dawn/fog
+    license: {status: known, note: "CC BY-NC 3.0"}
+
+  - id: dawn_rain
+    name: DAWN Rain
+    conditions: [rain]
+    tasks: [object-detection, real-road]
+    selection: core
+    auto_download: true
+    source_page: https://data.mendeley.com/datasets/766ygrbt8y/3
+    notes: Real adverse-weather road images with Pascal VOC and YOLO annotations.
+    archive:
+      filename: dawn_rain.zip
+      url: https://data.mendeley.com/public-files/datasets/766ygrbt8y/files/7b37087a-db6b-4ce9-8ec4-ee64f963f073/file_downloaded
+      expected_bytes: 29881690
+      sha256: 005bff2cc6c4dad1d4da76d58a50d2a6e071194b3583c28a4d1c8f90a972b76c
+      format: zip
+    extract_to: data/raw/dawn/rain
+    license: {status: known, note: "CC BY-NC 3.0"}
+
+  - id: dawn_snow
+    name: DAWN Snow
+    conditions: [snow]
+    tasks: [object-detection, real-road]
+    selection: core
+    auto_download: true
+    source_page: https://data.mendeley.com/datasets/766ygrbt8y/3
+    notes: Real adverse-weather road images with Pascal VOC and YOLO annotations.
+    archive:
+      filename: dawn_snow.zip
+      url: https://data.mendeley.com/public-files/datasets/766ygrbt8y/files/d5abcff0-484f-49c9-b9f7-bf36c3b325a2/file_downloaded
+      expected_bytes: 43899038
+      sha256: 9cf3ccbef87e2ae4055d87a9b4a9e24010f6ef2951a84ced6bd30b04820b3f6f
+      format: zip
+    extract_to: data/raw/dawn/snow
+    license: {status: known, note: "CC BY-NC 3.0"}
+
+  # Reviewed alternatives: useful references, but not automatic downloads.
+  - id: smoke5k
+    name: SMOKE5K
+    conditions: [smoke]
+    tasks: [smoke-segmentation]
+    selection: optional
+    auto_download: false
+    source_page: https://github.com/SiyuanYan1/Transmission-BVM
+    notes: Useful only if smoke segmentation is added; not paired restoration data.
+
+  - id: smokeseer
+    name: SmokeSeer
+    conditions: [smoke]
+    tasks: [multi-view, thermal, 3d-smoke]
+    selection: optional
+    auto_download: false
+    source_page: https://imaging.cs.cmu.edu/smokeseer/
+    notes: Strong modern smoke resource, but mismatched to the current single-RGB pipeline.
+
+  - id: smoke100k
+    name: Smoke100K
+    conditions: [smoke]
+    tasks: [paired-restoration, smoke-detection, smoke-segmentation]
+    selection: optional
+    auto_download: false
+    source_page: https://bigmms.github.io/cheng_gcce19_smoke100k/
+    notes: >
+      100,000 synthetic smoke/smoke-free pairs with smoke masks and smoke boxes.
+      Useful for desmoking or smoke localization, but it does not provide road-object
+      ground truth for measuring vehicle/person detection through smoke.
+
+  - id: lassov
+    name: LaSSoV
+    conditions: [smoke]
+    tasks: [smoke-detection, smoky-vehicle-video]
+    selection: gated
+    auto_download: false
+    source_page: https://github.com/pengxj/smokyvehicle
+    notes: >
+      Paper reports 75,000 smoky-vehicle images and 163 videos, with smoke-region
+      or segment labels. The public repository currently contains documentation only;
+      these are not paired smoke/clear scenes or general road-object annotations.
+
+  - id: povsseg
+    name: PoVSSeg
+    conditions: [smoke]
+    tasks: [vehicle-smoke-segmentation]
+    selection: gated
+    auto_download: false
+    source_page: https://doi.org/10.3390/app13084941
+    notes: >
+      Paper reports 3,962 road-surveillance images with polygon annotations of
+      vehicle exhaust smoke. Relevant to smoke localization, not paired desmoking
+      or COCO-style vehicle/person evaluation; no verified public archive found.
+
+  - id: smoky_diesel_6815
+    name: Smoky diesel vehicle dataset (Sensors 2024)
+    conditions: [smoke]
+    tasks: [truck-detection, plate-detection, smoke-detection]
+    selection: unavailable
+    auto_download: false
+    source_page: https://doi.org/10.3390/s24030771
+    notes: >
+      6,815 road images and 24,930 labels for truck, plate, and smog would be
+      relevant, but the paper's data statement does not provide the image dataset.
+
+  - id: rain_cityscapes
+    name: Rain rendering for Cityscapes
+    conditions: [rain]
+    tasks: [paired-restoration, synthetic-road]
+    selection: gated
+    auto_download: false
+    source_page: https://github.com/astra-vision/rain-rendering
+    notes: Requires separately licensed Cityscapes originals and roughly 26 GB of rain layers.
+
+  - id: carla_haze
+    name: CARLA-Haze
+    conditions: [fog]
+    tasks: [paired-restoration, synthetic-road]
+    selection: optional
+    auto_download: false
+    source_page: https://github.com/leoxthomas/CARLA-Haze
+    notes: Relevant but approximately 96 GB; excessive for the present baseline.
+
+  - id: reside_its
+    name: RESIDE Indoor Training Set (ITS)
+    conditions: [fog]
+    tasks: [paired-restoration]
+    selection: gated
+    auto_download: false
+    source_page: https://sites.google.com/view/reside-dehaze-datasets/reside-v0
+    notes: >
+      Useful paired training source, but the official short Dropbox link is now
+      blocked and the remaining Baidu download is manual; do not substitute an
+      unverified mirror silently.
+
+  - id: haze4k
+    name: Haze4K
+    conditions: [fog]
+    tasks: [paired-restoration]
+    selection: gated
+    auto_download: false
+    source_page: https://github.com/liuye123321/DMT-Net
+    notes: Official release is currently a passworded Baidu download; cataloged for manual use.
+
+  - id: ntire_dense_nh_haze
+    name: Dense-Haze and NH-HAZE
+    conditions: [fog]
+    tasks: [paired-restoration, real-images]
+    selection: optional
+    auto_download: false
+    source_page: https://data.vision.ee.ethz.ch/cvl/ntire20/nh-haze/
+    notes: Small real paired stress tests for dense and spatially non-homogeneous haze.
+
+  - id: goprohazy
+    name: GoProHazy
+    conditions: [fog]
+    tasks: [paired-video-restoration, real-road]
+    selection: optional
+    auto_download: false
+    source_page: https://openaccess.thecvf.com/content/CVPR2024/html/Fan_Driving-Video_Dehazing_with_Non-Aligned_Regularization_for_Safety_Assistance_CVPR_2024_paper.html
+    notes: >
+      Real driving videos with corresponding clear reference videos. Stronger road
+      relevance than O-HAZE, but video pairs are non-aligned and require a different
+      loader/evaluation protocol from the current image-pair pipeline.
+
+  - id: foggy_cityscapes
+    name: Foggy Cityscapes
+    conditions: [fog]
+    tasks: [semantic-segmentation, object-detection, synthetic-road]
+    selection: gated
+    auto_download: false
+    source_page: https://people.ee.ethz.ch/~csakarid/SFSU_synthetic/
+    notes: Requires a Cityscapes account/license; do not fetch through unofficial mirrors.
+
+  - id: snow100k
+    name: Snow100K
+    conditions: [snow]
+    tasks: [paired-restoration]
+    selection: optional
+    auto_download: false
+    source_page: https://sites.google.com/view/yunfuliu/desnownet
+    notes: Established benchmark but overlaps CSD for the first-pass baseline.
+
+  - id: realsnow10k
+    name: RealSnow10K
+    conditions: [snow]
+    tasks: [unpaired-restoration, real-images]
+    selection: optional
+    auto_download: false
+    source_page: https://github.com/weitingchen83/ICCV2021-Single-Image-Desnowing-HDCWNet
+    notes: Useful later for real-snow generalization; CSD and road data come first.
+
+  - id: acdc
+    name: ACDC
+    conditions: [rain, fog, snow]
+    tasks: [semantic-segmentation, real-road]
+    selection: gated
+    auto_download: false
+    source_page: https://acdc.vision.ee.ethz.ch/
+    notes: Excellent real multi-weather road set, but its native task and access are different.
+
+  - id: idd_aw
+    name: IDD-AW / Safe-Seg-24
+    conditions: [rain, fog, snow]
+    tasks: [semantic-segmentation, rgb-nir, real-road]
+    selection: optional
+    auto_download: false
+    source_page: https://mobility.iiit.ac.in/safe-seg-24/dataset.html
+    notes: Valuable RGB-NIR Indian-road data if semantic segmentation enters scope.
+
+  - id: seeing_through_fog
+    name: Seeing Through Fog
+    conditions: [fog, rain, snow]
+    tasks: [multi-sensor, 2d-detection, 3d-detection, real-road]
+    selection: optional
+    auto_download: false
+    source_page: https://www.uni-ulm.de/en/in/driveu/projects/dense-datasets/
+    notes: Large multi-sensor benchmark; outside the current RGB restoration baseline.
+
+  - id: muad
+    name: MUAD
+    conditions: [rain, fog, snow]
+    tasks: [semantic-segmentation, depth, synthetic-road]
+    selection: optional
+    auto_download: false
+    source_page: https://muad-dataset.github.io/
+    notes: Multi-uncertainty synthetic driving data; use only for later segmentation/depth work.

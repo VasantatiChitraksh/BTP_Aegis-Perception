@@ -13,6 +13,7 @@ __pycache__/
 .vscode/
 
 # Data and generated artifacts
+data/archives/
 data/raw/
 data/interim/
 data/processed/

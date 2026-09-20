@@ -5,7 +5,7 @@ run:
   output_dir: artifacts/restoration/smoke_vanilla_seed42
 
 data:
-  manifest: data/manifests/smoke.csv
+  manifest: data/manifests/smoke_historical.csv
   image_size: [256, 256]
   random_flip: true
   num_workers: 4

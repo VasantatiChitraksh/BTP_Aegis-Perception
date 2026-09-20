@@ -1,3 +1,0 @@
-sample_id,input_path,target_path,split,weather,source
-dummy1,C:\Users\chitr\Documents\GitHub\BTP_Aegis-Perception\data\raw\smoke\hazy\dummy1.png,C:\Users\chitr\Documents\GitHub\BTP_Aegis-Perception\data\raw\smoke\clean\dummy1.png,train,smoke,local
-dummy2,C:\Users\chitr\Documents\GitHub\BTP_Aegis-Perception\data\raw\smoke\hazy\dummy2.png,C:\Users\chitr\Documents\GitHub\BTP_Aegis-Perception\data\raw\smoke\clean\dummy2.png,train,smoke,local
