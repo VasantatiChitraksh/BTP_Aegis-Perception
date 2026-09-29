@@ -9,9 +9,8 @@ def psnr(reference: np.ndarray, prediction: np.ndarray, data_range: float = 1.0)
     reference = np.asarray(reference, dtype=np.float64)
     prediction = np.asarray(prediction, dtype=np.float64)
     mse = np.mean((reference - prediction) ** 2)
-    if mse == 0:
-        return math.inf
-    return 10.0 * math.log10((data_range**2) / mse)
+    # A finite ceiling keeps JSON and raw/restored differences well-defined.
+    return 10.0 * math.log10((data_range**2) / max(float(mse), 1e-12))
 
 
 def ssim(reference: np.ndarray, prediction: np.ndarray, data_range: float = 1.0) -> float:

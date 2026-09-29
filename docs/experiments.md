@@ -7,17 +7,22 @@ detectors, domain adaptation, and adversarial defence are future work.
 
 ## Experiment order
 
-1. **Validate data.** Use the [dataset guide](datasets.md), audit image pairs,
-   inspect scene grouping, and freeze train/validation/test manifests. Confirm
-   GPU and Jetson availability and recover any historical checkpoints.
-2. **Reproduce smoke.** Compare vanilla Pix2Pix, attention Pix2Pix, and attention
-   with L1-only loss using the same splits and seeds 42, 43, and 44. Select
-   checkpoints on validation; evaluate frozen choices on test.
+1. **Prepare the first rain experiment.** Use `notebooks/restoration.ipynb` in
+   prepare mode. Audit RealRain-1k, review alignment/background quality, preserve
+   its official splits, and strictly load the official Restormer deraining model.
+   No paid GPU training is started by prepare mode.
+2. **Validate the restoration pipeline.** Use the explicit sanity stage, then
+   fine-tune the standard Restormer with `rain_restormer.yaml`. Retain the
+   untouched pretrained baseline, compare both against raw images, and select
+   checkpoints on validation. This is an initial fine-tuning recipe, not a
+   reproduction of the original Restormer 300k-step schedule. Repair historical
+   smoke target leakage before any smoke reproduction. Existing Pix2Pix configs
+   remain comparison baselines; use identical data/preprocessing for fair comparisons.
 3. **Establish detection baselines.** Evaluate YOLOv8n on labelled clean/degraded
    pairs where available, and on real DAWN images per weather. Verify label
    mapping before comparing metrics. YOLOv8s is an optional capacity check.
-4. **Extend restoration.** Train the same controlled baselines on rain and at
-   least one of fog/snow. Generic restoration datasets provide supporting
+4. **Extend restoration.** Add at least one of fog/snow after rain works.
+   Generic restoration datasets provide supporting
    PSNR/SSIM evidence; driving scenes are needed for the road-perception claim.
 5. **Measure restoration's effect.** Use the same detector, labels, and scenes
    for clean, degraded, resize-control, vanilla-restored, and attention-restored
@@ -25,16 +30,18 @@ detectors, domain adaptation, and adversarial defence are future work.
 6. **Compare detector training.** Compare a clean-trained detector with one
    trained on clean plus adverse images, then evaluate the latter on restored
    images. Keep all training views disjoint from held-out scenes.
-7. **Run focused ablations.** Attention and GAN/L1 come first. Only after the
-   main results, vary loss weight or 256/512 resolution on one weather type.
-   Unified models and task-aware losses are optional extensions.
+7. **Run focused ablations.** Measure failure cases before selecting one
+   architectural or loss change. Keep the data, budget, preprocessing, and
+   initialization controlled. Compact Restormer variants do not inherit the
+   full model's weights automatically. Unified models and task-aware losses are
+   research extensions, and require a literature comparison before novelty claims.
 8. **Deploy the frozen pipeline.** Validate PyTorch → ONNX outputs, then measure
    TensorRT FP16/INT8 accuracy and timing on the target device. The repository
    currently supplies ONNX tools; TensorRT and end-to-end timing are not implemented.
 
-Do not expand architectures until smoke reproduction and detector baselines
-work. If restoration fails to improve detection, report and investigate that
-result before adding complexity.
+Build the complete restoration path before modifying architecture. If
+restoration fails to improve detection, report and investigate that result
+before adding complexity. Pretrained weights and ordinary fine-tuning are baselines.
 
 ## Split and metric rules
 
@@ -43,9 +50,12 @@ result before adding complexity.
   re-encoded duplicates. Do not rebuild established test splits for a better score.
 - Report mean and standard deviation over seeds 42/43/44. Preserve per-image
   results for paired comparisons and 95% bootstrap intervals over held-out scenes.
-- Restoration: RGB PSNR/SSIM on `[0,1]` with identical resize/crop rules, plus
-  fixed success and failure images. Training selects checkpoints using PSNR
-  from aggregate validation MSE; evaluation reports mean per-image PSNR.
+- Restoration: RGB PSNR/SSIM on `[0,1]` with identical resize/crop/native rules,
+  plus fixed success and failure images. Training and evaluation use mean
+  per-image RGB PSNR with an MSE floor of `1e-12` (120 dB ceiling for exact RGB
+  matches), including raw-image baselines. Native validation pads to the model's
+  required multiple, then removes padding before scoring. RGB scores are not
+  directly comparable to published Y-channel scores.
 - Detection: mAP@50, mAP@50:95, precision/recall, per-weather and per-class AP.
   Inspect erased or hallucinated objects. PSNR alone does not establish detector benefit.
 - Keep label mappings, split definitions, preprocessing, and detector weights
@@ -59,16 +69,20 @@ The restoration trainer writes:
 
 ```text
 run.json           Config, Git commit, Python/PyTorch/CUDA/device
+resume.json        Environment of the latest resumed run
 history.json       Training losses and validation metrics by epoch
 best.pt            Validation-selected checkpoint with config and optimizer state
+last.pt            Latest completed epoch, with scheduler/scaler/RNG/history
 epoch_*.pt         Periodic checkpoints
 ```
 
 Restoration evaluation writes `metrics_test.json` with per-image and aggregate
 metrics. Detection evaluation writes `metrics.json` and native Ultralytics output.
-For a reported result, also retain manifest/archive SHA-256, dataset version,
-software environment, hardware settings, and fixed qualitative sample IDs.
-These extra records and statistical summaries are not all generated automatically.
+The trainer records source-code, manifest, and pretrained-weight SHA-256,
+parameter count, precision, throughput, epoch time, and peak allocated GPU memory.
+Archive verification uses the checksums in the dataset catalog. Retain dataset
+version, hardware settings, and fixed qualitative sample IDs. Statistical
+summaries and end-to-end hardware measurements are not generated automatically.
 
 ## Edge measurements
 

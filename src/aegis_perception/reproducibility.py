@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import platform
 import random
@@ -40,6 +41,13 @@ def environment_record(config: dict[str, Any] | None = None) -> dict[str, Any]:
         "python": sys.version,
         "platform": platform.platform(),
     }
+    repository = Path(__file__).resolve().parents[2]
+    source_hash = hashlib.sha256()
+    for directory in ("src", "scripts"):
+        for source in sorted((repository / directory).rglob("*.py")):
+            source_hash.update(source.relative_to(repository).as_posix().encode())
+            source_hash.update(source.read_bytes())
+    record["source_sha256"] = source_hash.hexdigest()
     try:
         import torch
 

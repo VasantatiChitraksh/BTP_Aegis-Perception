@@ -1,9 +1,10 @@
 # Aegis Perception
 
 Weather-robust road-object perception for the TiHAN–IIT Hyderabad ADAS project.
-The pipeline restores smoke, rain, fog, or snow images with attention/vanilla
-Pix2Pix, evaluates the effect on YOLO detection, and exports restoration models
-for edge benchmarking.
+The restoration pipeline supports official Restormer and attention/vanilla
+Pix2Pix. It trains on paired images, saves resumable experiments, evaluates
+held-out fidelity, and exports models for deployment checks. YOLO evaluation
+and hardware benchmarking are subsequent experiments.
 
 ## Layout
 
@@ -14,6 +15,7 @@ scripts/restoration/   Train, evaluate, and restore image folders
 scripts/detection/     Train and evaluate YOLO
 scripts/deployment/    Export, validate, and benchmark ONNX
 configs/               Restoration experiments and detection dataset definitions
+notebooks/             One restoration control notebook using the same scripts
 data/datasets.yaml     Dataset sources, checksums, access notes, and licenses
 data/manifests/        Versioned CSV pairs and train/validation/test splits
 data/archives/         Downloaded archives (ignored by Git)
@@ -35,10 +37,42 @@ Python 3.10+; install a suitable PyTorch build for your CPU/GPU.
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e '.[detection,metrics,dev]'
-# For ONNX tools:
-python -m pip install -e '.[export]'
+python -m pip install --upgrade pip
+python -m pip install -e '.[notebook,metrics,dev,export]'
 ```
+
+## Restoration workflow
+
+Open [notebooks/restoration.ipynb](notebooks/restoration.ipynb) in the updated
+repository on Lightning AI or Colab. Start with `STAGE = "prepare"`: this
+downloads/verifies RealRain-1k, audits the frozen manifest, previews image pairs,
+and loads official pretrained deraining weights. It does **not** start training.
+Then use `sanity`, `train`, `evaluate`, and `export` as separate stages. The
+notebook contains no separate trainer or model implementation.
+
+[rain_restormer.yaml](configs/restoration/rain_restormer.yaml) is the initial
+fine-tuning recipe: full official architecture, 128-pixel training crops,
+original-resolution validation, L1, AdamW, cosine decay, and bf16 on a supported
+CUDA GPU. It is a baseline experiment, not a claimed reproduction of the
+original training schedule. All legacy Pix2Pix configs still work.
+
+After preparation, the same training can run directly in the terminal:
+
+```bash
+python scripts/restoration/train.py --config configs/restoration/rain_restormer.yaml
+python scripts/restoration/train.py --config configs/restoration/rain_restormer.yaml \
+  --resume artifacts/restoration/rain_restormer_seed42/last.pt
+python scripts/restoration/evaluate.py --config configs/restoration/rain_restormer.yaml \
+  --checkpoint artifacts/restoration/rain_restormer_seed42/best.pt --split val
+```
+
+Fresh training refuses to overwrite existing checkpoints. Resume restores the
+optimizer, scheduler, mixed-precision scaler, RNG states, and history from the
+last completed epoch. Changed configurations/split manifests require a new run.
+Checkpoint selection uses mean per-image RGB validation PSNR; test is used only
+after experiment selection. Record native/resized/crop preprocessing when
+comparing metrics. ONNX export currently fixes the spatial size; full hardware
+and INT8 validation remain later work.
 
 ## Smoke baseline
 
@@ -69,6 +103,7 @@ before using `configs/detection/dawn.yaml`. Evaluate one view or repeat `--view`
 to compare several views with the same detector:
 
 ```bash
+python -m pip install -e '.[detection]'
 python scripts/detection/evaluate.py \
   --model artifacts/detection/training/yolov8n/weights/best.pt \
   --view dawn_raw=configs/detection/dawn.yaml

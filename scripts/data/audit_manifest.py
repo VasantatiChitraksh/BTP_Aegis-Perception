@@ -39,6 +39,7 @@ def main() -> None:
         ids.add(record.sample_id)
         if record.split not in VALID_SPLITS:
             errors.append(f"invalid split {record.split!r}: {record.sample_id}")
+        pair_sizes = {}
         for role, path in (("input", record.input_path), ("target", record.target_path)):
             if not path.is_file():
                 errors.append(f"missing {role}: {path}")
@@ -46,11 +47,14 @@ def main() -> None:
             try:
                 with Image.open(path) as image:
                     image.verify()
-                if role == "input":
-                    with Image.open(path) as image:
+                with Image.open(path) as image:
+                    pair_sizes[role] = image.size
+                    if role == "input":
                         sizes[image.size] += 1
             except Exception as exc:
                 errors.append(f"invalid image {path}: {exc}")
+        if len(pair_sizes) == 2 and pair_sizes["input"] != pair_sizes["target"]:
+            errors.append(f"input/target dimensions differ: {record.sample_id}")
         if not args.skip_hashes and record.target_path.is_file():
             target_hash_splits[sha256(record.target_path)].add(record.split)
 

@@ -12,12 +12,18 @@ from aegis_perception.config import load_config
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Train attention/vanilla Pix2Pix restoration")
+    parser = argparse.ArgumentParser(description="Train a configured restoration model")
     parser.add_argument("--config", type=Path, required=True)
+    parser.add_argument("--resume", type=Path, help="Resume an epoch-boundary checkpoint")
+    parser.add_argument(
+        "--stop-after-epochs", type=int, help="Stop early without changing the schedule"
+    )
     args = parser.parse_args()
     from aegis_perception.training import train_restoration
 
-    train_restoration(load_config(args.config))
+    train_restoration(
+        load_config(args.config), resume=args.resume, stop_after_epochs=args.stop_after_epochs
+    )
 
 
 if __name__ == "__main__":

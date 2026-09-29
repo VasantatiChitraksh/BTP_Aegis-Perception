@@ -13,7 +13,7 @@ dependencies = [
   "numpy>=1.24",
   "Pillow>=10.0",
   "PyYAML>=6.0",
-  "torch>=2.2",
+  "torch>=2.4",
   "tqdm>=4.66",
 ]
 
@@ -23,6 +23,7 @@ metrics = ["scikit-image>=0.22"]
 export = ["onnx>=1.16", "onnxruntime>=1.18"]
 tracking = ["wandb>=0.17"]
 dev = ["pytest>=8.0", "ruff>=0.6"]
+notebook = ["ipykernel>=6.0", "matplotlib>=3.8", "gdown>=5.0"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

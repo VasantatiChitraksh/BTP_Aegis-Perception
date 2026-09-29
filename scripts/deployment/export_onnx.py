@@ -37,6 +37,7 @@ def main() -> None:
         dynamic_axes=dynamic_axes,
         opset_version=args.opset,
         do_constant_folding=True,
+        dynamo=False,
     )
     print(f"exported {args.output}")
 
