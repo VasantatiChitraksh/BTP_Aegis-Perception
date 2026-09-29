@@ -27,3 +27,13 @@ def load_generator(path: str | Path, *, device: str):
     generator.load_state_dict(checkpoint["generator"])
     generator.eval()
     return generator, checkpoint
+
+
+def select_device(requested: str) -> str:
+    import torch
+
+    if requested == "auto":
+        return "cuda" if torch.cuda.is_available() else "cpu"
+    if requested.startswith("cuda") and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested but is not available")
+    return requested

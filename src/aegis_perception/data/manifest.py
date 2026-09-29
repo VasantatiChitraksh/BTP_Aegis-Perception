@@ -2,12 +2,27 @@ from __future__ import annotations
 
 import csv
 import hashlib
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
 
 VALID_SPLITS = {"train", "val", "test"}
 REQUIRED_COLUMNS = {"sample_id", "input_path", "target_path", "split", "weather", "source"}
+IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff", ".webp"}
+
+
+def image_index(root: Path, key: Callable[[Path], str] | None = None) -> dict[str, Path]:
+    if not root.is_dir():
+        raise FileNotFoundError(root)
+    indexed: dict[str, Path] = {}
+    for path in sorted(root.rglob("*")):
+        if not path.is_file() or path.suffix.lower() not in IMAGE_SUFFIXES:
+            continue
+        pair_key = key(path) if key else path.relative_to(root).with_suffix("").as_posix()
+        if pair_key in indexed:
+            raise ValueError(f"duplicate pair key {pair_key!r} below {root}")
+        indexed[pair_key] = path.resolve()
+    return indexed
 
 
 @dataclass(frozen=True)

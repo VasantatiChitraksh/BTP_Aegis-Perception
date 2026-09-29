@@ -4,21 +4,11 @@ import math
 from pathlib import Path
 from typing import Any
 
-from .checkpoints import save_checkpoint
+from .checkpoints import save_checkpoint, select_device
 from .config import validate_restoration_config
 from .data.paired import PairedImageDataset
 from .models import AttentionUNetGenerator, PatchDiscriminator, initialize_pix2pix_weights
 from .reproducibility import environment_record, seed_everything, write_json
-
-
-def _select_device(requested: str) -> str:
-    import torch
-
-    if requested == "auto":
-        return "cuda" if torch.cuda.is_available() else "cpu"
-    if requested.startswith("cuda") and not torch.cuda.is_available():
-        raise RuntimeError("CUDA was requested but is not available")
-    return requested
 
 
 def _validate(generator, loader, device: str) -> dict[str, float]:
@@ -55,7 +45,7 @@ def train_restoration(config: dict[str, Any]) -> list[dict[str, float]]:
     validate_restoration_config(config)
     seed = int(config["run"]["seed"])
     seed_everything(seed)
-    device = _select_device(str(config["run"].get("device", "auto")))
+    device = select_device(str(config["run"].get("device", "auto")))
     output_dir = Path(config["run"]["output_dir"])
     output_dir.mkdir(parents=True, exist_ok=True)
     write_json(output_dir / "run.json", environment_record(config))
@@ -63,6 +53,7 @@ def train_restoration(config: dict[str, Any]) -> list[dict[str, float]]:
     tracking_enabled = config.get("run", {}).get("wandb", False)
     if tracking_enabled:
         import wandb
+
         wandb.init(project="aegis-perception", config=config, name=output_dir.name)
 
     image_size = tuple(config["data"]["image_size"])
@@ -86,17 +77,22 @@ def train_restoration(config: dict[str, Any]) -> list[dict[str, float]]:
         features=int(config["model"]["features"]),
         attention=bool(config["model"]["attention"]),
     ).to(device)
-    discriminator = PatchDiscriminator(features=int(config["model"]["features"])).to(device)
+    gan_weight = float(config["train"].get("gan_weight", 1.0))
+    discriminator = None
+    if gan_weight > 0:
+        discriminator = PatchDiscriminator(features=int(config["model"]["features"])).to(device)
     generator.apply(initialize_pix2pix_weights)
-    discriminator.apply(initialize_pix2pix_weights)
+    if discriminator is not None:
+        discriminator.apply(initialize_pix2pix_weights)
 
     learning_rate = float(config["train"]["learning_rate"])
     betas = tuple(float(value) for value in config["train"]["betas"])
     optimizer_g = torch.optim.Adam(generator.parameters(), lr=learning_rate, betas=betas)
-    optimizer_d = torch.optim.Adam(discriminator.parameters(), lr=learning_rate, betas=betas)
     adversarial_loss = nn.BCEWithLogitsLoss()
     reconstruction_loss = nn.L1Loss()
-    gan_weight = float(config["train"].get("gan_weight", 1.0))
+    optimizer_d = None
+    if discriminator is not None:
+        optimizer_d = torch.optim.Adam(discriminator.parameters(), lr=learning_rate, betas=betas)
     l1_weight = float(config["train"]["l1_weight"])
     epochs = int(config["train"]["epochs"])
     checkpoint_every = int(config["train"].get("checkpoint_every", 10))
@@ -105,7 +101,8 @@ def train_restoration(config: dict[str, Any]) -> list[dict[str, float]]:
     best_psnr = -math.inf
     for epoch in range(1, epochs + 1):
         generator.train()
-        discriminator.train()
+        if discriminator is not None:
+            discriminator.train()
         running_g = 0.0
         running_d = 0.0
         samples = 0
@@ -115,7 +112,7 @@ def train_restoration(config: dict[str, Any]) -> list[dict[str, float]]:
             targets = batch["target"].to(device, non_blocking=True)
             predictions = generator(inputs)
 
-            if gan_weight > 0:
+            if discriminator is not None:
                 discriminator.requires_grad_(True)
                 optimizer_d.zero_grad(set_to_none=True)
                 logits_real = discriminator(inputs, targets)
@@ -126,20 +123,19 @@ def train_restoration(config: dict[str, Any]) -> list[dict[str, float]]:
                 )
                 loss_d.backward()
                 optimizer_d.step()
+                discriminator.requires_grad_(False)
             else:
                 loss_d = torch.zeros((), device=device)
 
-            discriminator.requires_grad_(False)
             optimizer_g.zero_grad(set_to_none=True)
             loss_g = l1_weight * reconstruction_loss(predictions, targets)
-            if gan_weight > 0:
+            if discriminator is not None:
                 logits_fake_for_g = discriminator(inputs, predictions)
                 loss_g = loss_g + gan_weight * adversarial_loss(
                     logits_fake_for_g, torch.ones_like(logits_fake_for_g)
                 )
             loss_g.backward()
             optimizer_g.step()
-            discriminator.requires_grad_(True)
 
             batch_size = inputs.shape[0]
             samples += batch_size
@@ -162,21 +158,19 @@ def train_restoration(config: dict[str, Any]) -> list[dict[str, float]]:
         checkpoint = {
             "epoch": epoch,
             "generator": generator.state_dict(),
-            "discriminator": discriminator.state_dict(),
             "optimizer_g": optimizer_g.state_dict(),
-            "optimizer_d": optimizer_d.state_dict(),
             "config": config,
             "validation": validation,
         }
+        if discriminator is not None:
+            checkpoint["discriminator"] = discriminator.state_dict()
+            checkpoint["optimizer_d"] = optimizer_d.state_dict()
         if epoch % checkpoint_every == 0 or epoch == epochs:
             save_checkpoint(output_dir / f"epoch_{epoch:03d}.pt", checkpoint)
         if validation["psnr_db"] > best_psnr:
             best_psnr = validation["psnr_db"]
             save_checkpoint(output_dir / "best.pt", checkpoint)
-        print(
-            f"epoch={epoch} val_l1={validation['l1']:.5f} "
-            f"val_psnr={validation['psnr_db']:.2f}dB"
-        )
+        print(f"epoch={epoch} val_l1={validation['l1']:.5f} val_psnr={validation['psnr_db']:.2f}dB")
     if tracking_enabled:
         wandb.finish()
     return history

@@ -32,6 +32,7 @@ testpaths = ["tests"]
 addopts = "-q"
 
 [tool.ruff]
+extend-exclude = ["archive"]
 line-length = 100
 target-version = "py310"
 
@@ -39,5 +40,5 @@ target-version = "py310"
 select = ["E", "F", "I", "UP", "B"]
 
 [tool.ruff.lint.per-file-ignores]
-"scripts/*.py" = ["E402"]
+"scripts/**/*.py" = ["E402"]
 "tests/conftest.py" = ["E402"]

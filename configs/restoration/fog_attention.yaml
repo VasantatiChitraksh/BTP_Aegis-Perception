@@ -1,3 +1,5 @@
+# Template: prepare paired fog train/val data first (see docs/datasets.md).
+# O-HAZE is test-only and must not be substituted here.
 run:
   name: fog_attention_seed42
   seed: 42
