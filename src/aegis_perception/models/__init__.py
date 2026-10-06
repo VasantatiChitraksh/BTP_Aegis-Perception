@@ -12,9 +12,29 @@ def build_generator(config: dict):
         )
     if name == "restormer":
         from .restormer import RestormerGenerator
-
         options = {key: value for key, value in config.items() if key not in {"name", "pretrained"}}
         return RestormerGenerator(**options)
+        
+    if name == "transweather":
+        from .transweather import TransWeatherGenerator
+        options = {key: value for key, value in config.items() if key not in {"name", "pretrained"}}
+        return TransWeatherGenerator(**options)
+        
+    if name == "promptir":
+        from .promptir import PromptIRGenerator
+        options = {key: value for key, value in config.items() if key not in {"name", "pretrained"}}
+        return PromptIRGenerator(**options)
+        
+    if name == "ramit":
+        from .ramit import RAMiTGenerator
+        options = {key: value for key, value in config.items() if key not in {"name", "pretrained"}}
+        return RAMiTGenerator(**options)
+        
+    if name == "liteweatherformer":
+        from .liteweatherformer import LiteWeatherFormerGenerator
+        options = {key: value for key, value in config.items() if key not in {"name", "pretrained"}}
+        return LiteWeatherFormerGenerator(**options)
+        
     raise ValueError(f"Unknown restoration model: {name!r}")
 
 

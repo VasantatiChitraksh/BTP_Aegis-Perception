@@ -1,0 +1,28 @@
+run:
+  name: ramit_tiny_seed42
+  seed: 42
+  device: cuda
+  output_dir: artifacts/restoration/ramit_tiny_seed42
+
+data:
+  manifest: data/manifests/smoke_historical.csv
+  image_size: [128, 128]
+  train_mode: crop
+  eval_mode: native
+  random_crop: true
+  random_flip: true
+  num_workers: 4
+
+model:
+  name: ramit
+  dim: 32
+  num_blocks: 4
+
+train:
+  epochs: 20
+  batch_size: 4
+  learning_rate: 0.0001
+  betas: [0.9, 0.999]
+  gan_weight: 0.0
+  l1_weight: 1.0
+  checkpoint_every: 5

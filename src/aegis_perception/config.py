@@ -48,6 +48,10 @@ def validate_restoration_config(config: dict[str, Any]) -> None:
             raise ConfigError("Restormer block counts must be positive")
         if config["model"].get("layer_norm_type", "WithBias") not in {"WithBias", "BiasFree"}:
             raise ConfigError("Restormer layer_norm_type must be WithBias or BiasFree")
+    elif model_name in {"transweather", "promptir", "ramit", "liteweatherformer"}:
+        multiple = 8
+        if float(config["train"].get("gan_weight", 0.0)) != 0:
+            raise ConfigError(f"{model_name} uses reconstruction training; set gan_weight to 0")
     else:
         raise ConfigError(f"Unknown restoration model: {model_name!r}")
     require_keys(
