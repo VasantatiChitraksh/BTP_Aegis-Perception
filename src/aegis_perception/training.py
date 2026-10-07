@@ -17,7 +17,7 @@ from .models import PatchDiscriminator, build_generator, initialize_pix2pix_weig
 from .reproducibility import environment_record, seed_everything, write_json
 
 
-def _validate(generator, loader, device: str) -> dict[str, float]:
+def _validate(generator, loader, device: str, *, precision: str = "fp32") -> dict[str, float]:
     import torch
     from torch.nn import functional as functional
 
@@ -28,7 +28,7 @@ def _validate(generator, loader, device: str) -> dict[str, float]:
         for batch in loader:
             inputs = batch["input"].to(device)
             targets = batch["target"].to(device)
-            predictions = predict(generator, inputs)
+            predictions = predict(generator, inputs, precision=precision)
             batch_size = inputs.shape[0]
             total_l1 += functional.l1_loss(predictions, targets).item() * batch_size
             target_01 = targets.add(1).div(2).clamp(0, 1)
@@ -211,6 +211,7 @@ def train_restoration(
             "train_samples": len(train_dataset),
             "val_samples": len(val_dataset),
             "precision": precision,
+            "validation_precision": precision,
             "resume_from": str(resume) if resume else None,
             "psnr_protocol": "mean per-image RGB [0,1], MSE floor 1e-12",
         }
@@ -221,6 +222,19 @@ def train_restoration(
         import wandb
 
         wandb.init(project="aegis-perception", config=config, name=output_dir.name)
+
+    if resume is None:
+        print(
+            f"Checking all {len(val_dataset)} validation images before training ({precision})",
+            flush=True,
+        )
+        # DataLoader iteration consumes a CPU RNG seed; preserve the training shuffle.
+        with torch.random.fork_rng(devices=[]):
+            baseline = _validate(generator, val_loader, device, precision=precision)
+        write_json(output_dir / "baseline_validation.json", {"precision": precision, **baseline})
+        if device.startswith("cuda"):
+            torch.cuda.empty_cache()
+        print(f"Validation check passed; pretrained PSNR={baseline['psnr_db']:.2f}dB", flush=True)
 
     end_epoch = (
         epochs if stop_after_epochs is None else min(epochs, start_epoch + stop_after_epochs - 1)
@@ -282,7 +296,12 @@ def train_restoration(
         if device.startswith("cuda"):
             torch.cuda.synchronize(device)
         train_seconds = time.perf_counter() - started
-        validation = _validate(generator, val_loader, device)
+        # Validation does not need the final training batch's parameter gradients.
+        optimizer_g.zero_grad(set_to_none=True)
+        if optimizer_d is not None:
+            optimizer_d.zero_grad(set_to_none=True)
+        print(f"epoch={epoch} validating {len(val_dataset)} images ({precision})", flush=True)
+        validation = _validate(generator, val_loader, device, precision=precision)
         row = {
             "epoch": float(epoch),
             "train_g": running_g / samples,

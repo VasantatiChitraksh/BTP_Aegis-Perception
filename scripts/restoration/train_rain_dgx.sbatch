@@ -6,7 +6,7 @@
 #SBATCH --qos=longq
 #SBATCH --gres=gpu:a100:1
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=32G
+#SBATCH --mem=30000M
 #SBATCH --time=24:00:00
 #SBATCH --output=/scratch/%u/aegis-rain-%j.out
 #SBATCH --error=/scratch/%u/aegis-rain-%j.err
@@ -17,10 +17,19 @@ cd "${SLURM_SUBMIT_DIR:?Submit this job from the repository root}"
 . /etc/profile.d/modules.sh
 module load anaconda/2023.03-1
 eval "$(conda shell.bash hook)"
-conda activate "${AEGIS_CONDA_ENV:-pytorch_gpu1}"
+conda activate "${AEGIS_CONDA_ENV:-pytorch_12.1}"
+if [[ ! -f .venv/bin/activate ]]; then
+    echo "Missing project environment: create .venv before submitting this job" >&2
+    exit 1
+fi
+. .venv/bin/activate
 
 python - <<'PY'
 import torch
+import yaml
+import numpy
+import tqdm
+from PIL import Image
 
 if not torch.cuda.is_available():
     raise RuntimeError("CUDA is unavailable in the selected environment")

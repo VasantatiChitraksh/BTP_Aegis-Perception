@@ -141,3 +141,112 @@ def test_rejects_unsupported_model_heads(tmp_path):
     config["model"]["heads"] = [3, 2, 4, 8]
     with pytest.raises(ConfigError, match="heads must divide"):
         validate_restoration_config(config)
+
+
+@pytest.mark.parametrize("precision", ["fp32", "bf16"])
+def test_native_validation_precision_and_float32_metrics(precision):
+    torch = pytest.importorskip("torch")
+    from aegis_perception.training import _validate
+
+    class NativeModel(torch.nn.Module):
+        spatial_multiple = 8
+
+        def __init__(self):
+            super().__init__()
+            self.conv = torch.nn.Conv2d(3, 3, 1, bias=False)
+
+        def forward(self, inputs):
+            self.input_shape = inputs.shape
+            self.output = self.conv(inputs)
+            return self.output
+
+    torch.manual_seed(42)
+    model = NativeModel()
+    inputs = torch.rand(1, 3, 21, 29).mul(2).sub(1)
+    targets = torch.rand_like(inputs).mul(2).sub(1)
+    result = _validate(
+        model, [{"input": inputs, "target": targets}], "cpu", precision=precision
+    )
+
+    assert model.input_shape == (1, 3, 24, 32)
+    assert model.output.dtype == (torch.bfloat16 if precision == "bf16" else torch.float32)
+    assert not model.output.requires_grad
+    assert not model.training
+    assert model.conv.weight.dtype == torch.float32
+    restored = model.output[..., :21, :29].float()
+    expected_l1 = torch.nn.functional.l1_loss(restored, targets).item()
+    expected_mse = (
+        restored.add(1).div(2).clamp(0, 1) - targets.add(1).div(2).clamp(0, 1)
+    ).square().mean().clamp_min(1e-12)
+    assert result["l1"] == pytest.approx(expected_l1)
+    assert result["psnr_db"] == pytest.approx((-10 * expected_mse.log10()).item())
+
+
+def test_validation_failure_stops_before_training_updates(tmp_path, monkeypatch):
+    torch = pytest.importorskip("torch")
+    from aegis_perception import training
+
+    def validation_failure(*args, **kwargs):
+        raise RuntimeError("validation memory failure")
+
+    def unwanted_update(*args, **kwargs):
+        pytest.fail("Training updated weights before checking validation")
+
+    monkeypatch.setattr(training, "_validate", validation_failure)
+    monkeypatch.setattr(torch.optim.AdamW, "step", unwanted_update)
+    with pytest.raises(RuntimeError, match="validation memory failure"):
+        training.train_restoration(tiny_config(tmp_path))
+    assert not (tmp_path / "run" / "last.pt").exists()
+
+
+@pytest.mark.parametrize("bias", [False, True])
+@pytest.mark.parametrize("precision", ["fp32", "bf16"])
+def test_chunked_depthwise_matches_outputs_and_gradients(monkeypatch, bias, precision):
+    torch = pytest.importorskip("torch")
+    from aegis_perception.models import restormer
+
+    torch.manual_seed(42)
+    conv = torch.nn.Conv2d(8, 8, 3, padding=1, groups=8, bias=bias)
+    chunked_conv = copy.deepcopy(conv)
+    # Exercise slices and their storage offsets, including a partial final chunk.
+    inputs = torch.randn(2, 8, 7, 9).transpose(-1, -2).requires_grad_()
+    chunked_inputs = inputs.detach().clone().requires_grad_()
+    monkeypatch.setattr(restormer, "_DEPTHWISE_INDEX_LIMIT", 1000)
+    monkeypatch.setattr(restormer, "_DEPTHWISE_CHUNK_ELEMENTS", 400)
+    amp_dtype = torch.bfloat16 if precision == "bf16" else torch.float16
+
+    with torch.autocast("cpu", dtype=amp_dtype, enabled=precision != "fp32"):
+        expected = conv(inputs)
+        actual = restormer._depthwise_conv(chunked_conv, chunked_inputs)
+    expected.float().square().mean().backward()
+    actual.float().square().mean().backward()
+
+    tolerance = 1e-2 if precision == "bf16" else 1e-6
+    gradient_atol = 1e-5 if precision == "bf16" else 1e-6
+    assert actual.dtype == expected.dtype
+    torch.testing.assert_close(actual, expected, atol=tolerance, rtol=tolerance)
+    torch.testing.assert_close(
+        chunked_inputs.grad, inputs.grad, atol=gradient_atol, rtol=tolerance
+    )
+    for actual_parameter, expected_parameter in zip(
+        chunked_conv.parameters(), conv.parameters(), strict=True
+    ):
+        torch.testing.assert_close(
+            actual_parameter.grad, expected_parameter.grad, atol=gradient_atol, rtol=tolerance
+        )
+
+
+def test_restormer_channel_chunks_preserve_full_image_prediction(tmp_path, monkeypatch):
+    torch = pytest.importorskip("torch")
+    from aegis_perception.inference import predict
+    from aegis_perception.models import build_generator, restormer
+
+    torch.manual_seed(42)
+    model = build_generator(tiny_config(tmp_path)["model"]).eval()
+    inputs = torch.randn(1, 3, 21, 29)
+    with torch.inference_mode():
+        expected = predict(model, inputs)
+        monkeypatch.setattr(restormer, "_DEPTHWISE_INDEX_LIMIT", 2000)
+        monkeypatch.setattr(restormer, "_DEPTHWISE_CHUNK_ELEMENTS", 1000)
+        actual = predict(model, inputs)
+    torch.testing.assert_close(actual, expected, atol=1e-6, rtol=1e-6)

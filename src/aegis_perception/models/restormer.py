@@ -38,6 +38,36 @@ def to_4d(x, h, w):
     return x.transpose(1, 2).reshape(x.shape[0], -1, h, w)
 
 
+# Older CUDA depthwise kernels require fewer than INT_MAX elements per call.
+_DEPTHWISE_INDEX_LIMIT = 2**31 - 1
+_DEPTHWISE_CHUNK_ELEMENTS = 2**28
+
+
+def _depthwise_conv(conv, inputs):
+    """Evaluate large depthwise tensors by independent channels, preserving spatial context."""
+    if inputs.numel() < _DEPTHWISE_INDEX_LIMIT:
+        return conv(inputs)
+
+    batch, channels, height, width = inputs.shape
+    chunk_channels = max(1, _DEPTHWISE_CHUNK_ELEMENTS // (batch * height * width))
+    output = None
+    for start in range(0, channels, chunk_channels):
+        end = min(start + chunk_channels, channels)
+        chunk = F.conv2d(
+            inputs[:, start:end].contiguous(),
+            conv.weight[start:end],
+            None if conv.bias is None else conv.bias[start:end],
+            stride=conv.stride,
+            padding=conv.padding,
+            dilation=conv.dilation,
+            groups=end - start,
+        )
+        if output is None:
+            output = chunk.new_empty(inputs.shape)
+        output[:, start:end] = chunk
+    return output
+
+
 class BiasFree_LayerNorm(nn.Module):
     def __init__(self, normalized_shape):
         super().__init__()
@@ -101,7 +131,7 @@ class FeedForward(nn.Module):
 
     def forward(self, x):
         x = self.project_in(x)
-        (x1, x2) = self.dwconv(x).chunk(2, dim=1)
+        (x1, x2) = _depthwise_conv(self.dwconv, x).chunk(2, dim=1)
         x = F.gelu(x1) * x2
         x = self.project_out(x)
         return x
@@ -120,7 +150,7 @@ class Attention(nn.Module):
 
     def forward(self, x):
         (b, c, h, w) = x.shape
-        qkv = self.qkv_dwconv(self.qkv(x))
+        qkv = _depthwise_conv(self.qkv_dwconv, self.qkv(x))
         (q, k, v) = qkv.chunk(3, dim=1)
         q = q.reshape(b, self.num_heads, c // self.num_heads, h * w)
         k = k.reshape(b, self.num_heads, c // self.num_heads, h * w)

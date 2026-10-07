@@ -35,10 +35,14 @@ def main() -> None:
 
     import torch
     from torch.utils.data import DataLoader
+    from tqdm import tqdm
 
     config = load_config(args.config)
     validate_restoration_config(config)
     device = select_device(args.device)
+    precision = config["train"].get("precision", "fp32") if device.startswith("cuda") else "fp32"
+    if precision == "bf16" and not torch.cuda.is_bf16_supported():
+        raise SystemExit("Configured evaluation precision is bf16, but the GPU does not support it")
     generator, checkpoint = load_generator(args.checkpoint, device=device)
     if config["model"] != checkpoint["config"]["model"]:
         raise SystemExit("Evaluation model config does not match checkpoint")
@@ -57,8 +61,13 @@ def main() -> None:
     per_weather: dict[str, list[dict[str, float]]] = defaultdict(list)
     per_sample: list[dict[str, object]] = []
     with torch.inference_mode():
-        for batch in loader:
-            prediction = predict(generator, batch["input"].to(device))[0].add(1).div(2).clamp(0, 1)
+        for batch in tqdm(loader, desc=f"Evaluating {args.split}", unit="image"):
+            prediction = (
+                predict(generator, batch["input"].to(device), precision=precision)[0]
+                .add(1)
+                .div(2)
+                .clamp(0, 1)
+            )
             target = batch["target"][0].add(1).div(2).clamp(0, 1)
             raw = batch["input"][0].add(1).div(2).clamp(0, 1).permute(1, 2, 0).numpy()
             predicted_array = prediction.cpu().permute(1, 2, 0).numpy().astype(np.float32)
@@ -96,6 +105,7 @@ def main() -> None:
             "color": "RGB",
             "data_range": [0, 1],
             "spatial_mode": config["data"].get("eval_mode", "resize"),
+            "precision": precision,
             "image_size": config["data"]["image_size"],
             "aggregation": "mean per-image",
             "mse_floor": 1e-12,

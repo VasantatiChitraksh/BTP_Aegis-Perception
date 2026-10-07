@@ -53,6 +53,15 @@ def main() -> None:
             raise SystemExit("Control and restored output trees must not overlap")
     config = load_config(args.config)
     device = select_device(args.device)
+    precision = (
+        config["train"].get("precision", "fp32")
+        if device.startswith("cuda")
+        else "fp32"
+    )
+    if precision == "bf16" and not torch.cuda.is_bf16_supported():
+        raise SystemExit(
+            "Configured restoration precision is bf16, but the GPU does not support it"
+        )
     generator, checkpoint = load_generator(args.checkpoint, device=device)
     if config["model"] != checkpoint["config"]["model"]:
         raise SystemExit("Restoration model config does not match checkpoint")
@@ -79,7 +88,7 @@ def main() -> None:
                     (image_size[1], image_size[0]), Image.Resampling.BICUBIC
                 )
             tensor = pil_to_normalized_tensor(model_input).unsqueeze(0).to(device)
-            restored = predict(generator, tensor)[0]
+            restored = predict(generator, tensor, precision=precision)[0]
             restored_image = normalized_tensor_to_pil(restored)
             if spatial_mode == "resize":
                 restored_image = restored_image.resize(original_size, Image.Resampling.BICUBIC)
@@ -92,7 +101,7 @@ def main() -> None:
                 model_input.resize(original_size, Image.Resampling.BICUBIC).save(
                     control_output, format="PNG"
                 )
-    print(f"restored {len(paths)} images to {args.output_root}")
+    print(f"restored {len(paths)} images to {args.output_root} ({precision})")
 
 
 if __name__ == "__main__":

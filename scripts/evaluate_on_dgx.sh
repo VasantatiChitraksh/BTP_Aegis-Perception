@@ -1,34 +1,32 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #SBATCH --job-name=aegis_eval
 #SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
 #SBATCH --gres=gpu:a100:1
-#SBATCH --time=04:00:00
+#SBATCH --time=02:00:00
 #SBATCH --partition=longq
 #SBATCH --qos=longq
-#SBATCH --mem=16G
+#SBATCH --mem=30000M
 #SBATCH --output=/scratch/%u/aegis_eval-%j.out
 #SBATCH --error=/scratch/%u/aegis_eval-%j.err
+
+set -euo pipefail
+cd "${SLURM_SUBMIT_DIR:?Submit from the repository root}"
+
+if [[ $# -lt 2 ]]; then
+    echo "Usage: sbatch scripts/evaluate_on_dgx.sh <config_yaml> <checkpoint_pt> [evaluation options]" >&2
+    exit 2
+fi
 
 . /etc/profile.d/modules.sh
 module load anaconda/2023.03-1
 
-# Activate conda
 eval "$(conda shell.bash hook)"
-conda activate pytorch_gpu1
+conda activate "${AEGIS_CONDA_ENV:-pytorch_12.1}"
+. .venv/bin/activate
 
-CONFIG_FILE=$1
-CHECKPOINT_FILE=$2
-
-if [ -z "$CONFIG_FILE" ] || [ -z "$CHECKPOINT_FILE" ]; then
-    echo "Error: Config or Checkpoint file not specified."
-    echo "Usage: sbatch evaluate_on_dgx.sh <path_to_config_yaml> <path_to_checkpoint_pt>"
-    exit 1
-fi
-
-echo "Starting evaluation with config: $CONFIG_FILE and checkpoint: $CHECKPOINT_FILE"
-
-# Run the evaluation script
-python scripts/restoration/evaluate.py --config "$CONFIG_FILE" --checkpoint "$CHECKPOINT_FILE" --split test
+python -u scripts/restoration/evaluate.py \
+    --config "$1" --checkpoint "$2" --split test --device cuda "${@:3}"
 
 echo "Evaluation completed."
