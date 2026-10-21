@@ -26,6 +26,10 @@ NAMES = ("attention_pix2pix", "restormer")
 CONFIGS = tuple(Path(f"configs/restoration/baselines_v1/{n}.yaml") for n in NAMES)
 OUTPUT = Path("artifacts/restoration/baselines_v1")
 BOUNDARIES = (20, 40, 60)
+STAGE_SCRIPT = "scripts/restoration/train_baseline_stage.sbatch"
+TRAIN_COMMAND = (sys.executable, "scripts/restoration/train.py")
+EVALUATE_COMMAND = (sys.executable, "scripts/restoration/evaluate.py")
+LOG_PREFIX = "aegis-base"
 
 
 def checked_configs():
@@ -84,41 +88,44 @@ def verify_release():
             raise ValueError(f"Packaged source/config was changed: {name}")
 
 
-def package(output):
+def package(output, file_names=None):
     checked_configs()
     if output.exists():
         raise FileExistsError(output)
     files = set()
-    for folder in ("src", "configs/restoration/baselines_v1"):
+    for folder in ("src",):
         files.update(
             p
             for p in (ROOT / folder).rglob("*")
             if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc"
         )
-    for name in (
-        "pyproject.toml",
-        "README.md",
-        "LICENSE",
-        "docs/baseline_suite.txt",
-        "artifacts/data/baselines_v1/preparation.json",
-        "artifacts/data/baselines_v1/dataset_audit.txt",
-        "tests/conftest.py",
-        "tests/test_baseline_suite.py",
-        "tests/test_training.py",
-        "configs/restoration/four_weather_restormer.yaml",
-        "scripts/restoration/baseline_suite.py",
-        "scripts/restoration/train.py",
-        "scripts/restoration/evaluate.py",
-        "scripts/restoration/compare_weather_protocol.py",
-        "scripts/restoration/train_baseline_stage.sbatch",
-        "scripts/restoration/submit_baseline_suite.sh",
-        "scripts/data/audit_manifest.py",
-        "data/manifests/weather_v3/active.csv",
-        "data/manifests/weather_v3/reserve.csv",
-        "data/manifests/weather_v3/protocol.json",
-        "data/manifests/clean/four_weather.csv",
-        "artifacts/restoration/four_weather_restormer_seed42/metrics_test.json",
-    ):
+    files.update(ROOT / p for p in CONFIGS)
+    if file_names is None:
+        file_names = (
+            "pyproject.toml",
+            "README.md",
+            "LICENSE",
+            "docs/baseline_suite.txt",
+            "artifacts/data/baselines_v1/preparation.json",
+            "artifacts/data/baselines_v1/dataset_audit.txt",
+            "tests/conftest.py",
+            "tests/test_baseline_suite.py",
+            "tests/test_training.py",
+            "configs/restoration/four_weather_restormer.yaml",
+            "scripts/restoration/baseline_suite.py",
+            "scripts/restoration/train.py",
+            "scripts/restoration/evaluate.py",
+            "scripts/restoration/compare_weather_protocol.py",
+            "scripts/restoration/train_baseline_stage.sbatch",
+            "scripts/restoration/submit_baseline_suite.sh",
+            "scripts/data/audit_manifest.py",
+            "data/manifests/weather_v3/active.csv",
+            "data/manifests/weather_v3/reserve.csv",
+            "data/manifests/weather_v3/protocol.json",
+            "data/manifests/clean/four_weather.csv",
+            "artifacts/restoration/four_weather_restormer_seed42/metrics_test.json",
+        )
+    for name in file_names:
         files.add(ROOT / name)
     release = {
         "suite": "baselines-v1",
@@ -181,7 +188,7 @@ def submit(resume=False):
                 if previous:
                     command.append(f"--dependency=afterok:{previous}")
                 command += [
-                    "scripts/restoration/train_baseline_stage.sbatch",
+                    STAGE_SCRIPT,
                     str(config),
                     str(boundary),
                 ]
@@ -198,8 +205,8 @@ def submit(resume=False):
             f"Submission stopped; already submitted jobs are recorded in {journal}", file=sys.stderr
         )
         raise
-    print("Submitted both models sequentially (three resumable stages each).")
-    print(f"Logs: /scratch/{os.environ['USER']}/aegis-base-<JOBID>.out / .err")
+    print(f"Submitted {len(NAMES)} model(s) sequentially (three resumable stages each).")
+    print(f"Logs: /scratch/{os.environ['USER']}/{LOG_PREFIX}-<JOBID>.out / .err")
     print(f"Results: {OUTPUT}/comparison.csv; journal: {journal}")
 
 
@@ -293,8 +300,7 @@ def run_stage(config_path, through_epoch):
         gc.collect()
     if completed < through_epoch:
         command = [
-            sys.executable,
-            "scripts/restoration/train.py",
+            *TRAIN_COMMAND,
             "--config",
             str(config_path),
             "--stop-after-epochs",
@@ -313,8 +319,7 @@ def run_stage(config_path, through_epoch):
         if previous.get("checkpoint_sha256") != sha256(best):
             subprocess.run(
                 [
-                    sys.executable,
-                    "scripts/restoration/evaluate.py",
+                    *EVALUATE_COMMAND,
                     "--config",
                     str(config_path),
                     "--checkpoint",
@@ -365,9 +370,13 @@ def compare_previous(metrics, output):
     print(result["assessment"], flush=True)
 
 
-def report():
+def report(configs=None, names=None):
     rows = []
-    for name, config in zip(NAMES, checked_configs(), strict=True):
+    for name, config in zip(
+        NAMES if names is None else names,
+        checked_configs() if configs is None else configs,
+        strict=True,
+    ):
         path = Path(config["run"]["output_dir"]) / "metrics_test.json"
         if not path.exists():
             continue

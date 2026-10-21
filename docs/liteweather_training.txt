@@ -1,0 +1,96 @@
+LITEWEATHER TRANSFORMER v2 — 21 October 2026
+
+This is a project-specific architecture, not a claimed official paper reproduction.
+The legacy LiteWeatherFormer was convolution-only with a fixed default prompt.
+It remains loadable when architecture_version is absent/1; this run explicitly uses 2.
+
+MODEL
+2,189,475 parameters. Widths 24/48/96/192; high-resolution depthwise residual
+blocks; Restormer channel-attention/FFN blocks at 1/4 and 1/8 scale (2 and 4
+blocks), one quarter-resolution decoder Transformer, pixel-shuffle upsampling,
+skip fusion and an RGB residual head. Imported Restormer components retain their
+MIT attribution. Content-derived soft weights mix four learned prompt vectors;
+no weather label is required at inference. Prompt vectors are latent components,
+not guaranteed to correspond one-to-one to semantic weather categories.
+No compatible pretrained weights are available in this project. Initialization is
+random, with a small residual output head. Restormer weights cannot be loaded into
+this different architecture. Orin latency and quantization remain unmeasured.
+
+SEPARATE V2 IMPLEMENTATION
+The published v2 implementation lives in models/liteweatherformer_v2.py, with
+configs/restoration/liteweatherformer_v2.yaml. The original contributor files
+are excluded from this update. The v2 suite explicitly registers the new factory
+and validator in its Python process via aegis_perception.liteweather_runtime.
+The underlying shared trainer remains unchanged. For direct commands use:
+  python scripts/restoration/liteweather_entry.py train --config configs/restoration/liteweatherformer_v2.yaml
+  python scripts/restoration/liteweather_entry.py evaluate --help
+For Python checkpoint loading, call this before the shared load_generator API:
+  from aegis_perception.liteweather_runtime import activate
+  activate()
+Legacy model loading remains available. Completed release archives and trained
+weights are unchanged; v2 state_dict names/shapes and numerical outputs are preserved.
+
+FROZEN PROTOCOL
+Exact same data, sampling and epoch/update budget as the completed baselines:
+                 train      validation      test
+rain               773             112       224
+fog               5102             897      1000
+snow              5382             618       768
+smoke             7353             384       342
+total            18610            2011      2334
+No resplitting, test reuse for training, or new synthesis. Reserved pairs stay out.
+Weather draw probabilities .30/.30/.30/.10; then uniform background and variant,
+with replacement. Draw/crop RNG independent of model RNG. Seed42; 4096 draws per
+epoch; batch4; 60 epochs = 61440 optimizer updates. Paired 256x256 crops/flips.
+AdamW 1e-4, betas .9/.999, weight decay1e-4, cosine to1e-6; BF16; clip1; L1 only.
+All 2011 validation pairs scored each epoch; select best equal-weather/background/
+stratum PSNR and log SSIM for every weather. Test the selected checkpoint once
+at native resolution after epoch60. Each weather is 25% of the headline result.
+No accuracy guarantee; the completed pretrained Restormer has different initialization.
+
+RUN
+Use a fresh extracted folder and symlink the old DGX project's data/raw and .venv.
+Run bash scripts/restoration/submit_liteweather.sh once. Three afterok jobs run
+through epochs20,40,60, on one A100, 8CPU slots, 32000MiB RAM, 20h per stage.
+No retraining of the completed baselines. Missing/corrupt source or protocol
+hashes stop execution. The first allocated-GPU stage audits image pairs/leakage,
+checks native-size inference on the three largest padded shapes, and checks a
+full batch BF16 forward/backward/optimizer step with disposable synthetic inputs.
+Training then starts from its declared seed and fresh model, not preflight weights.
+Training failures halt the dependent chain. No automatic unlimited retries.
+After jobs have ended and a failure is fixed, submit_liteweather.sh --resume
+resumes the last complete epoch; partial epochs are replayed. Never edit a release
+while its jobs are active. The full 60-epoch optimizer/scheduler/RNG state is
+preserved across boundaries. Existing source hashes prevent silent experiment drift.
+
+OUTPUTS
+artifacts/restoration/liteweather_v1/liteweatherformer_v2_seed42/
+  best.pt                  highest validation-selected checkpoint, resumable
+  last.pt                  latest epoch, resumable
+  epoch_020/040/060.pt      stage-boundary snapshots
+  inference.pt             best generator/config/epoch, no optimizer; for deployment
+  history.json             all epochs, including unselected epochs
+  metrics_test.json        per-image, per-weather, equal-weather and uncertainty
+  selection_status.json    best score and selection metadata
+artifacts/restoration/liteweather_v1/comparison.csv
+  Attention Pix2Pix, new pretrained Restormer, LiteWeather; same frozen test IDs.
+The release carries only saved reference metrics, never old model weights.
+Logs: /scratch/$USER/aegis-lite-<JOBID>.out and .err
+
+Local CPU tests verify attention/prompt gradients, native-size pad/crop, exact
+uninterrupted-versus-staged training, checkpoint reload, compact export parity,
+actual CLI test evaluation, completed-stage skipping, and 3-job dependency order.
+CUDA is unavailable locally. GPU preflight and full training ran on DGX.
+
+COMPLETED RESULTS AND REPORT
+All three runs completed 60 epochs on the frozen protocol. Test PSNR / SSIM:
+  Attention Pix2Pix  24.7281 dB / 0.82012
+  LiteWeather v2    27.2071 dB / 0.86444
+  Restormer        32.5831 dB / 0.92969
+These are the equal-weather/background/stratum results, not speed measurements.
+Downloaded checkpoints, metrics and report images remain local under artifacts/.
+Rebuild the report with the downloaded artifacts and source images available:
+  python scripts/restoration/prepare_three_model_report.py
+  python scripts/restoration/build_three_model_report.py
+The report builder also needs matplotlib and reportlab in its Python environment.
+Generated PDFs, model weights, release archives and datasets are intentionally ignored.
