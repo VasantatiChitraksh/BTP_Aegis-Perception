@@ -104,11 +104,23 @@ def test_upstream_weights_and_normalized_native_inference(tmp_path):
         load_pretrained(restored, path)
 
 
-def test_resume_matches_uninterrupted_fixture_updates(tmp_path):
+@pytest.mark.parametrize("balanced", [False, True])
+def test_resume_matches_uninterrupted_fixture_updates(tmp_path, balanced):
     torch = pytest.importorskip("torch")
     from aegis_perception.training import train_restoration
 
     config = tiny_config(tmp_path)
+    if balanced:
+        from dataclasses import replace
+
+        from aegis_perception.data.manifest import load_manifest
+
+        manifest = config["data"]["manifest"]
+        write_manifest(
+            manifest, [replace(r, group_id=r.sample_id) for r in load_manifest(manifest)]
+        )
+        config["data"].update(weather_probabilities={"rain": 1.0}, samples_per_epoch=6)
+        config["train"]["selection_metric"] = "macro_scene_psnr_db"
     continuous = copy.deepcopy(config)
     continuous["run"]["output_dir"] = str(tmp_path / "continuous")
     previous_threads = torch.get_num_threads()
@@ -164,9 +176,7 @@ def test_native_validation_precision_and_float32_metrics(precision):
     model = NativeModel()
     inputs = torch.rand(1, 3, 21, 29).mul(2).sub(1)
     targets = torch.rand_like(inputs).mul(2).sub(1)
-    result = _validate(
-        model, [{"input": inputs, "target": targets}], "cpu", precision=precision
-    )
+    result = _validate(model, [{"input": inputs, "target": targets}], "cpu", precision=precision)
 
     assert model.input_shape == (1, 3, 24, 32)
     assert model.output.dtype == (torch.bfloat16 if precision == "bf16" else torch.float32)
@@ -176,8 +186,11 @@ def test_native_validation_precision_and_float32_metrics(precision):
     restored = model.output[..., :21, :29].float()
     expected_l1 = torch.nn.functional.l1_loss(restored, targets).item()
     expected_mse = (
-        restored.add(1).div(2).clamp(0, 1) - targets.add(1).div(2).clamp(0, 1)
-    ).square().mean().clamp_min(1e-12)
+        (restored.add(1).div(2).clamp(0, 1) - targets.add(1).div(2).clamp(0, 1))
+        .square()
+        .mean()
+        .clamp_min(1e-12)
+    )
     assert result["l1"] == pytest.approx(expected_l1)
     assert result["psnr_db"] == pytest.approx((-10 * expected_mse.log10()).item())
 
@@ -225,9 +238,7 @@ def test_chunked_depthwise_matches_outputs_and_gradients(monkeypatch, bias, prec
     gradient_atol = 1e-5 if precision == "bf16" else 1e-6
     assert actual.dtype == expected.dtype
     torch.testing.assert_close(actual, expected, atol=tolerance, rtol=tolerance)
-    torch.testing.assert_close(
-        chunked_inputs.grad, inputs.grad, atol=gradient_atol, rtol=tolerance
-    )
+    torch.testing.assert_close(chunked_inputs.grad, inputs.grad, atol=gradient_atol, rtol=tolerance)
     for actual_parameter, expected_parameter in zip(
         chunked_conv.parameters(), conv.parameters(), strict=True
     ):

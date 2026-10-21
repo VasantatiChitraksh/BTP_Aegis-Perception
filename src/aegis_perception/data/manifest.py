@@ -33,6 +33,9 @@ class PairRecord:
     split: str
     weather: str
     source: str
+    group_id: str = ""
+    stratum: str = ""
+    cluster_id: str = ""
 
 
 def _resolve(path_value: str, manifest_path: Path) -> Path:
@@ -55,6 +58,9 @@ def load_manifest(path: str | Path, split: str | None = None) -> list[PairRecord
                 split=row["split"],
                 weather=row["weather"],
                 source=row["source"],
+                group_id=row.get("group_id", ""),
+                stratum=row.get("stratum", ""),
+                cluster_id=row.get("cluster_id", ""),
             )
             for row in reader
             if split is None or row["split"] == split
@@ -84,7 +90,17 @@ def write_manifest(path: str | Path, records: Iterable[PairRecord]) -> None:
     output_path = Path(path).expanduser().resolve()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     temporary = output_path.with_suffix(output_path.suffix + ".tmp")
-    fieldnames = ["sample_id", "input_path", "target_path", "split", "weather", "source"]
+    fieldnames = [
+        "sample_id",
+        "input_path",
+        "target_path",
+        "split",
+        "weather",
+        "source",
+        "group_id",
+        "stratum",
+        "cluster_id",
+    ]
     with temporary.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
@@ -97,6 +113,9 @@ def write_manifest(path: str | Path, records: Iterable[PairRecord]) -> None:
                     "split": record.split,
                     "weather": record.weather,
                     "source": record.source,
+                    "group_id": record.group_id,
+                    "stratum": record.stratum,
+                    "cluster_id": record.cluster_id,
                 }
             )
     temporary.replace(output_path)

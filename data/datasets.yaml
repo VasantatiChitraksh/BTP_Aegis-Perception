@@ -7,6 +7,47 @@ scope:
     large, redundant, or differently tasked sources.
 
 datasets:
+  - id: reside6k_train
+    name: RESIDE-6K training (DehazeFormer authors' release)
+    conditions: [fog]
+    tasks: [paired-restoration]
+    selection: core
+    auto_download: true
+    source_page: https://github.com/IDKiro/DehazeFormer
+    notes: >
+      Compact indoor/outdoor synthetic haze subset, distributed by the DehazeFormer
+      authors (IEEE TIP 2023). Haze is the fog training proxy, not real driving fog.
+      Group all haze variants of a clean reference before holding out validation.
+    archive:
+      filename: reside6k_train.zip
+      expected_bytes: 1037588008
+      sha256: 49b2929605d57c4967a1c932564e2b61fa13f83542b42096997ee1dd7b94cce5
+      url: "https://drive.usercontent.google.com/download?id=1yaY_trqGn-SNoy7mrX040KUU7xhTPvas&export=download&confirm=t"
+      format: zip
+    extract_to: data/raw/fog/reside6k_train
+    license:
+      status: verify
+      note: Cite RESIDE and DehazeFormer; dataset redistribution rights are separate from code.
+
+  - id: reside6k_test
+    name: RESIDE-6K test (DehazeFormer authors' release)
+    conditions: [fog]
+    tasks: [paired-restoration, benchmark]
+    selection: core
+    auto_download: true
+    source_page: https://github.com/IDKiro/DehazeFormer
+    notes: Preserve the provided test split and audit reference overlap against training.
+    archive:
+      filename: reside6k_test.zip
+      expected_bytes: 551950085
+      sha256: bf298811155e89193f2841681912573f9643f47c7eb69bdf8686485f8e49b980
+      url: "https://drive.usercontent.google.com/download?id=1c9uDHCzhZX7WPWzKRYjrIDhHhw2FuYkG&export=download&confirm=t"
+      format: zip
+    extract_to: data/raw/fog/reside6k_test
+    license:
+      status: verify
+      note: Cite RESIDE and DehazeFormer; dataset redistribution rights are separate from code.
+
   - id: smoke_historical
     name: Smoke dataset (ACCV 2022)
     conditions: [smoke]

@@ -1,0 +1,68 @@
+# Global batch 4; seeds vary fine-tuning from the same completed initialization.
+run:
+  name: weather_v3_ssim_seed44
+  seed: 44
+  device: cuda
+  output_dir: artifacts/restoration/weather_v3_ssim_seed44
+  deterministic: true
+data:
+  manifest: data/manifests/weather_v3/active.csv
+  image_size:
+  - 256
+  - 256
+  train_mode: crop
+  eval_mode: native
+  random_crop: true
+  random_flip: true
+  num_workers: 2
+  weather_probabilities:
+    rain: 0.25
+    fog: 0.25
+    snow: 0.25
+    smoke: 0.25
+  samples_per_epoch: 4096
+  sampling: stratified_cycles
+  protocol: data/manifests/weather_v3/protocol.json
+  protocol_sha256: 0fca0d9c2849b731c4281e6528ff473dc606ca6d01773c6d8ef8d9ed56a17886
+model:
+  name: restormer
+  dim: 48
+  num_blocks:
+  - 4
+  - 6
+  - 6
+  - 8
+  heads:
+  - 1
+  - 2
+  - 4
+  - 8
+  num_refinement_blocks: 4
+  ffn_expansion_factor: 2.66
+  bias: false
+  layer_norm_type: WithBias
+  pretrained: artifacts/restoration/four_weather_restormer_seed42/best.pt
+train:
+  epochs: 20
+  batch_size: 4
+  optimizer: adamw
+  learning_rate: 2.0e-05
+  betas:
+  - 0.9
+  - 0.999
+  weight_decay: 0.0001
+  scheduler: cosine
+  min_learning_rate: 1.0e-06
+  precision: bf16
+  grad_clip: 1.0
+  gan_weight: 0.0
+  l1_weight: 1.0
+  checkpoint_every: 5
+  selection_metric: macro_scene_psnr_db
+  validation_ssim: true
+  validation_guard:
+    psnr_db: 0.0
+    ssim: 0.0
+  ssim_weight: 0.05
+  selection_min_delta: 0.02
+  expected_pretrained_sha256: 6b79a3150392e73119c9555bab41e7ab7d5c174cec7498304ed6a7ad51d793fc

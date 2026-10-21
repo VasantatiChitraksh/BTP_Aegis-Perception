@@ -1,0 +1,197 @@
+{
+  "aggregation": "equal weather, background, degradation-rank stratum, then images",
+  "cache_sha256": "05a3bd05a66359ce0fe6d695bb7462d6d70589c3440f923f683560c9adbc0b38",
+  "counts": {
+    "fog": {
+      "test": {
+        "backgrounds": 542,
+        "clusters": 542,
+        "images": 1000
+      },
+      "train": {
+        "backgrounds": 5061,
+        "clusters": 5061,
+        "images": 5102
+      },
+      "val": {
+        "backgrounds": 893,
+        "clusters": 893,
+        "images": 897
+      }
+    },
+    "rain": {
+      "test": {
+        "backgrounds": 224,
+        "clusters": 224,
+        "images": 224
+      },
+      "train": {
+        "backgrounds": 755,
+        "clusters": 755,
+        "images": 773
+      },
+      "val": {
+        "backgrounds": 112,
+        "clusters": 112,
+        "images": 112
+      }
+    },
+    "smoke": {
+      "test": {
+        "backgrounds": 6,
+        "clusters": 6,
+        "images": 342
+      },
+      "train": {
+        "backgrounds": 31,
+        "clusters": 31,
+        "images": 7353
+      },
+      "val": {
+        "backgrounds": 6,
+        "clusters": 6,
+        "images": 384
+      }
+    },
+    "snow": {
+      "test": {
+        "backgrounds": 256,
+        "clusters": 256,
+        "images": 768
+      },
+      "train": {
+        "backgrounds": 1794,
+        "clusters": 1794,
+        "images": 5382
+      },
+      "val": {
+        "backgrounds": 206,
+        "clusters": 206,
+        "images": 618
+      }
+    }
+  },
+  "duplicate_pairs_excluded": [
+    {
+      "excluded": "realrain1k_h/train/125",
+      "retained": "realrain1k_h/train/124",
+      "split": "train",
+      "weather": "rain"
+    },
+    {
+      "excluded": "realrain1k_h/train/610",
+      "retained": "realrain1k_h/train/400",
+      "split": "train",
+      "weather": "rain"
+    },
+    {
+      "excluded": "smokebench_v2/train/1093",
+      "retained": "smokebench_v2/train/1092",
+      "split": "val",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/1094",
+      "retained": "smokebench_v2/test/6",
+      "split": "val",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/669",
+      "retained": "smokebench_v2/train/667",
+      "split": "train",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/670",
+      "retained": "smokebench_v2/train/668",
+      "split": "train",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/857",
+      "retained": "smokebench_v2/train/622",
+      "split": "train",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/858",
+      "retained": "smokebench_v2/train/623",
+      "split": "train",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/8606",
+      "retained": "smokebench_v2/train/8605",
+      "split": "test",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/8999",
+      "retained": "smokebench_v2/train/8998",
+      "split": "val",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/9053",
+      "retained": "smokebench_v2/train/8886",
+      "split": "val",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/9287",
+      "retained": "smokebench_v2/train/9285",
+      "split": "test",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/9288",
+      "retained": "smokebench_v2/train/9286",
+      "split": "test",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/9535",
+      "retained": "smokebench_v2/train/9533",
+      "split": "train",
+      "weather": "smoke"
+    },
+    {
+      "excluded": "smokebench_v2/train/9744",
+      "retained": "smokebench_v2/train/9743",
+      "split": "train",
+      "weather": "smoke"
+    }
+  ],
+  "input_manifests": {
+    "data/manifests/clean/realrain1k.csv": "1fe5b528ee3d5a29466b6b3eb724566c1f098515923ed11eaa367720fb63dd09",
+    "data/manifests/clean/reside6k.csv": "05efaf6813be6858bd92af81b1a7423fc234e77e3f7b5f50a541e10bed92151d",
+    "data/manifests/clean/smokebench.csv": "52bec3488aba992faae30f32fff005ae5c6cd277f10c29dd984cc87b56cc64e5",
+    "data/manifests/clean/snow_cityscapes.csv": "3ddd2aa83a5adc4dbe11835652b75b7b5b994a545e759f82dc8469086cd328ba"
+  },
+  "limitations": [
+    "Smoke has six validation and six test backgrounds; few-cluster intervals are exploratory.",
+    "Renamed snow training files and rain files do not identify capture sequences.",
+    "Decoded/near-copy grouping cannot certify all semantic scene or sequence independence.",
+    "Test images were evaluated previously; this is not an untouched external benchmark.",
+    "Training seeds vary fine-tuning from a shared seed-42 initialization."
+  ],
+  "manifest_sha256": {
+    "active.csv": "9e7c661f66626761a1641f887f8c8720fc69fc9dffcad5602ef649a944c904ab",
+    "reserve.csv": "62d147373cafdb0701490bab6bb73c02aa7a763ab595fe94bf8dc78144c03883"
+  },
+  "protocol": "weather-v3",
+  "reserve": {
+    "smoke/test": 760,
+    "smoke/val": 1123,
+    "snow/test": 5232
+  },
+  "snow_test": "256 known sequence clusters, city-proportional quotas, one background each",
+  "split_seed": 20261015,
+  "strata": "Within-background thumbnail raw/target MAE rank bins; proxy, not physical density",
+  "training_seeds": [
+    42,
+    43,
+    44
+  ]
+}

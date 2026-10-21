@@ -52,6 +52,11 @@ class PairedImageDataset:
         return len(self.records)
 
     def __getitem__(self, index: int):
+        # A draw-specific RNG makes crops/flips independent of worker/GPU count.
+        rng = random
+        if isinstance(index, tuple):
+            index, augmentation_seed = index
+            rng = random.Random(augmentation_seed)
         record = self.records[index]
         with Image.open(record.input_path) as image:
             degraded = image.convert("RGB")
@@ -73,14 +78,14 @@ class PairedImageDataset:
                 degraded = Image.fromarray(np.pad(np.asarray(degraded), padding, mode="edge"))
                 clean = Image.fromarray(np.pad(np.asarray(clean), padding, mode="edge"))
             if self.random_crop:
-                left = random.randint(0, degraded.width - width)
-                top = random.randint(0, degraded.height - height)
+                left = rng.randint(0, degraded.width - width)
+                top = rng.randint(0, degraded.height - height)
             else:
                 left = (degraded.width - width) // 2
                 top = (degraded.height - height) // 2
             box = (left, top, left + width, top + height)
             degraded, clean = degraded.crop(box), clean.crop(box)
-        if self.random_flip and random.random() < 0.5:
+        if self.random_flip and rng.random() < 0.5:
             degraded = degraded.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
             clean = clean.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
 
@@ -89,4 +94,7 @@ class PairedImageDataset:
             "target": pil_to_normalized_tensor(clean),
             "sample_id": record.sample_id,
             "weather": record.weather,
+            "group_id": record.group_id or record.sample_id,
+            "stratum": record.stratum or "all",
+            "cluster_id": record.cluster_id or record.group_id or record.sample_id,
         }

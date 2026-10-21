@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -11,7 +12,6 @@ from PIL import Image
 REPOSITORY = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPOSITORY / "src"))
 
-from aegis_perception.data.catalog import sha256
 from aegis_perception.data.manifest import VALID_SPLITS, load_manifest
 
 
@@ -32,11 +32,17 @@ def main() -> None:
     split_counts = Counter(record.split for record in records)
     weather_counts = Counter(record.weather for record in records)
     target_hash_splits: dict[str, set[str]] = defaultdict(set)
+    group_splits: dict[str, set[str]] = defaultdict(set)
 
+    cluster_splits = defaultdict(set)
     for record in records:
         if record.sample_id in ids:
             errors.append(f"duplicate sample_id: {record.sample_id}")
         ids.add(record.sample_id)
+        if record.cluster_id:
+            cluster_splits[record.cluster_id].add(record.split)
+        if record.group_id:
+            group_splits[record.group_id].add(record.split)
         if record.split not in VALID_SPLITS:
             errors.append(f"invalid split {record.split!r}: {record.sample_id}")
         pair_sizes = {}
@@ -56,11 +62,23 @@ def main() -> None:
         if len(pair_sizes) == 2 and pair_sizes["input"] != pair_sizes["target"]:
             errors.append(f"input/target dimensions differ: {record.sample_id}")
         if not args.skip_hashes and record.target_path.is_file():
-            target_hash_splits[sha256(record.target_path)].add(record.split)
+            try:
+                with Image.open(record.target_path) as image:
+                    image = image.convert("RGB")
+                    digest = hashlib.sha256(str(image.size).encode() + image.tobytes()).hexdigest()
+                target_hash_splits[digest].add(record.split)
+            except Exception as exc:
+                errors.append(f"cannot decode target {record.target_path}: {exc}")
 
     leaked = [splits for splits in target_hash_splits.values() if len(splits) > 1]
     if leaked:
-        errors.append(f"{len(leaked)} clean target file(s) occur across multiple splits")
+        errors.append(f"{len(leaked)} decoded clean target(s) occur across multiple splits")
+    leaked_groups = sum(len(splits) > 1 for splits in group_splits.values())
+    if leaked_groups:
+        errors.append(f"{leaked_groups} scene group(s) occur across multiple splits")
+    leaked_clusters = sum(len(splits) > 1 for splits in cluster_splits.values())
+    if leaked_clusters:
+        errors.append(f"{leaked_clusters} cluster(s) occur across multiple splits")
     for required in VALID_SPLITS:
         if split_counts[required] == 0:
             warnings.append(f"split {required!r} is empty")

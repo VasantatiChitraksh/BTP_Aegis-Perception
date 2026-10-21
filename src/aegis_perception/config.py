@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from pathlib import Path
 from typing import Any
 
@@ -91,3 +92,37 @@ def validate_restoration_config(config: dict[str, Any]) -> None:
     for key in ("max_train_samples", "max_val_samples"):
         if key in config["data"] and int(config["data"][key]) <= 0:
             raise ConfigError(f"data.{key} must be positive")
+    if config["train"].get("selection_metric", "psnr_db") not in {"psnr_db", "macro_scene_psnr_db"}:
+        raise ConfigError("train.selection_metric must be psnr_db or macro_scene_psnr_db")
+    if "samples_per_epoch" in config["data"]:
+        if int(config["data"]["samples_per_epoch"]) <= 0:
+            raise ConfigError("data.samples_per_epoch must be positive")
+        if "weather_probabilities" not in config["data"]:
+            raise ConfigError("samples_per_epoch requires weather_probabilities")
+    for key in ("ssim_weight", "mse_weight"):
+        value = float(config["train"].get(key, 0))
+        if not math.isfinite(value) or value < 0:
+            raise ConfigError(f"train.{key} must be finite and nonnegative")
+    sampling = config["data"].get("sampling", "weighted")
+    if sampling not in {"weighted", "weighted_seeded", "balanced_batches", "stratified_cycles"}:
+        raise ConfigError("Unknown data.sampling strategy")
+    if (
+        sampling in {"weighted_seeded", "balanced_batches", "stratified_cycles"}
+        and "weather_probabilities" not in config["data"]
+    ):
+        raise ConfigError("The selected sampling strategy requires weather_probabilities")
+    if not isinstance(config["train"].get("save_periodic_checkpoints", True), bool):
+        raise ConfigError("train.save_periodic_checkpoints must be boolean")
+    if (
+        not math.isfinite(float(config["train"].get("selection_min_delta", 0)))
+        or float(config["train"].get("selection_min_delta", 0)) < 0
+    ):
+        raise ConfigError("selection_min_delta must be finite and nonnegative")
+    guard = config["train"].get("validation_guard")
+    if guard is not None:
+        if not isinstance(guard, dict) or set(guard) != {"psnr_db", "ssim"}:
+            raise ConfigError("validation_guard must specify psnr_db and ssim tolerances")
+        if not config["train"].get("validation_ssim", False):
+            raise ConfigError("validation_guard requires validation_ssim")
+        if any(not math.isfinite(float(v)) or float(v) < 0 for v in guard.values()):
+            raise ConfigError("validation_guard tolerances must be finite and nonnegative")

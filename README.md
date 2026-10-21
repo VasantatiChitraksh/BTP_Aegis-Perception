@@ -1,5 +1,10 @@
 # Aegis Perception
 
+**Sequential training:** [attention Pix2Pix → Restormer](docs/baseline_suite.txt), using the same frozen v3 split and the successful Restormer run's official pretrained initialization, with automatic validation/test reports and one-GPU SLURM chaining.
+
+**Four-weather data protocol:** [frozen v3 split and statistics](docs/weather_protocol_v3.md). Its fine-tuning commands describe the earlier experiment; the baseline suite above has its own training recipes. Existing results remain historical.
+
+
 Weather-robust road-object perception for the TiHAN–IIT Hyderabad ADAS project.
 The restoration pipeline supports official Restormer and attention/vanilla
 Pix2Pix. It trains on paired images, saves resumable experiments, evaluates
@@ -76,7 +81,19 @@ and INT8 validation remain later work.
 
 ## Smoke baseline
 
-The existing smoke split has four clean targets shared between train and
+The current [v3 protocol](docs/weather_protocol_v3.md) freezes 18,610 training,
+2,011 validation, and 2,334 test pairs. It uses continuous stratified sampling,
+PSNR/SSIM validation guards, clustered uncertainty, and distributed training support.
+The current student quota permits one full A100; the launch defaults respect that quota.
+The L1 and L1+SSIM experiments await GPU training; quality gains are not established.
+Submit from the updated DGX repository root:
+
+```bash
+sbatch scripts/restoration/train_weather_v3_dgx.sbatch configs/restoration/weather_v3_l1_seed42.yaml
+sbatch scripts/restoration/train_weather_v3_dgx.sbatch configs/restoration/weather_v3_ssim_seed42.yaml
+```
+
+The historical smoke split below has four clean targets shared between train and
 validation; see [the dataset guide](docs/datasets.md) before training.
 
 ```bash
@@ -123,6 +140,7 @@ model latency; TensorRT conversion and full Jetson pipeline timing remain future
 
 ## Project documents
 
+- [Antigravity handoff and command guide](docs/handoff.md)
 - [Datasets and preparation](docs/datasets.md)
 - [Experiments and reproducibility](docs/experiments.md)
 - [Literature review](docs/literature_review.md)
