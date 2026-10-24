@@ -1,0 +1,5 @@
+# TensorRT + CUDA MUST come from JetPack, not this file.
+# Use a --system-site-packages venv so apt-installed TensorRT/OpenCV are visible.
+numpy>=1.23,<2
+Pillow>=9.1,<13
+# Install OpenCV through JetPack/apt python3-opencv if not already present.

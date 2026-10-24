@@ -26,6 +26,19 @@ artifacts/reports/*
 artifacts/reports/six_models_20261024/*
 !artifacts/reports/six_models_20261024/aegis_six_model_benchmark.pdf
 !artifacts/reports/six_models_20261024/aegis_six_model_benchmark.csv
+# Publish only the Restormer deployment report, metrics and verification summary.
+!artifacts/edge_v1/
+artifacts/edge_v1/*
+!artifacts/edge_v1/local_verification.json
+!artifacts/edge_v1/reports/
+artifacts/edge_v1/reports/*
+!artifacts/edge_v1/reports/restormer_edge_readiness.pdf
+!artifacts/edge_v1/reports/restormer_edge_readiness.json
+!artifacts/edge_v1/reports/detection_pilot72.csv
+# Device-generated outputs and unpacked deployment bundles stay local.
+/engines/
+/results/
+/aegis_restormer_edge_*/
 runs/
 wandb/
 *.pt

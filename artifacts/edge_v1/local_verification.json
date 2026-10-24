@@ -1,0 +1,11 @@
+{
+  "edge_tests_passed": 14,
+  "protected_files_unchanged": 31,
+  "restoration_manifest_sha256": "9e7c661f66626761a1641f887f8c8720fc69fc9dffcad5602ef649a944c904ab",
+  "restormer_inference_sha256": "5268af32c161413502a8978a839b311152a1dd2bf093ade137e07d58166a8555",
+  "onnx_export_parity_passed": true,
+  "all_three_pipeline_modes_exercised": true,
+  "dawn_annotation_pairs_audited": 704,
+  "paired_detection_pilot_images": 72,
+  "device_execution_performed": false
+}
