@@ -1,0 +1,26 @@
+{
+  "attention_pix2pix": {
+    "directory": "artifacts/restoration/baselines_v1/attention_pix2pix_seed42",
+    "parameters": 29854795,
+    "files": {
+      "metrics_test.json": "a3e33dc60a5df70409351d7c9fcbd41117e844c5f8356e34f9070f6b8d89dff1",
+      "history.json": "ca0318a09671cdbbe8e03ca4b437f03dada81cbbe5e2dade57d202064a30e576"
+    }
+  },
+  "restormer": {
+    "directory": "artifacts/restoration/baselines_v1/restormer_seed42",
+    "parameters": 26126644,
+    "files": {
+      "metrics_test.json": "3a0c7ae3485fe6d0dafeef6f48e073524ba72d8a48fbc10f5fb91c518384ffea",
+      "history.json": "2cfe6e6384c88bc5359ac6bfcaff6fcf7aab60441b82967a127df9b450c5dbf1"
+    }
+  },
+  "liteweatherformer": {
+    "directory": "artifacts/restoration/liteweather_v1/liteweatherformer_v2_seed42",
+    "parameters": 2189475,
+    "files": {
+      "metrics_test.json": "48ee10863467b6ac376147b89807a24ec9ac59be222698903ac9c03b0adb1e01",
+      "history.json": "e4646fea080fd574f4cd280025eae4a8c1f8b1256136e33784a74cd01720b74b"
+    }
+  }
+}

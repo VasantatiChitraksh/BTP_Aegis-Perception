@@ -18,7 +18,14 @@ data/raw/
 data/interim/
 data/processed/
 data/derived/
-artifacts/
+artifacts/*
+# Publish only the final six-model report and its results table.
+!artifacts/reports/
+artifacts/reports/*
+!artifacts/reports/six_models_20261024/
+artifacts/reports/six_models_20261024/*
+!artifacts/reports/six_models_20261024/aegis_six_model_benchmark.pdf
+!artifacts/reports/six_models_20261024/aegis_six_model_benchmark.csv
 runs/
 wandb/
 *.pt

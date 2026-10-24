@@ -97,7 +97,10 @@ def package(output, file_names=None):
         files.update(
             p
             for p in (ROOT / folder).rglob("*")
-            if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc"
+            if p.is_file()
+            and "__pycache__" not in p.parts
+            and not any(part.endswith(".egg-info") for part in p.parts)
+            and p.suffix != ".pyc"
         )
     files.update(ROOT / p for p in CONFIGS)
     if file_names is None:
@@ -205,7 +208,9 @@ def submit(resume=False):
             f"Submission stopped; already submitted jobs are recorded in {journal}", file=sys.stderr
         )
         raise
-    print(f"Submitted {len(NAMES)} model(s) sequentially (three resumable stages each).")
+    print(
+        f"Submitted {len(NAMES)} model(s) sequentially ({len(BOUNDARIES)} resumable stages each)."
+    )
     print(f"Logs: /scratch/{os.environ['USER']}/{LOG_PREFIX}-<JOBID>.out / .err")
     print(f"Results: {OUTPUT}/comparison.csv; journal: {journal}")
 

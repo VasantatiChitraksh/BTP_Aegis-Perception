@@ -1,0 +1,3 @@
+# Added runtime dependencies only; reuse the tested DGX torch/CUDA environment.
+einops==0.8.1
+reportlab==4.4.4

@@ -1,0 +1,121 @@
+OFFICIAL THREE-MODEL EXTENSION / SIX-MODEL COMPARISON
+
+Purpose
+Fine-tune official TransWeather, PromptIR and RAMiT checkpoints, sequentially on
+one A100, and compare them with the completed Attention Pix2Pix, Restormer and
+LiteWeather v2 runs. No completed model is retrained or overwritten.
+
+Architecture identity
+The existing transweather.py, promptir.py and ramit.py contributor files contain
+simplified project models. They are preserved. Official weights cannot load into
+them. New adapters in models/official.py use checksum-pinned upstream source files
+stored in ignored artifacts/official_sources. OfficialGenerator wraps their RGB
+ranges to match our [-1,1] pipeline; parameter topology is unchanged.
+
+TransWeather: 38,052,078 parameters, official All-Weather checkpoint.
+PromptIR: 35,592,263 parameters, official decoder=True all-in-one checkpoint.
+RAMiT: 934,651 parameters, official DR topology (dim64, depths6/4/4/6, mv_ver2,
+helper=False, img_norm=True), official deraining checkpoint.
+Do not label these PromptIR-Small or RAMiT-Tiny; those were local config names.
+
+Pretrained provenance
+configs/restoration/official_v1/sources.json pins commit IDs, original download
+URLs, source SHA256, checkpoint SHA256 and archive member where needed.
+TransWeather weights are linked by the official README at revision
+33e677e0ecb15245b661b3c00b23dcabeafbd3f9; the current README omits that link.
+PromptIR weights come from official GitHub release v1.0/model.ckpt.
+RAMiT weights come from the official repository pretrained/RAMiT_DR.pth.
+Load every checkpoint strictly. No missing-key tolerance, partial backbone loading,
+random fallback, or replacement by third-party weights is allowed.
+
+Source compatibility
+Verified source code is loaded under private module names. In-memory adaptations:
+- Replace unused mmcv import and timm/torchvision utility imports with small
+  PyTorch equivalents; no timm, torchvision, mmcv or Lightning training dependency.
+- TransWeather uses PyTorch scaled_dot_product_attention instead of materializing
+  the attention matrix. Attention remains full-image, with the same scale/dropout.
+- Oversized PromptIR depthwise convolutions use the existing channel-chunked
+  kernel compatibility helper; each channel still sees the full spatial image.
+- PromptIR and RAMiT native inputs/outputs are [0,1]. TransWeather inputs are
+  [-1,1], but its official training targets are [0,1], despite its tanh head.
+  All outputs are converted to [-1,1] for the shared losses/metrics pipeline.
+- Upstream unused parameters remain present for strict checkpoint compatibility;
+  the preflight permits only explicitly listed upstream inactive parameters.
+Original source bytes are retained, hashed and unedited. TransWeather is MIT;
+PromptIR carries its academic/noncommercial license. RAMiT has no standalone
+license file in the pinned repository. Upstream code/weights are local dependencies,
+not added to this project's Git-tracked MIT source tree. Preserve their notices.
+
+Frozen experiment
+Train18,610 / validation2,011 / test2,334 pairs, identical weather-v3 manifests.
+Rain773/112/224, fog5102/897/1000, snow5382/618/768, smoke7353/384/342.
+No new synthesis, resplitting, recycling test images, resizing test images or
+dropping difficult cases. Seed42; 4096 weighted seeded draws with replacement per
+epoch; probabilities rain/fog/snow/smoke=.30/.30/.30/.10; batch4; crop256;
+60 epochs = 61,440 optimizer updates. L1, AdamW1e-4, cosine to1e-6, weight decay1e-4,
+clip1, BF16; same recipe as the completed Restormer. Select best validation
+macro_scene_psnr_db; record SSIM every epoch; final test only after epoch60.
+This is controlled fine-tuning, not reproduction of the original paper recipes.
+
+Submission and recovery
+Extract the release into a fresh folder; symlink the existing DGX data/raw and
+.venv. The release carries sources, pretrained weights, reference result JSONs,
+dependency wheels and frozen manifests, but no raw images or old trained weights.
+  bash scripts/restoration/submit_official.sh
+Queues 18 afterok jobs: TransWeather epochs10/20/30/40/50/60, then PromptIR,
+then RAMiT. One A100, 8 CPU slots, 32000MiB system RAM, 20h limit per stage.
+There is no need to wait between stages or keep the laptop connected.
+The first job audits the dataset, strictly loads all three initializations,
+tests batch4/crop256 BF16 backward plus an optimizer step, and checks the three
+largest native shapes. Preflight inputs are disposable, no test targets/scores.
+No automatic tiling/precision/batch-size change on OOM. A failed preflight stops
+the chain for a specific diagnosis instead of changing the comparison protocol.
+Actual GPU peak memory and performance can only be checked on the DGX.
+
+Every epoch saves last.pt; every tenth epoch saves an additional snapshot.
+Optimizer/scheduler/RNG state resumes across jobs. A stage timeout/failure blocks
+dependent jobs. After diagnosis, cancel remaining pending jobs from this suite's
+jobs.json, then use submit_official.sh --resume. It refuses duplicate active jobs.
+Completed stages skip training and verified final evaluations are reused.
+Do not edit an extracted release while jobs are active; source hashes are checked.
+
+Status
+  squeue -u "$USER"
+  tail -F /scratch/$USER/aegis-official-<ACTUAL_JOB_ID>.{out,err}
+  sacct -j <JOB_IDS_COMMA_SEPARATED> --format=JobID,State,Elapsed,ExitCode
+Read actual IDs from submission output or artifacts/restoration/official_v1/jobs.json.
+
+Outputs
+artifacts/restoration/official_v1/{transweather,promptir,ramit}_seed42/
+  best.pt, last.pt, epoch_010.pt ... epoch_060.pt, inference.pt
+  history.json, metrics_test.json, selection_status.json
+inference.pt contains selected generator/config/provenance, without optimizer state.
+Use official_entry.py evaluate for these models, or call
+  from aegis_perception.official_runtime import activate
+  activate()
+before the shared Python checkpoint loader. The source cache is also required.
+
+Six-model report
+  python scripts/restoration/report_six_models.py
+Writes comparison.csv, comparison.json and six_model_report.pdf under official_v1.
+Runs automatically after each new model completes. Missing models display pending,
+never invented scores. Use --require-complete to demand all six final results.
+Best displayed values are bold/green, including ties. Native PSNR/SSIM, weather
+results, smoke regressions, validation curves, initialization and limitations are
+shown. It verifies test IDs, raw-image scores, groups, metric protocol, summaries,
+complete histories and validation-selected epochs. Old result files are hash-pinned.
+Checkpoint hashes are checked wherever checkpoint files are locally available.
+
+Interpretation
+All fine-tuning uses the same split, but pretraining differs. Possible pretraining
+overlap is not ruled out; PromptIR uses RESIDE OTS and our fog benchmark is RESIDE6K.
+Do not present this as an untouched external test or a pure architecture comparison.
+Smoke test covers only six independent background groups. Single-seed results do
+not establish superiority from tiny differences. Parameter counts are not Jetson
+latency or quantized-quality measurements. Neither restoration gains nor pretrained
+weights guarantee improved downstream YOLOv8 detection.
+
+Preservation
+Every file previously contributed by Chitraksh, all frozen manifests, completed
+model artifacts, and existing release archives stay unchanged. New code/configs
+live in separate files. Large assets stay under ignored artifacts/.

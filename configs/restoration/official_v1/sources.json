@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "models": {
+    "transweather": {
+      "repository": "https://github.com/jeya-maria-jose/TransWeather",
+      "revision": "54c4e69180502e0386ee6186a4318d6d61e0bf8d",
+      "sources": [
+        {
+          "path": "artifacts/official_sources/transweather/transweather_model.py",
+          "url": "https://raw.githubusercontent.com/jeya-maria-jose/TransWeather/54c4e69180502e0386ee6186a4318d6d61e0bf8d/transweather_model.py",
+          "sha256": "091cd2d363480ac0b4508ddf5d07a8698e590fc0a542621df0fd0fe670998c3d"
+        },
+        {
+          "path": "artifacts/official_sources/transweather/base_networks.py",
+          "url": "https://raw.githubusercontent.com/jeya-maria-jose/TransWeather/54c4e69180502e0386ee6186a4318d6d61e0bf8d/base_networks.py",
+          "sha256": "62eb6bccd7a0d23753dcd45df269aa241a4cc761f2802e9fda1780c21c179509"
+        },
+        {
+          "path": "artifacts/official_sources/transweather/LICENSE",
+          "url": "https://raw.githubusercontent.com/jeya-maria-jose/TransWeather/54c4e69180502e0386ee6186a4318d6d61e0bf8d/LICENSE",
+          "sha256": "c079143aec6f04480a23dda41d73ab25c0f905d6d7864575cdc1d6f161de83e0"
+        },
+        {
+          "path": "artifacts/official_sources/transweather/README.md",
+          "url": "https://raw.githubusercontent.com/jeya-maria-jose/TransWeather/54c4e69180502e0386ee6186a4318d6d61e0bf8d/README.md",
+          "sha256": "04ad67db83ff66e5e41f2456ea2a4a1f698512abd885df4ab3d02cf109daa55b"
+        }
+      ],
+      "weights": {
+        "path": "artifacts/pretrained/official_v1/transweather.pth",
+        "sha256": "9c72f20be8d31d2cb2129e9fd926605a406d41a3426eedc7d1c98aed595adb8a",
+        "bytes": 152347682,
+        "url": "https://drive.google.com/uc?id=1CKUvvjja6cm97Y8JV6Q9c8VccN_-rjB4",
+        "archive_member": "TransWeather_weights/best",
+        "archive_sha256": "bd45ed3e51913156d4b387bcd459885937f2997e682e2e4c2204ecb669e107de",
+        "source_page": "https://github.com/jeya-maria-jose/TransWeather/blob/33e677e0ecb15245b661b3c00b23dcabeafbd3f9/README.md"
+      },
+      "pretraining": "All-Weather (Outdoor-Rain, Snow100K, RainDrop)"
+    },
+    "promptir": {
+      "repository": "https://github.com/va1shn9v/PromptIR",
+      "revision": "106159ab809101f2e25b6714195cd6fa9a938d36",
+      "sources": [
+        {
+          "path": "artifacts/official_sources/promptir/net/model.py",
+          "url": "https://raw.githubusercontent.com/va1shn9v/PromptIR/106159ab809101f2e25b6714195cd6fa9a938d36/net/model.py",
+          "sha256": "e6a264f86c452742573682c58879411e9a607ab3ed1d24b38590ccb64cb2c66d"
+        },
+        {
+          "path": "artifacts/official_sources/promptir/LICENSE.md",
+          "url": "https://raw.githubusercontent.com/va1shn9v/PromptIR/106159ab809101f2e25b6714195cd6fa9a938d36/LICENSE.md",
+          "sha256": "21aefab61999f5176e212cf613ffd27f7962a32c54cf209b58a49f1452f68532"
+        },
+        {
+          "path": "artifacts/official_sources/promptir/README.md",
+          "url": "https://raw.githubusercontent.com/va1shn9v/PromptIR/106159ab809101f2e25b6714195cd6fa9a938d36/README.md",
+          "sha256": "038444bdd4f454d277b575406fd79475e1b1dcf74a9acfd706689ae796969bf0"
+        }
+      ],
+      "weights": {
+        "path": "artifacts/pretrained/official_v1/promptir.ckpt",
+        "sha256": "b77ef1a099b756c5f59a32e86f4b75616f467258e997e46fe5acf57855a912c3",
+        "bytes": 407050467,
+        "url": "https://github.com/va1shn9v/PromptIR/releases/download/v1.0/model.ckpt"
+      },
+      "pretraining": "Official all-in-one denoising/deraining/dehazing checkpoint"
+    },
+    "ramit": {
+      "repository": "https://github.com/rami0205/RAMiT",
+      "revision": "193ead604a1ab01dd548eb808bf6a11f873fec39",
+      "sources": [
+        {
+          "path": "artifacts/official_sources/ramit/my_model/ramit.py",
+          "url": "https://raw.githubusercontent.com/rami0205/RAMiT/193ead604a1ab01dd548eb808bf6a11f873fec39/my_model/ramit.py",
+          "sha256": "acc85bf2113a67e86149051ccf27015cb9649613aa27fcd2fcf955032a1494e5"
+        },
+        {
+          "path": "artifacts/official_sources/ramit/my_model/common/mean_std.py",
+          "url": "https://raw.githubusercontent.com/rami0205/RAMiT/193ead604a1ab01dd548eb808bf6a11f873fec39/my_model/common/mean_std.py",
+          "sha256": "a02262a9169bdd83471fa104e85eb33a0fb125d2fdd212163e5b9ee5c62d4a48"
+        },
+        {
+          "path": "artifacts/official_sources/ramit/my_model/specs/lightweight_dr/RAMiT.yml",
+          "url": "https://raw.githubusercontent.com/rami0205/RAMiT/193ead604a1ab01dd548eb808bf6a11f873fec39/my_model/specs/lightweight_dr/RAMiT.yml",
+          "sha256": "2ce1efa7a06199d460a934b76eed28cdf8c546d8b62f945a5773321685042b56"
+        },
+        {
+          "path": "artifacts/official_sources/ramit/README.md",
+          "url": "https://raw.githubusercontent.com/rami0205/RAMiT/193ead604a1ab01dd548eb808bf6a11f873fec39/README.md",
+          "sha256": "37af1f85e8be048da282a674acb92fa5e2618a4672c5777aab50ae0a641facb1"
+        }
+      ],
+      "weights": {
+        "path": "artifacts/pretrained/official_v1/ramit_dr.pth",
+        "sha256": "adac557dda4c7771699aca8ba0fce3acee32d9f39112d98a339d6917ba51098e",
+        "bytes": 4568965,
+        "url": "https://raw.githubusercontent.com/rami0205/RAMiT/193ead604a1ab01dd548eb808bf6a11f873fec39/pretrained/RAMiT_DR.pth"
+      },
+      "pretraining": "Official deraining checkpoint"
+    }
+  }
+}
