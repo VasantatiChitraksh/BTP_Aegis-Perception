@@ -19,6 +19,20 @@ data/interim/
 data/processed/
 data/derived/
 artifacts/*
+# Publish compact baseline identities; keep all weights and training state ignored.
+!artifacts/models/
+artifacts/models/*
+!artifacts/models/index.json
+!artifacts/models/README.txt
+!artifacts/models/attention_pix2pix/
+!artifacts/models/restormer/
+!artifacts/models/liteweatherformer/
+!artifacts/models/transweather/
+!artifacts/models/promptir/
+!artifacts/models/ramit/
+artifacts/models/*/*
+!artifacts/models/*/config.json
+!artifacts/models/*/inference_provenance.json
 # Publish only the final six-model report and its results table.
 !artifacts/reports/
 artifacts/reports/*
@@ -35,6 +49,10 @@ artifacts/edge_v1/reports/*
 !artifacts/edge_v1/reports/restormer_edge_readiness.pdf
 !artifacts/edge_v1/reports/restormer_edge_readiness.json
 !artifacts/edge_v1/reports/detection_pilot72.csv
+!artifacts/edge_v1/reports/restormer_compression_screen.json
+!artifacts/edge_v1/reports/restormer_compression_screen.csv
+!artifacts/edge_v1/reports/aegis_jetson_step_by_step.pdf
+!artifacts/edge_v1/reports/aegis_jetson_step_by_step.txt
 # Device-generated outputs and unpacked deployment bundles stay local.
 /engines/
 /results/

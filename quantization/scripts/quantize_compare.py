@@ -63,6 +63,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT / "src"))
 
 from aegis_perception.checkpoints import load_generator  # noqa: E402
+from aegis_perception.official_runtime import activate  # noqa: E402
 from aegis_perception.data.paired import (  # noqa: E402
     normalized_tensor_to_pil,
     pil_to_normalized_tensor,
@@ -492,6 +493,7 @@ def main() -> None:
         print(f"[INFO] Running on CUDA: {torch.cuda.get_device_name(0)}")
 
     # --- Load checkpoint and model ---
+    activate()
     print(f"[INFO] Loading checkpoint: {args.checkpoint}")
     generator, checkpoint = load_generator(str(args.checkpoint), device=device)
     model_name = _model_name_from_checkpoint(checkpoint)

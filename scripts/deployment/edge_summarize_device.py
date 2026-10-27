@@ -33,6 +33,10 @@ for path in sorted(args.results.glob("*/benchmark.json")):
             "tensorrt": value["environment"].get("tensorrt"),
             "detector_sha256": value["detector_sha256"],
             "restorer_sha256": value["restorer_sha256"],
+            "restorer_file_bytes": value.get("restorer_file_bytes"),
+            "detector_file_bytes": value.get("detector_file_bytes"),
+            "restorer_requested_precision": value.get("restorer_requested_precision"),
+            "detector_requested_precision": value.get("detector_requested_precision"),
         }
     )
 if not rows:

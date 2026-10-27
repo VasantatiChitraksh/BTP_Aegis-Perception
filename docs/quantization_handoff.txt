@@ -1,0 +1,97 @@
+QUANTIZATION HANDOFF / FROZEN SIX-MODEL BASELINE
+==============================================
+
+Use the completed 24 October 2026 benchmark models. Restormer is the original
+26,126,644-parameter model selected at epoch 51, reported as 32.58 dB / 0.9297
+native-resolution PSNR/SSIM. No research adapters or new architecture training
+are required. Keep quantization experiments in a separate branch/output folder.
+
+Identity and results
+--------------------
+artifacts/models/index.json pins all six selected epochs, parameter counts,
+original best.pt hashes and compact inference.pt hashes. Each model folder
+contains its exact config.json and inference_provenance.json. The published
+PDF/CSV are in artifacts/reports/six_models_20261024/. The Restormer detection
+pilot and deployment report are under artifacts/edge_v1/reports/.
+
+Model folder          Selected epoch
+attention_pix2pix      59
+restormer             51
+liteweatherformer     59 (v2)
+transweather          58 (official_v1)
+promptir              50 (official_v1)
+ramit                 45 (official_v1)
+
+Get the trained weights
+------------------------
+Large binaries remain outside Git history. Download the six-model archive and
+checksum from the GitHub release tagged baseline-models-20261024:
+https://github.com/VasantatiChitraksh/BTP_Aegis-Perception/releases/tag/baseline-models-20261024
+
+From a fresh clone's root (requires GitHub CLI, or download via the release page):
+  mkdir -p artifacts/releases
+  gh release download baseline-models-20261024 \
+    --repo VasantatiChitraksh/BTP_Aegis-Perception \
+    --pattern 'aegis_six_models_20261024.tar.gz*' --dir artifacts/releases
+  (cd artifacts/releases && sha256sum -c aegis_six_models_20261024.tar.gz.sha256)
+  tar -xzf artifacts/releases/aegis_six_models_20261024.tar.gz
+
+The archive contains six inference.pt files (~508 MiB uncompressed), exact
+configs/provenance, source references/notices and full benchmark result JSON.
+It excludes training runs, optimizer states, raw images and architecture
+experiments. Extract into a fresh clone; do not overwrite experimental weights.
+
+Install and verify
+-------------------
+Use Python 3.10+ and an appropriate PyTorch installation for your machine:
+  python3 -m venv .venv
+  .venv/bin/python -m pip install -e '.[metrics,export,dev]'
+  .venv/bin/python -m pip install -r configs/restoration/official_v1/requirements.txt
+  .venv/bin/python scripts/restoration/fetch_official_models.py --sources-only
+  .venv/bin/python scripts/restoration/verify_model_library.py --smoke
+
+The source-only download retrieves the pinned official architectures/notices;
+it does not download the original pretrained weights or retrain the models.
+Verification checks hashes, exact config/epoch, strict state-dict loading,
+parameter counts and optional synthetic CPU output. It is not a quality test.
+
+Correct model loading
+----------------------
+  from aegis_perception.official_runtime import activate
+  from aegis_perception.checkpoints import load_generator
+  activate()
+  model, metadata = load_generator(
+      'artifacts/models/restormer/inference.pt', device='cpu')
+
+Call activate() before loading ANY of the six models. It registers LiteWeather
+v2 and the official adapters; the old simplified contributor architectures are
+not compatible with the official benchmark checkpoints. The quantization and
+pruning command-line entrypoints now activate this registration themselves.
+Inputs/outputs are RGB NCHW in [-1,1]. Use aegis_perception.inference.predict
+for native-size padding. Legacy quantization scripts directly call the model;
+provide compatible image geometry (256x256 works for all six).
+
+Quantization work
+------------------
+Start from these exact inference.pt paths. Batch scripts default to this model
+library; submit from the repository root and export AEGIS_TEST_IMAGE to an
+existing representative degraded validation image. AEGIS_REPO_ROOT can override
+the checkout location. Raw/calibration images are obtained separately using
+the dataset guide; they are not in the weight archive.
+
+The older quantize_compare.py/prune_model.py are experimental scaffolding.
+Their single-image PSNR compares against FP32 output, not clean ground truth.
+Dynamic INT8 targeting nn.Linear does not quantize this convolution-based
+Restormer. Static INT8 support must be verified per architecture; successful
+loading does not establish successful conversion or deployment quality.
+
+For the frozen Restormer deployment path, use SETUP.md and
+docs/restormer_compression.txt. The same release provides the existing
+aegis_restormer_edge_compression_20261024.tar.gz kit and matching checksum,
+with ONNX graphs, fixtures, training-only calibration tensors and device code.
+Keep this checksummed kit intact in its own extracted directory. It is a
+separate device package, not the PyTorch checkpoint archive.
+
+The original dense checkpoint remains the reference. All local one-shot pruning
+candidates failed the four-image rejection screen; do not substitute them for
+the reported model. FP16/INT8 Jetson speed and quality remain unmeasured.

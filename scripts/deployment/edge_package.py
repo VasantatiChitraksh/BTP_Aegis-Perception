@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Create a checksummed Restormer device-test kit without training checkpoints or full datasets."""
 
+import argparse
 import json
 import shutil
 import sys
@@ -13,7 +14,12 @@ from aegis_perception.edge.common import OUT, digest, environment, write_json
 
 release = ROOT / "artifacts/releases"
 release.mkdir(parents=True, exist_ok=True)
-name = "aegis_restormer_edge_20261024"
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--name", default="aegis_restormer_edge_20261024")
+args = parser.parse_args()
+name = args.name
+if not name or Path(name).name != name or name in (".", ".."):
+    parser.error("Package name must be a single directory name")
 destination = release / name
 if destination.exists():
     raise FileExistsError(
@@ -37,6 +43,7 @@ for name in (
     "edge_device.sh",
     "edge_verify_package.py",
     "edge_summarize_device.py",
+    "edge_compression_device.sh",
 ):
     copy("scripts/deployment/" + name)
 for name in ("__init__.py", "common.py", "detector.py", "quality.py", "trt_runtime.py"):
@@ -45,6 +52,8 @@ copy("src/aegis_perception/__init__.py")
 for path in (
     "configs/deployment/edge_runtime_requirements.txt",
     "docs/restormer_edge_handoff.txt",
+    "docs/restormer_compression.txt",
+    "SETUP.md",
     "LICENSE",
     "data/datasets.yaml",
 ):
@@ -75,6 +84,8 @@ for relative in (
     "artifacts/edge_v1/reports/restormer_edge_readiness.pdf",
     "artifacts/edge_v1/reports/restormer_edge_readiness.json",
     "artifacts/edge_v1/reports/detection_pilot72.csv",
+    "artifacts/edge_v1/reports/restormer_compression_screen.json",
+    "artifacts/edge_v1/reports/restormer_compression_screen.csv",
 ):
     copy(relative)
 notice = """THIRD PARTY MATERIALS / RESEARCH HANDOFF
@@ -97,7 +108,12 @@ notice += (
     + "\n"
 )
 (destination / "THIRD_PARTY_NOTICES.txt").write_text(notice)
-shutil.copy2(ROOT / "docs/restormer_edge_handoff.txt", destination / "START_HERE.txt")
+handoff = (ROOT / "docs/restormer_edge_handoff.txt").read_text().replace(
+    "aegis_restormer_edge_20261024.tar.gz", destination.name + ".tar.gz"
+)
+(destination / "START_HERE.txt").write_text(
+    "For the FP32/FP16/INT8 comparison, read docs/restormer_compression.txt.\n\n" + handoff
+)
 files = {
     str(p.relative_to(destination)): digest(p)
     for p in sorted(destination.rglob("*"))

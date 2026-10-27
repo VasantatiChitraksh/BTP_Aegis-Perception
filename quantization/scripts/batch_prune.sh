@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# batch_prune.sh — SLURM batch script to prune all 5 Aegis model families at
+# batch_prune.sh — SLURM batch script to prune all 6 Aegis model families at
 #                  sparsities [0.3, 0.5, 0.7].
 #
 # Usage:
@@ -39,18 +39,19 @@ echo "===================="
 # ---------------------------------------------------------------------------
 # User-configurable paths — edit these before submitting.
 # ---------------------------------------------------------------------------
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+REPO_ROOT="${AEGIS_REPO_ROOT:-${SLURM_SUBMIT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}}"
+cd "$REPO_ROOT"
 
 # Representative rain/degraded test image.
-TEST_IMAGE="${REPO_ROOT}/data/raw/rain/realrain1k/rain/0001.jpg"
+TEST_IMAGE="${AEGIS_TEST_IMAGE:?Set AEGIS_TEST_IMAGE to a representative degraded validation image}"
 
 # Checkpoint paths — update to match your trained checkpoints.
-CKPT_ATTENTION_UNET="${REPO_ROOT}/checkpoints/attention_unet/best.pt"
-CKPT_RESTORMER="${REPO_ROOT}/checkpoints/restormer/best.pt"
-CKPT_TRANSWEATHER="${REPO_ROOT}/checkpoints/transweather/best.pt"
-CKPT_PROMPTIR="${REPO_ROOT}/checkpoints/promptir/best.pt"
-CKPT_RAMIT="${REPO_ROOT}/checkpoints/ramit/best.pt"
-CKPT_LITEWEATHERFORMER="${REPO_ROOT}/checkpoints/liteweatherformer/best.pt"
+CKPT_ATTENTION_UNET="${REPO_ROOT}/artifacts/models/attention_pix2pix/inference.pt"
+CKPT_RESTORMER="${REPO_ROOT}/artifacts/models/restormer/inference.pt"
+CKPT_TRANSWEATHER="${REPO_ROOT}/artifacts/models/transweather/inference.pt"
+CKPT_PROMPTIR="${REPO_ROOT}/artifacts/models/promptir/inference.pt"
+CKPT_RAMIT="${REPO_ROOT}/artifacts/models/ramit/inference.pt"
+CKPT_LITEWEATHERFORMER="${REPO_ROOT}/artifacts/models/liteweatherformer/inference.pt"
 
 # Output root.
 OUTPUT_ROOT="${REPO_ROOT}/artifacts/quantization/pruning"

@@ -92,6 +92,7 @@ def build(args):
             raise ValueError("Unverified or non-training calibration data")
         contract["calibration_sha256"] = digest(args.calibration)
     metadata_path = args.output.with_suffix(".json")
+    layer_path = args.output.with_suffix(".layers.json")
     # A previous approved engine can be reused only with the same inputs/environment.
     if args.output.exists() and metadata_path.exists():
         previous = json.loads(metadata_path.read_text())
@@ -99,6 +100,8 @@ def build(args):
             previous.get("contract") == contract
             and previous.get("validation", {}).get("passed")
             and previous.get("engine_sha256") == digest(args.output)
+            and layer_path.exists()
+            and previous.get("layer_information_sha256") == digest(layer_path)
         ):
             print(f"Reusing verified engine: {args.output}")
             return
@@ -118,6 +121,7 @@ def build(args):
         tensor.dtype = trt.float32
         tensor.allowed_formats = 1 << int(trt.TensorFormat.LINEAR)
     config = builder.create_builder_config()
+    config.profiling_verbosity = trt.ProfilingVerbosity.DETAILED
     config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, args.workspace_mib * 1024**2)
     config.clear_flag(trt.BuilderFlag.TF32)
     if args.precision != "fp32":
@@ -215,11 +219,21 @@ def build(args):
     # Free builder resources before allocating inference context on a 4 GB device.
     del serialized, config, parser, network, builder
     validation = validate(temporary, args.fixtures, args.kind, args.precision)
+    # Flags permit precision choices; they do not prove all layers use INT8/FP16.
+    # Preserve actual layer/tactic information for the compression experiment.
+    with TrtSession(temporary) as session:
+        inspector = session.engine.create_engine_inspector()
+        inspector.execution_context = session.context
+        layer_info = inspector.get_engine_information(trt.LayerInformationFormat.JSON)
+    layer_path.write_text(layer_info + "\n")
     record = {
         "contract": contract,
         "fp32_constrained_layers": constrained,
         "validation": validation,
         "engine_sha256": digest(temporary),
+        "engine_bytes": temporary.stat().st_size,
+        "layer_information_sha256": digest(layer_path),
+        "precision_note": "Requested precision is not layer coverage; inspect .layers.json",
     }
     if validation["passed"]:
         temporary.replace(args.output)

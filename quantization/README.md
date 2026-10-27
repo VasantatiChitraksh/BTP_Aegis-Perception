@@ -1,5 +1,17 @@
 # `quantization/` — Model Compression Research
 
+## Frozen benchmark checkpoints
+
+Start with [the six-model handoff](../docs/quantization_handoff.txt) to download
+the exact reported weights and fetch the pinned official model sources. Use
+`artifacts/models/<model>/inference.pt`; older `checkpoints/.../best.pt` examples
+below are placeholders. Batch scripts use the model-library paths and require
+`AEGIS_TEST_IMAGE` to point to an existing compatible degraded image.
+
+For Restormer, use [the compression guide](../docs/restormer_compression.txt):
+dynamic INT8 targeting Linear layers does not quantize its convolutions, and
+successful loading does not establish successful conversion or Jetson speed.
+
 This folder contains all research documents, benchmark scripts, and report generators
 for **quantization** and **pruning** of the Aegis Perception restoration models, targeting:
 

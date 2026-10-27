@@ -1,0 +1,456 @@
+{
+  "scope": "Four validation images, one per weather; rejection screen ONLY",
+  "geometry": [
+    1,
+    3,
+    256,
+    448
+  ],
+  "quality_space": "Clipped float RGB [0,1], resized clean targets, padding excluded",
+  "checkpoint_sha256": "5268af32c161413502a8978a839b311152a1dd2bf093ade137e07d58166a8555",
+  "pruning_source_sha256": "681c9351ced2fb265e7b29ac302a97a672b39633f3bc6fd24c4d8eea9e7ba4cf",
+  "script_sha256": "79d631142eeaf2d51a8be81693c8e99488b0e5d7bf96b4461755a20b52fbf7ad",
+  "fixture_provenance": {
+    "samples": [
+      {
+        "sample_id": "reside6k/train/5607.jpg",
+        "weather": "fog",
+        "split": "val",
+        "input_sha256": "4a6338ccf6a0d533835a6dd0e106a3ac7d54135aefbb81d93e1b9cccc93bdffd",
+        "target_sha256": "30aea146d107ca0d0580a0319137decb0e2673c5b7fb7bfc1b8642944a7d407c"
+      },
+      {
+        "sample_id": "realrain1k_h/validation/67",
+        "weather": "rain",
+        "split": "val",
+        "input_sha256": "252703008ad3bb40c3c1d8f9576bd3584358655db37dec38609f9abf7f9cffa0",
+        "target_sha256": "d962a1ff1b9e641ae71d9710972568e74f9c3d6b40e4834a45db8c74f3441fe8"
+      },
+      {
+        "sample_id": "smokebench_v2/train/4022",
+        "weather": "smoke",
+        "split": "val",
+        "input_sha256": "07f59e6798d121d13eefd683a909407a023e51e65898df7d76a8c1c5775fd261",
+        "target_sha256": "d10fa4732c3113b950a8ea6661abb54b86de7441894d15cc4d18cfa79a618106"
+      },
+      {
+        "sample_id": "snow_cityscapes/train/cityscape-5397",
+        "weather": "snow",
+        "split": "val",
+        "input_sha256": "9e6b610e88d269c45eb2847558645c118ee8cd5ab520a186682898f953dcda85",
+        "target_sha256": "234650636d93a9ecdd3278430e5dd6818441eceb7bb0e5c95753fbbfd3953b27"
+      }
+    ],
+    "sha256": "01aea6e12d4cce8cc3b94e36730d223b6d3b305a2e93df04a71a2b468b06b6a4",
+    "selection": "One validation background per weather selected by hash, not metric score",
+    "scope": "Four-image precision smoke test, not a statistical accuracy benchmark"
+  },
+  "dynamic_int8_audit": {
+    "linear_modules_before": 0,
+    "quantized_linear_modules_after": 0,
+    "all_state_tensors_identical": true,
+    "interpretation": "Zero converted layers is a no-op, not a successful INT8 experiment"
+  },
+  "environment": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "cpu_count": 12,
+    "torch": "2.5.1+cpu",
+    "onnx": "1.17.0",
+    "onnxruntime": "1.20.1",
+    "ultralytics": "8.3.0",
+    "numpy": "1.26.4",
+    "Pillow": "12.3.0",
+    "tensorrt": null,
+    "jetson_model": null,
+    "jetpack_l4t": null
+  },
+  "screen_gate": {
+    "minimum_psnr_delta_db_each_image": -0.1,
+    "minimum_ssim_delta_each_image": -0.001
+  },
+  "jetson_speed_memory_power": "NOT MEASURED",
+  "variants": [
+    {
+      "name": "dense_fp32",
+      "statistics": {
+        "convolution_weights": 26096544,
+        "zero_convolution_weights": 0,
+        "weighted_convolution_sparsity": 0.0,
+        "dense_state_dict_bytes": 104696534,
+        "parameters": 26126644
+      },
+      "rows": [
+        {
+          "weather": "fog",
+          "psnr_db": 24.3632643989648,
+          "ssim": 0.889191615477284,
+          "psnr_delta_db": 0.0,
+          "ssim_delta": 0.0,
+          "screen_passed": true
+        },
+        {
+          "weather": "rain",
+          "psnr_db": 34.284171029221724,
+          "ssim": 0.9577980652442638,
+          "psnr_delta_db": 0.0,
+          "ssim_delta": 0.0,
+          "screen_passed": true
+        },
+        {
+          "weather": "smoke",
+          "psnr_db": 21.835772655367318,
+          "ssim": 0.839878215590245,
+          "psnr_delta_db": 0.0,
+          "ssim_delta": 0.0,
+          "screen_passed": true
+        },
+        {
+          "weather": "snow",
+          "psnr_db": 36.959449470968615,
+          "ssim": 0.9738931170941791,
+          "psnr_delta_db": 0.0,
+          "ssim_delta": 0.0,
+          "screen_passed": true
+        }
+      ],
+      "screen_passed": true,
+      "mean_psnr_delta_db": 0.0,
+      "mean_ssim_delta": 0.0
+    },
+    {
+      "name": "global_10",
+      "statistics": {
+        "convolution_weights": 26096544,
+        "zero_convolution_weights": 2609654,
+        "weighted_convolution_sparsity": 0.0999999846722999,
+        "dense_state_dict_bytes": 104696534,
+        "parameters": 26126644
+      },
+      "rows": [
+        {
+          "weather": "fog",
+          "psnr_db": 22.69120206775421,
+          "ssim": 0.8631045117132974,
+          "psnr_delta_db": -1.67206233121059,
+          "ssim_delta": -0.026087103763986597,
+          "screen_passed": false
+        },
+        {
+          "weather": "rain",
+          "psnr_db": 34.516055727720065,
+          "ssim": 0.9577091418105835,
+          "psnr_delta_db": 0.23188469849834092,
+          "ssim_delta": -8.892343368027689e-05,
+          "screen_passed": true
+        },
+        {
+          "weather": "smoke",
+          "psnr_db": 22.114014480560506,
+          "ssim": 0.8388487091339933,
+          "psnr_delta_db": 0.27824182519318796,
+          "ssim_delta": -0.001029506456251661,
+          "screen_passed": false
+        },
+        {
+          "weather": "snow",
+          "psnr_db": 34.13623463070807,
+          "ssim": 0.9616238068816756,
+          "psnr_delta_db": -2.8232148402605475,
+          "ssim_delta": -0.012269310212503548,
+          "screen_passed": false
+        }
+      ],
+      "screen_passed": false,
+      "mean_psnr_delta_db": -0.9962876619449021,
+      "mean_ssim_delta": -0.00986871096660552
+    },
+    {
+      "name": "global_30",
+      "statistics": {
+        "convolution_weights": 26096544,
+        "zero_convolution_weights": 7828963,
+        "weighted_convolution_sparsity": 0.29999999233614993,
+        "dense_state_dict_bytes": 104696534,
+        "parameters": 26126644
+      },
+      "rows": [
+        {
+          "weather": "fog",
+          "psnr_db": 13.548106781251796,
+          "ssim": 0.7391959319882295,
+          "psnr_delta_db": -10.815157617713005,
+          "ssim_delta": -0.14999568348905445,
+          "screen_passed": false
+        },
+        {
+          "weather": "rain",
+          "psnr_db": 32.354710918484166,
+          "ssim": 0.947684837692288,
+          "psnr_delta_db": -1.9294601107375584,
+          "ssim_delta": -0.010113227551975856,
+          "screen_passed": false
+        },
+        {
+          "weather": "smoke",
+          "psnr_db": 21.919794149453562,
+          "ssim": 0.8229635983460664,
+          "psnr_delta_db": 0.08402149408624382,
+          "ssim_delta": -0.016914617244178642,
+          "screen_passed": false
+        },
+        {
+          "weather": "snow",
+          "psnr_db": 22.035309465140905,
+          "ssim": 0.7243978119161554,
+          "psnr_delta_db": -14.92414000582771,
+          "ssim_delta": -0.24949530517802376,
+          "screen_passed": false
+        }
+      ],
+      "screen_passed": false,
+      "mean_psnr_delta_db": -6.896184060048007,
+      "mean_ssim_delta": -0.10662970836580818
+    },
+    {
+      "name": "global_50",
+      "statistics": {
+        "convolution_weights": 26096544,
+        "zero_convolution_weights": 13048272,
+        "weighted_convolution_sparsity": 0.5,
+        "dense_state_dict_bytes": 104696534,
+        "parameters": 26126644
+      },
+      "rows": [
+        {
+          "weather": "fog",
+          "psnr_db": 12.792573842571958,
+          "ssim": 0.7175870619758327,
+          "psnr_delta_db": -11.570690556392844,
+          "ssim_delta": -0.17160455350145132,
+          "screen_passed": false
+        },
+        {
+          "weather": "rain",
+          "psnr_db": 31.107506008942437,
+          "ssim": 0.9339979736448718,
+          "psnr_delta_db": -3.1766650202792874,
+          "ssim_delta": -0.023800091599392004,
+          "screen_passed": false
+        },
+        {
+          "weather": "smoke",
+          "psnr_db": 21.417609605366255,
+          "ssim": 0.8117012020382869,
+          "psnr_delta_db": -0.4181630500010627,
+          "ssim_delta": -0.02817701355195812,
+          "screen_passed": false
+        },
+        {
+          "weather": "snow",
+          "psnr_db": 21.099552202724688,
+          "ssim": 0.680481393521752,
+          "psnr_delta_db": -15.859897268243927,
+          "ssim_delta": -0.2934117235724272,
+          "screen_passed": false
+        }
+      ],
+      "screen_passed": false,
+      "mean_psnr_delta_db": -7.75635397372928,
+      "mean_ssim_delta": -0.12924834555630715
+    },
+    {
+      "name": "two_four",
+      "statistics": {
+        "convolution_weights": 26096544,
+        "zero_convolution_weights": 10354704,
+        "weighted_convolution_sparsity": 0.3967844937628523,
+        "dense_state_dict_bytes": 104696534,
+        "parameters": 26126644
+      },
+      "script_sha256": "79d631142eeaf2d51a8be81693c8e99488b0e5d7bf96b4461755a20b52fbf7ad",
+      "rows": [
+        {
+          "weather": "fog",
+          "psnr_db": 13.587254337727387,
+          "ssim": 0.7330678592562565,
+          "psnr_delta_db": -10.776010061237415,
+          "ssim_delta": -0.15612375622102748,
+          "screen_passed": false
+        },
+        {
+          "weather": "rain",
+          "psnr_db": 33.0797727710504,
+          "ssim": 0.930526951147355,
+          "psnr_delta_db": -1.2043982581713237,
+          "ssim_delta": -0.027271114096908855,
+          "screen_passed": false
+        },
+        {
+          "weather": "smoke",
+          "psnr_db": 21.517118476868262,
+          "ssim": 0.8044075476707896,
+          "psnr_delta_db": -0.318654178499056,
+          "ssim_delta": -0.03547066791945541,
+          "screen_passed": false
+        },
+        {
+          "weather": "snow",
+          "psnr_db": 27.6706983493479,
+          "ssim": 0.8545095184760889,
+          "psnr_delta_db": -9.288751121620713,
+          "ssim_delta": -0.11938359861809023,
+          "screen_passed": false
+        }
+      ],
+      "two_four_layers": [
+        "network.encoder_level1.0.attn.qkv",
+        "network.encoder_level1.0.attn.project_out",
+        "network.encoder_level1.0.ffn.project_in",
+        "network.encoder_level1.1.attn.qkv",
+        "network.encoder_level1.1.attn.project_out",
+        "network.encoder_level1.1.ffn.project_in",
+        "network.encoder_level1.2.attn.qkv",
+        "network.encoder_level1.2.attn.project_out",
+        "network.encoder_level1.2.ffn.project_in",
+        "network.encoder_level1.3.attn.qkv",
+        "network.encoder_level1.3.attn.project_out",
+        "network.encoder_level1.3.ffn.project_in",
+        "network.down1_2.body.0",
+        "network.encoder_level2.0.attn.qkv",
+        "network.encoder_level2.0.attn.project_out",
+        "network.encoder_level2.0.ffn.project_in",
+        "network.encoder_level2.1.attn.qkv",
+        "network.encoder_level2.1.attn.project_out",
+        "network.encoder_level2.1.ffn.project_in",
+        "network.encoder_level2.2.attn.qkv",
+        "network.encoder_level2.2.attn.project_out",
+        "network.encoder_level2.2.ffn.project_in",
+        "network.encoder_level2.3.attn.qkv",
+        "network.encoder_level2.3.attn.project_out",
+        "network.encoder_level2.3.ffn.project_in",
+        "network.encoder_level2.4.attn.qkv",
+        "network.encoder_level2.4.attn.project_out",
+        "network.encoder_level2.4.ffn.project_in",
+        "network.encoder_level2.5.attn.qkv",
+        "network.encoder_level2.5.attn.project_out",
+        "network.encoder_level2.5.ffn.project_in",
+        "network.down2_3.body.0",
+        "network.encoder_level3.0.attn.qkv",
+        "network.encoder_level3.0.attn.project_out",
+        "network.encoder_level3.0.ffn.project_in",
+        "network.encoder_level3.1.attn.qkv",
+        "network.encoder_level3.1.attn.project_out",
+        "network.encoder_level3.1.ffn.project_in",
+        "network.encoder_level3.2.attn.qkv",
+        "network.encoder_level3.2.attn.project_out",
+        "network.encoder_level3.2.ffn.project_in",
+        "network.encoder_level3.3.attn.qkv",
+        "network.encoder_level3.3.attn.project_out",
+        "network.encoder_level3.3.ffn.project_in",
+        "network.encoder_level3.4.attn.qkv",
+        "network.encoder_level3.4.attn.project_out",
+        "network.encoder_level3.4.ffn.project_in",
+        "network.encoder_level3.5.attn.qkv",
+        "network.encoder_level3.5.attn.project_out",
+        "network.encoder_level3.5.ffn.project_in",
+        "network.down3_4.body.0",
+        "network.latent.0.attn.qkv",
+        "network.latent.0.attn.project_out",
+        "network.latent.0.ffn.project_in",
+        "network.latent.1.attn.qkv",
+        "network.latent.1.attn.project_out",
+        "network.latent.1.ffn.project_in",
+        "network.latent.2.attn.qkv",
+        "network.latent.2.attn.project_out",
+        "network.latent.2.ffn.project_in",
+        "network.latent.3.attn.qkv",
+        "network.latent.3.attn.project_out",
+        "network.latent.3.ffn.project_in",
+        "network.latent.4.attn.qkv",
+        "network.latent.4.attn.project_out",
+        "network.latent.4.ffn.project_in",
+        "network.latent.5.attn.qkv",
+        "network.latent.5.attn.project_out",
+        "network.latent.5.ffn.project_in",
+        "network.latent.6.attn.qkv",
+        "network.latent.6.attn.project_out",
+        "network.latent.6.ffn.project_in",
+        "network.latent.7.attn.qkv",
+        "network.latent.7.attn.project_out",
+        "network.latent.7.ffn.project_in",
+        "network.up4_3.body.0",
+        "network.reduce_chan_level3",
+        "network.decoder_level3.0.attn.qkv",
+        "network.decoder_level3.0.attn.project_out",
+        "network.decoder_level3.0.ffn.project_in",
+        "network.decoder_level3.1.attn.qkv",
+        "network.decoder_level3.1.attn.project_out",
+        "network.decoder_level3.1.ffn.project_in",
+        "network.decoder_level3.2.attn.qkv",
+        "network.decoder_level3.2.attn.project_out",
+        "network.decoder_level3.2.ffn.project_in",
+        "network.decoder_level3.3.attn.qkv",
+        "network.decoder_level3.3.attn.project_out",
+        "network.decoder_level3.3.ffn.project_in",
+        "network.decoder_level3.4.attn.qkv",
+        "network.decoder_level3.4.attn.project_out",
+        "network.decoder_level3.4.ffn.project_in",
+        "network.decoder_level3.5.attn.qkv",
+        "network.decoder_level3.5.attn.project_out",
+        "network.decoder_level3.5.ffn.project_in",
+        "network.up3_2.body.0",
+        "network.reduce_chan_level2",
+        "network.decoder_level2.0.attn.qkv",
+        "network.decoder_level2.0.attn.project_out",
+        "network.decoder_level2.0.ffn.project_in",
+        "network.decoder_level2.1.attn.qkv",
+        "network.decoder_level2.1.attn.project_out",
+        "network.decoder_level2.1.ffn.project_in",
+        "network.decoder_level2.2.attn.qkv",
+        "network.decoder_level2.2.attn.project_out",
+        "network.decoder_level2.2.ffn.project_in",
+        "network.decoder_level2.3.attn.qkv",
+        "network.decoder_level2.3.attn.project_out",
+        "network.decoder_level2.3.ffn.project_in",
+        "network.decoder_level2.4.attn.qkv",
+        "network.decoder_level2.4.attn.project_out",
+        "network.decoder_level2.4.ffn.project_in",
+        "network.decoder_level2.5.attn.qkv",
+        "network.decoder_level2.5.attn.project_out",
+        "network.decoder_level2.5.ffn.project_in",
+        "network.up2_1.body.0",
+        "network.decoder_level1.0.attn.qkv",
+        "network.decoder_level1.0.attn.project_out",
+        "network.decoder_level1.0.ffn.project_in",
+        "network.decoder_level1.1.attn.qkv",
+        "network.decoder_level1.1.attn.project_out",
+        "network.decoder_level1.1.ffn.project_in",
+        "network.decoder_level1.2.attn.qkv",
+        "network.decoder_level1.2.attn.project_out",
+        "network.decoder_level1.2.ffn.project_in",
+        "network.decoder_level1.3.attn.qkv",
+        "network.decoder_level1.3.attn.project_out",
+        "network.decoder_level1.3.ffn.project_in",
+        "network.refinement.0.attn.qkv",
+        "network.refinement.0.attn.project_out",
+        "network.refinement.0.ffn.project_in",
+        "network.refinement.1.attn.qkv",
+        "network.refinement.1.attn.project_out",
+        "network.refinement.1.ffn.project_in",
+        "network.refinement.2.attn.qkv",
+        "network.refinement.2.attn.project_out",
+        "network.refinement.2.ffn.project_in",
+        "network.refinement.3.attn.qkv",
+        "network.refinement.3.attn.project_out",
+        "network.refinement.3.ffn.project_in",
+        "network.output"
+      ],
+      "screen_passed": false,
+      "mean_psnr_delta_db": -5.396953404882127,
+      "mean_ssim_delta": -0.08456228421387049
+    }
+  ],
+  "prior_script_sha256": "dc1a98c209578d595d5706973149763b27275ff28d7f8aefe3578d037b7203c5",
+  "completed": true
+}

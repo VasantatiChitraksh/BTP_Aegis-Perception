@@ -1,0 +1,72 @@
+{
+  "complete": true,
+  "manifest_sha256": "9e7c661f66626761a1641f887f8c8720fc69fc9dffcad5602ef649a944c904ab",
+  "models": {
+    "attention_pix2pix": {
+      "label": "Attention Pix2Pix",
+      "run": "artifacts/restoration/baselines_v1/attention_pix2pix_seed42",
+      "best_epoch": 59,
+      "best_sha256": "69d77cbaad0299be301cadf4006ba7f2fcd55cd8ed13a4c7f53f4431b546c964",
+      "parameters": 29854795,
+      "library": "artifacts/models/attention_pix2pix",
+      "best_bytes": 391776880,
+      "inference_bytes": 119503579,
+      "inference_sha256": "7122d906750066be742cd93e2b2e9712d2ad27bb7f6ab9db201aec0549063aa1"
+    },
+    "restormer": {
+      "label": "Restormer",
+      "run": "artifacts/restoration/baselines_v1/restormer_seed42",
+      "best_epoch": 51,
+      "best_sha256": "b513d1723bed5c009702ed0f8c03356052c9b0c49b5ef03e9fcf831d66cb07a4",
+      "parameters": 26126644,
+      "library": "artifacts/models/restormer",
+      "best_bytes": 314234832,
+      "inference_bytes": 104701712,
+      "inference_sha256": "5268af32c161413502a8978a839b311152a1dd2bf093ade137e07d58166a8555"
+    },
+    "liteweatherformer": {
+      "label": "LiteWeather v2",
+      "run": "artifacts/restoration/liteweather_v1/liteweatherformer_v2_seed42",
+      "best_epoch": 59,
+      "best_sha256": "c8489d87974de8f8a968c86de6921b95ec0ab751af3f8db051b486a7a40cf1d3",
+      "parameters": 2189475,
+      "library": "artifacts/models/liteweatherformer",
+      "best_bytes": 26537598,
+      "inference_bytes": 8803392,
+      "inference_sha256": "7fc5f4a2f728808e29c46d667fdaf9653c7012f3d7f3f610211a5f54cec9320a"
+    },
+    "transweather": {
+      "label": "TransWeather",
+      "run": "artifacts/restoration/official_v1/transweather_seed42",
+      "best_epoch": 58,
+      "best_sha256": "0a872c2ed64d9a0bef991fd940bb0a309bbc61d11b5b95f315705d53ee2aa25b",
+      "parameters": 38052078,
+      "library": "artifacts/models/transweather",
+      "best_bytes": 454784302,
+      "inference_bytes": 152339991,
+      "inference_sha256": "bf5aca35cc1f20be1d9ebb8fb8eaa80bf637653e210b06366f5c8e090b110044"
+    },
+    "promptir": {
+      "label": "PromptIR",
+      "run": "artifacts/restoration/official_v1/promptir_seed42",
+      "best_epoch": 50,
+      "best_sha256": "37c5a84b226ee43209fd006d748ba75eabcbf8e32fa1eb1f1f388f0688c0ce96",
+      "parameters": 35592263,
+      "library": "artifacts/models/promptir",
+      "best_bytes": 426160714,
+      "inference_bytes": 142584498,
+      "inference_sha256": "821f5b8614ecc5c31a8114bfaa55537275156d57a63c200c424b71ac5d5718e9"
+    },
+    "ramit": {
+      "label": "RAMiT",
+      "run": "artifacts/restoration/official_v1/ramit_seed42",
+      "best_epoch": 45,
+      "best_sha256": "f21bb0fc600a19e2a12a873e2c47c8e88143d04a75a5d13555fb4034ce1740e6",
+      "parameters": 934651,
+      "library": "artifacts/models/ramit",
+      "best_bytes": 12607556,
+      "inference_bytes": 4607030,
+      "inference_sha256": "a02615b09cf64e8879c9e77d9b1dae46729359806fe6ebc6aed485d35d3bf19c"
+    }
+  }
+}

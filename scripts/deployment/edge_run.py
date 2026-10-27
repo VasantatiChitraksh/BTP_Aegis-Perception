@@ -29,12 +29,14 @@ class Backend:
     def __init__(self, path):
         self.path = Path(path)
         self.trt = self.path.suffix == ".engine"
+        self.requested_precision = None
         if self.trt:
             from aegis_perception.edge.trt_runtime import TrtSession
 
             record = json.loads(self.path.with_suffix(".json").read_text())
             if not record["validation"]["passed"] or record["engine_sha256"] != digest(self.path):
                 raise ValueError("Unvalidated or changed engine")
+            self.requested_precision = record.get("contract", {}).get("precision")
             self.session = TrtSession(path)
             self.shape = self.session.input_shape
         else:
@@ -230,6 +232,10 @@ def main():
                 "save_visuals": args.save_visuals,
                 "detector_sha256": digest(args.detector),
                 "restorer_sha256": digest(args.restorer) if restorer else None,
+                "restorer_file_bytes": args.restorer.stat().st_size if restorer else None,
+                "detector_file_bytes": args.detector.stat().st_size,
+                "restorer_requested_precision": restorer.requested_precision if restorer else None,
+                "detector_requested_precision": detector.requested_precision,
                 "environment": environment(),
                 "detector_backend": "TensorRT" if detector.trt else "ONNX Runtime CPU",
                 "restorer_backend": ("TensorRT" if restorer.trt else "ONNX Runtime CPU")

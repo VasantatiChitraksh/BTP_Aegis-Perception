@@ -1,5 +1,12 @@
 # Restormer inference setup
 
+For the complete beginner workflow, start with the
+[step-by-step PDF](artifacts/edge_v1/reports/aegis_jetson_step_by_step.pdf)
+or its [copyable command text](artifacts/edge_v1/reports/aegis_jetson_step_by_step.txt).
+It labels every laptop/Jetson command, uses the latest compression bundle,
+compares FP32/FP16/INT8, and covers status checks, demos and retrieving results.
+The DGX is not needed for this workflow.
+
 This guide runs the **frozen Restormer → frozen YOLOv8n** pipeline. It does not
 retrain either model. Start with FP16 on the Jetson; INT8 is an optional later
 experiment. Engine compilation and hardware performance have **not yet been
@@ -46,9 +53,11 @@ artifacts/releases/aegis_restormer_edge_20261024.tar.gz
 artifacts/releases/aegis_restormer_edge_20261024.tar.gz.sha256
 ```
 
-The archive is approximately **136 MiB**. Obtain both files from the maintainer
-and copy them to `~/aegis-edge/` on the Jetson. No public model-download URL is
-provided by this repository. The archive includes ONNX graphs, numerical
+The archive is approximately **136 MiB**. The newer compression kit and checksum
+are available from the [baseline model release](https://github.com/VasantatiChitraksh/BTP_Aegis-Perception/releases/tag/baseline-models-20261024).
+Use `aegis_restormer_edge_compression_20261024` in place of the older archive and
+directory name in the commands below, and copy both files to `~/aegis-edge/` on
+the Jetson. The archive includes ONNX graphs, numerical
 fixtures, calibration tensors and three research image samples; their source
 licenses are recorded in `THIRD_PARTY_NOTICES.txt`.
 
@@ -182,7 +191,27 @@ ONNX graph, fixtures and `--kind yolov8n`.
 Optional INT8 instructions, gate thresholds, dataset provenance and source links
 are in [the detailed handoff](docs/restormer_edge_handoff.txt). INT8 is implemented
 as an experiment with 64 training-only calibration inputs; it has not yet been
-built or measured on the Jetson. Unstructured pruning has not been applied.
+built or measured on the Jetson. The default deployment model is not pruned.
+
+### Compression experiments for the project evaluation
+
+A separate [compression guide](docs/restormer_compression.txt) audits the older
+quantization/pruning contribution, records the local pruning screen, and explains
+the required device comparison. Experimental pruning copies do not replace the
+original checkpoint or the default deployment graph.
+
+The newer `aegis_restormer_edge_compression_20261024.tar.gz` bundle adds the
+sequential FP32/FP16/INT8 comparison and detailed TensorRT layer inspection.
+Use that archive and its matching checksum in step 1, substitute its directory
+name, and create the environment as in step 2. From its extracted directory:
+
+```bash
+bash scripts/deployment/edge_compression_device.sh
+```
+
+This records failures as well as successful quality gates and timings. It has
+not been run on a Jetson. The four-image quality screen is not full-dataset
+validation; see the compression guide before adopting a candidate.
 
 ## Source and reproduction
 

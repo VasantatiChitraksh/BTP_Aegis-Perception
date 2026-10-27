@@ -1,5 +1,9 @@
 # Aegis Perception
 
+**Trained models and quantization:** start with the [frozen six-model handoff](docs/quantization_handoff.txt)
+for the reported Restormer baseline, downloadable checkpoints, exact model identities,
+loading commands and compression caveats. New architecture experiments are not required.
+
 **Sequential training:** [attention Pix2Pix → Restormer](docs/baseline_suite.txt), using the same frozen v3 split and the successful Restormer run's official pretrained initialization, with automatic validation/test reports and one-GPU SLURM chaining.
 
 **Four-weather data protocol:** [frozen v3 split and statistics](docs/weather_protocol_v3.md). Its fine-tuning commands describe the earlier experiment; the baseline suite above has its own training recipes. Existing results remain historical.

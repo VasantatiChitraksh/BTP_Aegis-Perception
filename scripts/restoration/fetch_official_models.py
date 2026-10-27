@@ -56,12 +56,18 @@ def ensure(entry, *, offline=False):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--offline", action="store_true", help="Verify only; never download")
+    parser.add_argument(
+        "--sources-only", action="store_true",
+        help="Fetch architecture sources/notices only; use with trained inference checkpoints",
+    )
     args = parser.parse_args()
     for name, model in json.loads(LOCK.read_text())["models"].items():
         for source in model["sources"]:
             ensure(source, offline=args.offline)
-        ensure(model["weights"], offline=args.offline)
-        print(f"Verified official sources and pretrained weights: {name}", flush=True)
+        if not args.sources_only:
+            ensure(model["weights"], offline=args.offline)
+        assets = "sources" if args.sources_only else "sources and pretrained weights"
+        print(f"Verified official {assets}: {name}", flush=True)
 
 
 if __name__ == "__main__":

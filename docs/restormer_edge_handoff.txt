@@ -3,7 +3,9 @@ AEGIS / RESTORMER EDGE HANDOFF
 Scope
 -----
 Frozen Restormer best checkpoint (epoch 51), plus frozen official YOLOv8n COCO
-weights. No retraining, pruning, dataset split changes or detector finetuning.
+weights. No retraining, dataset split changes or detector finetuning. The
+deployment graph remains unpruned. Separate pruning experiments are documented
+in docs/restormer_compression.txt; they do not replace this graph.
 Restoration graph: batch 1, RGB [-1,1], 256 high x 448 wide. Aspect-preserving
 bilinear resize, bottom/right edge padding, remove padding, clip/round, resize
 back to original dimensions. Detector: RGB [0,1], centered 640x640 letterbox,
@@ -105,8 +107,11 @@ unsupported INT8 operations may use FP16/FP32: the engine is not uniformly INT8.
 Passing the small fixture gate is only a first check. Compare quality and
 annotated detection on a larger untouched set before adopting it. YOLO INT8 is
 not enabled: restoration inputs are not an appropriate detector calibration set.
-Unstructured pruning was not applied: zeroing weights does not by itself shrink
-this dense graph or prove faster Jetson inference, and no retraining was allowed.
+Pruning is not applied to the deployment graph: zeroing weights does not by
+itself shrink this dense graph or prove faster Jetson inference. The separate
+compression screen tests disposable pruning copies without recovery training.
+The compression bundle adds edge_compression_device.sh to compare FP32, FP16
+and INT8 sequentially; see docs/restormer_compression.txt for that experiment.
 
 Reproduce local evidence in the main repository
 ----------------------------------------------

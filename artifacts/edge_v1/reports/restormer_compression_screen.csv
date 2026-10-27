@@ -1,0 +1,21 @@
+variant,weather,psnr_db,ssim,psnr_delta_db,ssim_delta,screen_passed,dense_state_dict_bytes,weighted_convolution_sparsity,scope
+dense_fp32,fog,24.3632643989648,0.889191615477284,0.0,0.0,True,104696534,0.0,four-image validation screen; NOT full test or Jetson benchmark
+dense_fp32,rain,34.284171029221724,0.9577980652442638,0.0,0.0,True,104696534,0.0,four-image validation screen; NOT full test or Jetson benchmark
+dense_fp32,smoke,21.835772655367318,0.839878215590245,0.0,0.0,True,104696534,0.0,four-image validation screen; NOT full test or Jetson benchmark
+dense_fp32,snow,36.959449470968615,0.9738931170941791,0.0,0.0,True,104696534,0.0,four-image validation screen; NOT full test or Jetson benchmark
+global_10,fog,22.69120206775421,0.8631045117132974,-1.67206233121059,-0.026087103763986597,False,104696534,0.0999999846722999,four-image validation screen; NOT full test or Jetson benchmark
+global_10,rain,34.516055727720065,0.9577091418105835,0.23188469849834092,-8.892343368027689e-05,True,104696534,0.0999999846722999,four-image validation screen; NOT full test or Jetson benchmark
+global_10,smoke,22.114014480560506,0.8388487091339933,0.27824182519318796,-0.001029506456251661,False,104696534,0.0999999846722999,four-image validation screen; NOT full test or Jetson benchmark
+global_10,snow,34.13623463070807,0.9616238068816756,-2.8232148402605475,-0.012269310212503548,False,104696534,0.0999999846722999,four-image validation screen; NOT full test or Jetson benchmark
+global_30,fog,13.548106781251796,0.7391959319882295,-10.815157617713005,-0.14999568348905445,False,104696534,0.29999999233614993,four-image validation screen; NOT full test or Jetson benchmark
+global_30,rain,32.354710918484166,0.947684837692288,-1.9294601107375584,-0.010113227551975856,False,104696534,0.29999999233614993,four-image validation screen; NOT full test or Jetson benchmark
+global_30,smoke,21.919794149453562,0.8229635983460664,0.08402149408624382,-0.016914617244178642,False,104696534,0.29999999233614993,four-image validation screen; NOT full test or Jetson benchmark
+global_30,snow,22.035309465140905,0.7243978119161554,-14.92414000582771,-0.24949530517802376,False,104696534,0.29999999233614993,four-image validation screen; NOT full test or Jetson benchmark
+global_50,fog,12.792573842571958,0.7175870619758327,-11.570690556392844,-0.17160455350145132,False,104696534,0.5,four-image validation screen; NOT full test or Jetson benchmark
+global_50,rain,31.107506008942437,0.9339979736448718,-3.1766650202792874,-0.023800091599392004,False,104696534,0.5,four-image validation screen; NOT full test or Jetson benchmark
+global_50,smoke,21.417609605366255,0.8117012020382869,-0.4181630500010627,-0.02817701355195812,False,104696534,0.5,four-image validation screen; NOT full test or Jetson benchmark
+global_50,snow,21.099552202724688,0.680481393521752,-15.859897268243927,-0.2934117235724272,False,104696534,0.5,four-image validation screen; NOT full test or Jetson benchmark
+two_four,fog,13.587254337727387,0.7330678592562565,-10.776010061237415,-0.15612375622102748,False,104696534,0.3967844937628523,four-image validation screen; NOT full test or Jetson benchmark
+two_four,rain,33.0797727710504,0.930526951147355,-1.2043982581713237,-0.027271114096908855,False,104696534,0.3967844937628523,four-image validation screen; NOT full test or Jetson benchmark
+two_four,smoke,21.517118476868262,0.8044075476707896,-0.318654178499056,-0.03547066791945541,False,104696534,0.3967844937628523,four-image validation screen; NOT full test or Jetson benchmark
+two_four,snow,27.6706983493479,0.8545095184760889,-9.288751121620713,-0.11938359861809023,False,104696534,0.3967844937628523,four-image validation screen; NOT full test or Jetson benchmark
