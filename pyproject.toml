@@ -29,8 +29,9 @@ notebook = ["ipykernel>=6.0", "matplotlib>=3.8", "gdown>=5.0"]
 where = ["src"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
-addopts = "-q"
+testpaths = ["tests", "edge_pipeline/tests"]
+addopts = "-q -p no:cacheprovider"
+pythonpath = [".", "src"]
 
 [tool.ruff]
 extend-exclude = ["archive"]

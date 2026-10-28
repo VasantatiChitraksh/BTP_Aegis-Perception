@@ -1,0 +1,15 @@
+{
+  "model": "Restormer",
+  "algorithm": "DevisedEdgeQuantizer",
+  "bits": 8,
+  "clipping_percentile": 99.95,
+  "fp32_latency_ms": 34596.71,
+  "quantized_latency_ms": 34303.68,
+  "fp32_weight_mb": 99.55,
+  "quantized_weight_mb": 24.89,
+  "compression_ratio": 4.0,
+  "relative_psnr_to_fp32_db": 53.3801,
+  "relative_ssim_to_fp32": 0.999795,
+  "quantized_layers_count": 274,
+  "preserved_layers_count": 0
+}

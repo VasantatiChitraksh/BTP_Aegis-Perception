@@ -1,0 +1,31 @@
+{
+  "imported_path": "C:\\Users\\chitr\\Documents\\GitHub\\BTP_Aegis-Perception\\edge_pipeline\\checkpoints\\restormer\\restormer_imported.pt",
+  "sha256": "5728445b644268d66dd97cd5578fb4c326cd082f7a6120cc0b470e4492457296",
+  "source_checkpoint": "C:\\Users\\chitr\\Documents\\GitHub\\BTP_Aegis-Perception\\edge_pipeline\\checkpoints\\restormer\\restormer_template.pt",
+  "parameters": 26126644,
+  "conv2d_layers": 274,
+  "model_config": {
+    "name": "restormer",
+    "dim": 48,
+    "num_blocks": [
+      4,
+      6,
+      6,
+      8
+    ],
+    "heads": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "num_refinement_blocks": 4,
+    "ffn_expansion_factor": 2.66,
+    "bias": false,
+    "layer_norm_type": "WithBias"
+  },
+  "validated_geometry": [
+    256,
+    448
+  ]
+}

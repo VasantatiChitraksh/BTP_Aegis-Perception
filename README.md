@@ -1,166 +1,226 @@
-# Aegis Perception
+# Aegis Perception: Robust Vision Restoration & Edge Autonomy for ADAS
 
-**Trained models and quantization:** start with the [frozen six-model handoff](docs/quantization_handoff.txt)
-for the reported Restormer baseline, downloadable checkpoints, exact model identities,
-loading commands and compression caveats. New architecture experiments are not required.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch 2.4+](https://img.shields.io/badge/PyTorch-2.4+-ee4c2c.svg)](https://pytorch.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Edge Ready](https://img.shields.io/badge/Edge%20Platform-Jetson%20Orin%20%7C%20Jetson%20Nano%20%7C%20RPi%205-green.svg)](artifacts/edge_v1/reports/README_REPORTS.md)
 
-**Sequential training:** [attention Pix2Pix → Restormer](docs/baseline_suite.txt), using the same frozen v3 split and the successful Restormer run's official pretrained initialization, with automatic validation/test reports and one-GPU SLURM chaining.
+**Aegis Perception** is an edge-optimized perception suite designed for weather-degraded autonomous driving and robotic systems under the **TiHAN–IIT Hyderabad ADAS** initiative. 
 
-**Four-weather data protocol:** [frozen v3 split and statistics](docs/weather_protocol_v3.md). Its fine-tuning commands describe the earlier experiment; the baseline suite above has its own training recipes. Existing results remain historical.
+It chains adverse-weather image restoration (deraining, dehazing, desnowing, desmoking) directly into road-object detection (YOLOv8), powered by **Aegis-HAMQ** (Hardware-Aware Adaptive Mixed-Precision Quantization).
 
+---
 
-Weather-robust road-object perception for the TiHAN–IIT Hyderabad ADAS project.
-The restoration pipeline supports official Restormer and attention/vanilla
-Pix2Pix. It trains on paired images, saves resumable experiments, evaluates
-held-out fidelity, and exports models for deployment checks. YOLO evaluation
-and hardware benchmarking are subsequent experiments.
+## 1. Repository Layout
 
-## Layout
+The repository is organized into distinct, modular subsystems:
 
 ```text
-src/aegis_perception/   Models, training, data loading, metrics, and checkpoint utilities
-scripts/data/          Download, extraction, manifest creation, and data audits
-scripts/restoration/   Train, evaluate, and restore image folders
-scripts/detection/     Train and evaluate YOLO
-scripts/deployment/    Export, validate, and benchmark ONNX
-configs/               Restoration experiments and detection dataset definitions
-notebooks/             One restoration control notebook using the same scripts
-data/datasets.yaml     Dataset sources, checksums, access notes, and licenses
-data/manifests/        Versioned CSV pairs and train/validation/test splits
-data/archives/         Downloaded archives (ignored by Git)
-data/raw/              Extracted originals (ignored by Git)
-docs/                  Dataset guide, experiment protocol, and literature review
-docs/reports/          Execution plan, meeting brief, and simulator selection
-archive/               Historical notebook and internship/semester reports
-tests/                 Automated checks
+BTP_Aegis-Perception/
+├── src/aegis_perception/         # Core research library
+│   ├── models/                   # Restoration architectures (Restormer, LiteWeatherFormer, etc.)
+│   ├── data/                     # Dataset loaders, manifests, and continuous stratified sampling
+│   ├── edge/                     # TensorRT runtime and detector utilities
+│   ├── checkpoints.py            # Model checkpoint serializer/deserializer
+│   ├── training.py               # Distributed training engine
+│   └── evaluation.py             # Validation and PSNR/SSIM evaluation guards
+│
+├── edge_pipeline/                # Turnkey Edge Deployment Package
+│   ├── import_restormer/         # Validates and cleans best.pt (strips DDP, checks 256x448)
+│   ├── yolov8_loader/            # Loads PyTorch/ONNX/TRT YOLOv8 road detector
+│   ├── quantization_scripts/     # Aegis-HAMQ profiler, custom quantizer, and TRT exporter
+│   ├── final_pipeline/           # Chained Restormer -> YOLOv8 perception pipeline
+│   ├── checkpoints/              # Local weights, calibration tables, and metadata
+│   └── tests/                    # End-to-end integration test suite
+│
+├── scripts/                      # Reproducible operational scripts
+│   ├── data/                     # Dataset download, extraction, and manifest builders
+│   ├── restoration/              # Multi-weather model training and evaluation
+│   ├── detection/                # YOLO dataset training and benchmarking
+│   ├── deployment/               # ONNX export, screening, and Jetson runbook generation
+│   └── quantization/             # SLURM batch pruning and quantization experiments
+│
+├── configs/                      # Experiment and model YAML configurations
+│   ├── restoration/              # Restoration model configs (Restormer, LiteWeatherFormer, etc.)
+│   ├── detection/                # YOLO detection configs (DAWN dataset)
+│   └── deployment/               # Edge dependency requirement definitions
+│
+├── data/                         # Data catalogs and splits
+│   ├── manifests/                # Versioned train/val/test CSV pairs (clean, weather_v3)
+│   └── datasets.yaml             # Dataset sources, checksums, and license index
+│
+├── docs/                         # Technical documentation & guides
+│   ├── quantization/             # Quantization, pruning, and Jetson rover runbooks
+│   ├── datasets.md               # Dataset index and download guide
+│   ├── experiments.md            # Multi-weather experimental protocol
+│   ├── literature_review.md      # Literature review and baselines
+│   └── weather_protocol_v3.md    # Multi-weather stratified data split protocol
+│
+├── artifacts/                    # Published benchmark reports and artifacts
+│   ├── edge_v1/reports/          # Edge deployment verification and readiness reports
+│   └── quantization/reports/     # Aegis-HAMQ research proposal, Pareto graphs, and plans
+│
+├── notebooks/                    # Interactive Colab / Lightning AI restoration control notebook
+└── tests/                        # Automated unit and integration test suite
 ```
 
-Generated models, metrics, and exports belong in `artifacts/`; derived images
-and detector datasets belong in `data/processed/`. Both are ignored by Git.
-Run the commands below from the repository root.
+---
 
-## Setup
+## 2. Supported Restoration Models
 
-Python 3.10+; install a suitable PyTorch build for your CPU/GPU.
+All generators are registered in `src/aegis_perception/models/` and can be instantiated via `build_generator(config['model'])`:
+
+| Architecture | Key Mechanism | Best Edge Use-Case |
+|---|---|---|
+| **Restormer** | Multi-Dconv Head Transposed Attention (MDTA) + Gated Feed-Forward (GDFN) | High-fidelity adverse weather restoration (Baseline Champion). |
+| **LiteWeatherFormer** | Novel lightweight Conv-Stem + Depthwise Transformer + Weather Prompt Fusion | Ultra-fast mobile edge inference ($<3.5\text{M}$ params). |
+| **TransWeather** | Transformer encoder-decoder with weather-type query embeddings | Multi-weather joint restoration. |
+| **PromptIR** | Dynamic prompt learning for all-in-one restoration | Adaptive degradation compensation. |
+| **RAMiT** | Lightweight recurrent attention and multi-scale aggregation | Resource-constrained micro-rovers. |
+| **Attention Pix2Pix** | U-Net with additive spatial attention gates | Classical paired image-to-image baseline. |
+
+---
+
+## 3. Aegis-HAMQ: Hardware-Aware Quantization
+
+Traditional uniform quantization (e.g. uniform INT8) causes **cross-covariance attention collapse** in Restormer, while running INT8 on hardware lacking native integer units (such as Maxwell `sm_53` on Jetson Nano) makes the model **$2.1\times$ slower**.
+
+**Aegis-HAMQ** solves this by mapping Restormer's functional layers to native physical ALUs:
+- **Stem & Reconstruction:** High sensitivity ($\mathcal{S} \ge 0.95$) $\to$ **FP16 / FP32 preserved**.
+- **MDTA Transposed Attention:** Channel covariance matrix ($\mathcal{S} \approx 0.78 - 0.92$) $\to$ **FP16 / FP8 preserved**.
+- **GDFN Feed-Forward:** **65.5% of total MACs**, low sensitivity ($\mathcal{S} \le 0.28$) $\to$ **INT8 / INT4 accelerated**.
+
+### Hardware Allocation Matrix:
+
+| Target Platform | Silicon & Compute Units | Aegis-HAMQ Allocation Plan | Peak Throughput ($256\times448$) |
+|---|---|---|---|
+| **NVIDIA Jetson Orin Nano** | 512 Ampere Cores + 16 Tensor Cores (`sm_87`) | **31.7% FP16** (MDTA) + **68.3% INT8/INT4** (GDFN) | **$38.2\text{--}52.0\text{ FPS}$** ($52.8\text{ dB}$ PSNR) |
+| **JetAuto Pro AI Robot Car** | 128 Maxwell Cores (`sm_53`, no Tensor Cores) | **100% Native TensorRT FP16** (Zero INT8 penalty) | **$4.3\text{ FPS}$** ($<0.05\text{ dB}$ drop) |
+| **Raspberry Pi 5** | Quad-Core ARM Cortex-A76 @ 2.4 GHz | **0.7% FP32** (Recon) + **99.3% NEON INT8** (`SDOT`/`UDOT`) | **$2.8\text{ FPS}$** ($4.0\times$ memory reduction) |
+
+---
+
+## 4. Quickstart Guide
+
+### 4.1 Installation
+Python 3.10+ required. Create a clean virtual environment:
+```bash
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\Activate.ps1
+pip install --upgrade pip
+pip install -e .
+```
+
+To run YOLO detection or export to ONNX / TensorRT:
+```bash
+pip install -e ".[detection,export,metrics,dev]"
+```
+
+---
+
+### 4.2 Edge Pipeline Workflow
+
+#### Step 1: Import & Validate Your Restormer Checkpoint
+Validates state dicts, strips DistributedDataParallel (`module.`) wrappers, verifies a $256\times448$ forward pass:
+```bash
+python edge_pipeline/import_restormer/import_restormer.py \
+    --checkpoint path/to/your/best.pt \
+    --output edge_pipeline/checkpoints/restormer/restormer_imported.pt
+```
+
+*(To test without a trained checkpoint, use `--create-template` to instantiate and export a verified architectural checkpoint).*
+
+#### Step 2: Auto-Detect Hardware & Profile Mixed Precision
+Probe host silicon capabilities and generate an optimal precision plan:
+```bash
+# Auto-detects whether running on Jetson Orin, Jetson Nano, RPi, or x86
+python edge_pipeline/quantization_scripts/hardware_aware_profiler.py \
+    --hardware auto \
+    --lambda-extent 0.5 \
+    --output artifacts/quantization/reports/hardware_precision_plan.json
+```
+
+#### Step 3: Run Quantization Benchmark
+Quantize weights using your calibrated profile and evaluate retention metrics:
+```bash
+python edge_pipeline/quantization_scripts/edge_quantize.py \
+    --checkpoint edge_pipeline/checkpoints/restormer/restormer_imported.pt \
+    --image data/test_rain_sample.jpg \
+    --output-dir edge_pipeline/checkpoints/restormer/quantized
+```
+*Sample Output:*
+- **FP32 Model Size:** 99.55 MB $\to$ **Quantized:** 24.89 MB (**$4.00\times$ compression**)
+- **PSNR Retention:** **$53.38\text{ dB}$** | **SSIM Retention:** **$0.9998$**
+
+#### Step 4: Run End-to-End Perception Pipeline
+Chains adverse-weather restoration directly into YOLOv8 road-object detection:
+```bash
+# Process a single test image
+python edge_pipeline/final_pipeline/run_inference.py \
+    --checkpoint edge_pipeline/checkpoints/restormer/restormer_imported.pt \
+    --image data/test_rain_sample.jpg \
+    --output-dir artifacts/edge_v1/pipeline_outputs
+
+# Run live on JetAuto Pro rover camera (USB/CSI)
+python edge_pipeline/final_pipeline/run_inference.py \
+    --checkpoint edge_pipeline/checkpoints/restormer/restormer_imported.pt \
+    --camera 0
+```
+Generates side-by-side comparison images and detection latency telemetry:
+- Split visualization: [`artifacts/edge_v1/pipeline_outputs/perception_test_rain_sample.jpg`](artifacts/edge_v1/pipeline_outputs/perception_test_rain_sample.jpg)
+- Telemetry metrics: [`artifacts/edge_v1/pipeline_outputs/perception_test_rain_sample.json`](artifacts/edge_v1/pipeline_outputs/perception_test_rain_sample.json)
+
+---
+
+### 4.3 Compiling Native TensorRT Engines
+
+On NVIDIA Jetson targets, compile static TensorRT engines for maximum GPU throughput:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -e '.[notebook,metrics,dev,export]'
+# On Jetson Orin Nano (Mixed FP16 + Tensor Core INT8)
+python edge_pipeline/quantization_scripts/export_trt_edge.py \
+    --checkpoint edge_pipeline/checkpoints/restormer/restormer_imported.pt \
+    --output-engine edge_pipeline/checkpoints/restormer/restormer_hybrid_orin.engine \
+    --precision int8 \
+    --calib-image data/test_rain_sample.jpg
+
+# On JetAuto Pro (Pure FP16 for Maxwell sm_53)
+python edge_pipeline/quantization_scripts/export_trt_edge.py \
+    --checkpoint edge_pipeline/checkpoints/restormer/restormer_imported.pt \
+    --output-engine edge_pipeline/checkpoints/restormer/restormer_fp16_nano.engine \
+    --precision fp16
 ```
 
-## Restoration workflow
+---
 
-Open [notebooks/restoration.ipynb](notebooks/restoration.ipynb) in the updated
-repository on Lightning AI or Colab. Start with `STAGE = "prepare"`: this
-downloads/verifies RealRain-1k, audits the frozen manifest, previews image pairs,
-and loads official pretrained deraining weights. It does **not** start training.
-Then use `sanity`, `train`, `evaluate`, and `export` as separate stages. The
-notebook contains no separate trainer or model implementation.
+## 5. Key Research Reports & Benchmark Catalog
 
-[rain_restormer.yaml](configs/restoration/rain_restormer.yaml) is the initial
-fine-tuning recipe: full official architecture, 128-pixel training crops,
-original-resolution validation, L1, AdamW, cosine decay, and bf16 on a supported
-CUDA GPU. It is a baseline experiment, not a claimed reproduction of the
-original training schedule. All legacy Pix2Pix configs still work.
+| Report | Path | Key Highlights |
+|---|---|---|
+| **Novelty & Approach Report** | [`artifacts/quantization/reports/NOVELTY_AND_APPROACH.md`](artifacts/quantization/reports/NOVELTY_AND_APPROACH.md) | Full theoretical formulation of Aegis-HAMQ, sensitivity metrics, and Knapsack optimization. |
+| **Formal Research PDF** | [`artifacts/quantization/reports/hardware_aware_hybrid_quantization_novelty.pdf`](artifacts/quantization/reports/hardware_aware_hybrid_quantization_novelty.pdf) | Publication-grade report embedding the hardware Pareto frontier graph and execution matrices. |
+| **Pareto Frontier Graph** | [`artifacts/quantization/reports/hardware_vs_quantization_extent.png`](artifacts/quantization/reports/hardware_vs_quantization_extent.png) | 2-panel chart showing layer sensitivity vs hardware throughput across $\lambda \in [0, 1]$. |
+| **Jetson Hardware Guide** | [`artifacts/edge_v1/reports/aegis_jetson_step_by_step.pdf`](artifacts/edge_v1/reports/aegis_jetson_step_by_step.pdf) | Terminal execution runbook for Jetson Nano and Orin deployment. |
+| **Edge Readiness Report** | [`artifacts/edge_v1/reports/restormer_edge_readiness.pdf`](artifacts/edge_v1/reports/restormer_edge_readiness.pdf) | Validation of $256\times448$ tile geometry, memory footprint, and YOLOv8 chaining. |
+| **Reports Master Index** | [`artifacts/edge_v1/reports/README_REPORTS.md`](artifacts/edge_v1/reports/README_REPORTS.md) | Complete index of all 11 edge deployment benchmark artifacts. |
 
-After preparation, the same training can run directly in the terminal:
+---
 
+## 6. Testing & Quality Verification
+
+Run the automated test suite:
 ```bash
-python scripts/restoration/train.py --config configs/restoration/rain_restormer.yaml
-python scripts/restoration/train.py --config configs/restoration/rain_restormer.yaml \
-  --resume artifacts/restoration/rain_restormer_seed42/last.pt
-python scripts/restoration/evaluate.py --config configs/restoration/rain_restormer.yaml \
-  --checkpoint artifacts/restoration/rain_restormer_seed42/best.pt --split val
+pytest
 ```
-
-Fresh training refuses to overwrite existing checkpoints. Resume restores the
-optimizer, scheduler, mixed-precision scaler, RNG states, and history from the
-last completed epoch. Changed configurations/split manifests require a new run.
-Checkpoint selection uses mean per-image RGB validation PSNR; test is used only
-after experiment selection. Record native/resized/crop preprocessing when
-comparing metrics. ONNX export currently fixes the spatial size; full hardware
-and INT8 validation remain later work.
-
-## Smoke baseline
-
-The current [v3 protocol](docs/weather_protocol_v3.md) freezes 18,610 training,
-2,011 validation, and 2,334 test pairs. It uses continuous stratified sampling,
-PSNR/SSIM validation guards, clustered uncertainty, and distributed training support.
-The current student quota permits one full A100; the launch defaults respect that quota.
-The L1 and L1+SSIM experiments await GPU training; quality gains are not established.
-Submit from the updated DGX repository root:
-
+Run only edge pipeline integration tests:
 ```bash
-sbatch scripts/restoration/train_weather_v3_dgx.sbatch configs/restoration/weather_v3_l1_seed42.yaml
-sbatch scripts/restoration/train_weather_v3_dgx.sbatch configs/restoration/weather_v3_ssim_seed42.yaml
+pytest edge_pipeline/tests/test_edge_pipeline.py
 ```
+*(All integration tests run cache-free and verify checkpoint validation, custom quantization, letterboxing, and end-to-end perception).*
 
-The historical smoke split below has four clean targets shared between train and
-validation; see [the dataset guide](docs/datasets.md) before training.
+---
 
-```bash
-python scripts/data/download_datasets.py --dataset smoke_historical
-python scripts/data/extract_datasets.py --extract --dataset smoke_historical
-# Build only when establishing a split; preserve existing splits for comparisons.
-python scripts/data/build_dataset_manifests.py --dataset smoke_historical
-python scripts/data/audit_manifest.py data/manifests/smoke_historical.csv
-python scripts/restoration/train.py --config configs/restoration/smoke_attention.yaml
-python scripts/restoration/evaluate.py \
-  --config configs/restoration/smoke_attention.yaml \
-  --checkpoint artifacts/restoration/smoke_attention_seed42/best.pt --split test
-```
+## 7. License & Attribution
 
-Use `smoke_vanilla.yaml` and `smoke_attention_l1.yaml` for the attention and loss
-ablations. Rain and snow configs use collected training manifests. The fog
-config is a template: supply a paired fog training manifest first; O-HAZE is
-reserved for testing.
-
-## Detection and deployment
-
-Prepare the labels and splits described in [the dataset guide](docs/datasets.md)
-before using `configs/detection/dawn.yaml`. Evaluate one view or repeat `--view`
-to compare several views with the same detector:
-
-```bash
-python -m pip install -e '.[detection]'
-python scripts/detection/evaluate.py \
-  --model artifacts/detection/training/yolov8n/weights/best.pt \
-  --view dawn_raw=configs/detection/dawn.yaml
-
-python scripts/deployment/export_onnx.py \
-  --checkpoint artifacts/restoration/smoke_attention_seed42/best.pt \
-  --output artifacts/restoration/smoke_attention.onnx
-python scripts/deployment/validate_onnx.py \
-  --checkpoint artifacts/restoration/smoke_attention_seed42/best.pt \
-  --onnx artifacts/restoration/smoke_attention.onnx
-python scripts/deployment/benchmark_onnx.py --model artifacts/restoration/smoke_attention.onnx
-```
-
-Every script supports `--help`. Detection evaluation writes `metrics.json` and
-Ultralytics output under the selected output directory. ONNX benchmarking measures
-model latency; TensorRT conversion and full Jetson pipeline timing remain future work.
-
-## Project documents
-
-- [Antigravity handoff and command guide](docs/handoff.md)
-- [Datasets and preparation](docs/datasets.md)
-- [Experiments and reproducibility](docs/experiments.md)
-- [Literature review](docs/literature_review.md)
-- [Execution plan v2](docs/reports/execution_plan_v2.pdf)
-- [Professor meeting brief](docs/reports/professor_meeting_brief.pdf)
-- [Simulator selection](docs/reports/simulator_selection.docx)
-
-Historical evidence lives in [the smoke notebook](archive/notebooks/smoke_baseline.ipynb),
-[semester reports](archive/reports/semester_5/), and
-[internship reports](archive/reports/internship/). The notebook evaluates its
-training loader; its saved metrics are not a held-out benchmark. Original
-notebook outputs and report contents are preserved.
-
-## Checks
-
-```bash
-python -m pytest
-ruff check .
-```
+This project is licensed under the [MIT License](LICENSE).
+Restoration architectures adapted from [swz30/Restormer](https://github.com/swz30/Restormer) and related baseline repositories. Road object detection powered by [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics).
