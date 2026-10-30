@@ -10,7 +10,13 @@ The user's trtexec log reports a successful YOLOv8n FP16-permitted build:
 1x3x640x640 input, 1x84x8400 output, 18.1549 queries/sec over a 3.08456-second
 random-input run. This is user-supplied engine benchmark evidence, not live
 camera FPS, a sustained benchmark, detection accuracy, or Restormer performance.
-Actual layer precision has not been audited. Restormer is not part of this demo.
+Actual layer precision has not been audited. Restormer is optional below.
+
+The subsequent user-supplied FP16 fixture check FAILED for fog: box-output
+RMSE 0.523311 exceeded the unchanged 0.500 limit. Rain/snow passed. This is a
+numerical gate, not object-detection accuracy. Keep that rejected engine and
+its evidence; build a separate FP32 detector (omit --fp16 in trtexec) and check
+it before using it in the combined demo. Do not relax the gate just to pass.
 
 Download scripts/deployment/nano_yolo_demo.py to ~/aegis-nano/nano_yolo_demo.py
 from a pinned repository commit. No dependency installations are needed on the
@@ -23,7 +29,8 @@ Validate the already built engine; do not rebuild:
   /usr/bin/python3 nano_yolo_demo.py --engine engines/yolov8n_fp16_candidate.engine --fixtures "$AEGIS_KIT/artifacts/edge_v1/exports/yolov8n/fixtures.npz" --validate-only --output results/yolo_validation_01
 
 Continue only if passed=true. A rejected engine is not approved just because
-trtexec succeeded. Every demo also repeats this three-image numerical gate.
+trtexec succeeded. Successful checks are cached next to the engine and reused
+only when engine, fixture, runtime-script hashes and TensorRT version match.
 Fixture hashes are pinned; validation records engine and runner hashes.
 
 Saved camera image:
@@ -56,4 +63,33 @@ not been tested on developer hardware. If validation rejects, preserve its
 JSON and the build log rather than weakening limits.
 
 This script is a separate Nano adapter; it does not modify the frozen Orin
-archive, add custom quantization, or claim support for Restormer on Nano.
+archive or add custom quantization. Hardware compatibility still requires the
+user to execute the build and checks on the Nano.
+
+RESTORMER + YOLO
+---------------
+Download nano_restormer.py beside the updated nano_yolo_demo.py from the SAME
+repository commit. The helper uses system Pillow (python3-pil); install that
+OS package only if 'from PIL import Image' fails. No training/PyTorch required.
+
+Build and check trained Restormer (epoch 51) in one command:
+  /usr/bin/python3 nano_restormer.py --onnx "$AEGIS_KIT/artifacts/edge_v1/exports/256x448/restormer/restoration.onnx" --fixtures "$AEGIS_KIT/artifacts/edge_v1/exports/256x448/restormer/fixtures.npz" --output engines/restormer_mixed.engine --workspace 256
+
+This permits FP16 convolution tactics and constrains sensitive transformer
+math to FP32. It is not INT8. Both the trained graph and four-weather fixtures
+are hash-pinned. The candidate must meet original output agreement and clean
+reference PSNR/SSIM limits. Only a passing candidate gets the final filename.
+Build logs, parser or memory failures must not be interpreted as successful
+deployment. Memory feasibility and actual throughput remain unmeasured until
+the user runs the model. No automatic power-mode or system-service changes.
+
+Add these options to the image or live command, using the validated FP32 YOLO
+engine and a fresh output directory:
+  --restorer engines/restormer_mixed.engine --restorer-fixtures "$AEGIS_KIT/artifacts/edge_v1/exports/256x448/restormer/fixtures.npz"
+
+Preview: original on left, restored with road detections on right. Restoration
+uses the same RGB [-1,1], aspect-preserving PIL bilinear resize and bottom/right
+edge padding as the frozen pipeline. Output is unpadded, clipped, rounded and
+resized back before detection. Two models share a primary CUDA context, with
+explicit balanced context selection for each model call. This is not proof
+of restoration improving detection; a labelled evaluation would establish that.

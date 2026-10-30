@@ -20,6 +20,28 @@ def test_python36_syntax():
     ast.parse(PATH.read_text(), feature_version=(3, 6))
 
 
+def test_engine_context_is_selected_and_released_on_error():
+    events = []
+
+    class Context:
+        def push(self):
+            events.append("push")
+
+        def pop(self):
+            events.append("pop")
+
+    engine = nano.Engine.__new__(nano.Engine)
+    engine.device_context = Context()
+
+    def fail(_):
+        raise ValueError("execution failed")
+
+    engine._run = fail
+    with pytest.raises(ValueError, match="execution failed"):
+        engine.run(None)
+    assert events == ["push", "pop"]
+
+
 def test_bgr_to_rgb_and_inverse_letterbox():
     image = np.zeros((320, 640, 3), np.uint8)
     image[:] = (10, 20, 30)

@@ -2,7 +2,7 @@
 """Standalone Python 3.6 / TensorRT 8.2 YOLOv8n runner; no cv_bridge or torch.
 
 Always validate against the frozen detector fixtures before demonstrating.
-Only road classes are displayed. This script does not run Restormer.
+Only road classes are displayed. Optional Restormer uses nano_restormer.py.
 """
 
 import argparse
@@ -33,7 +33,7 @@ def write_json(path, value):
 
 
 class Engine:
-    def __init__(self, path):
+    def __init__(self, path, kind="yolo"):
         import tensorrt as trt
         import pycuda.driver as cuda
 
@@ -42,7 +42,9 @@ class Engine:
         if not self.version.startswith("8."):
             raise RuntimeError("This runner requires the TensorRT 8 binding API")
         cuda.init()
-        self.device_context = cuda.Device(0).make_context()
+        # Share the device primary context between both models on the 4GB Nano.
+        self.device_context = cuda.Device(0).retain_primary_context()
+        self.device_context.push()
         self.allocations = []
         try:
             self.logger = trt.Logger(trt.Logger.WARNING)
@@ -56,7 +58,11 @@ class Engine:
             if len(inputs) != 1 or len(outputs) != 1:
                 raise RuntimeError("Expected one input and one output")
             self.input_index, self.output_index = inputs[0], outputs[0]
-            expected = {self.input_index: (1, 3, 640, 640), self.output_index: (1, 84, 8400)}
+            if kind not in ("yolo", "restormer"):
+                raise ValueError("Unknown engine kind")
+            self.input_shape = (1, 3, 640, 640) if kind == "yolo" else (1, 3, 256, 448)
+            self.output_shape = (1, 84, 8400) if kind == "yolo" else self.input_shape
+            expected = {self.input_index: self.input_shape, self.output_index: self.output_shape}
             for i in range(2):
                 if tuple(self.engine.get_binding_shape(i)) != expected[i]:
                     raise RuntimeError(
@@ -75,12 +81,21 @@ class Engine:
                 self.allocations.append(cuda.mem_alloc(host.nbytes))
             self.bindings = [int(pointer) for pointer in self.allocations]
         except Exception:
+            self.device_context.pop()
             self.close()
             raise
+        self.device_context.pop()
 
     def run(self, value):
-        if value.shape != (1, 3, 640, 640) or not np.isfinite(value).all():
-            raise ValueError("Expected finite input [1,3,640,640]")
+        self.device_context.push()
+        try:
+            return self._run(value)
+        finally:
+            self.device_context.pop()
+
+    def _run(self, value):
+        if value.shape != self.input_shape or not np.isfinite(value).all():
+            raise ValueError("Invalid input; expected " + str(self.input_shape))
         np.copyto(self.host[self.input_index], value.ravel())
         self.cuda.memcpy_htod_async(
             self.allocations[self.input_index], self.host[self.input_index], self.stream
@@ -91,14 +106,15 @@ class Engine:
             self.host[self.output_index], self.allocations[self.output_index], self.stream
         )
         self.stream.synchronize()
-        output = self.host[self.output_index].reshape(1, 84, 8400).copy()
+        output = self.host[self.output_index].reshape(self.output_shape).copy()
         if not np.isfinite(output).all():
-            raise ValueError("Nonfinite detector output")
+            raise ValueError("Nonfinite model output")
         return output
 
     def close(self):
         if self.device_context is None:
             return
+        self.device_context.push()
         if hasattr(self, "stream"):
             self.stream.synchronize()
         self.context = None
@@ -213,7 +229,7 @@ def annotate(frame, boxes):
 class Preview:
     """Localhost-only browser preview; access remotely through an SSH tunnel."""
 
-    def __init__(self, port):
+    def __init__(self, port, restored=False):
         self.jpeg = None
         preview = self
 
@@ -235,6 +251,11 @@ class Preview:
                         b"document.getElementById('view').src='/frame.jpg?t='+Date.now();"
                         b"},300);}</script>"
                     )
+                    if restored:
+                        body = body.replace(b"YOLOv8n detector only", b"Restormer + YOLOv8n")
+                        body = body.replace(
+                            b"No Restormer.", b"Left: input. Right: restored + detections."
+                        )
                 else:
                     code, mime, body = 404, "text/plain", b"Not found"
                 self.send_response(code)
@@ -305,21 +326,38 @@ def main():
     parser.add_argument("--max-frames", type=int, default=300, help="0 runs until Ctrl+C")
     parser.add_argument("--conf", type=float, default=0.25)
     parser.add_argument("--serve", type=int, default=0, help="Localhost browser port, e.g. 8080")
+    parser.add_argument("--restorer", type=Path)
+    parser.add_argument("--restorer-fixtures", type=Path)
     args = parser.parse_args()
     if not 0 < args.conf < 1 or args.max_frames < 0:
         parser.error("Require 0 < conf < 1 and max-frames >= 0")
     if args.serve and not args.topic:
         parser.error("--serve is for live --topic mode")
+    if bool(args.restorer) != bool(args.restorer_fixtures):
+        parser.error("Provide both --restorer and --restorer-fixtures")
     if digest(args.fixtures) != FIXTURE_SHA256:
         raise ValueError("Detector fixtures do not match the frozen release")
     args.output.mkdir(parents=True, exist_ok=False)
     cv2.setNumThreads(1)
     engine = Engine(args.engine)
+    restorer = None
     preview = None
     frames = None
     try:
-        print("Checking all three frozen detector fixtures...", flush=True)
-        validation = validate(engine, args.fixtures)
+        contract = {
+            "engine_sha256": digest(args.engine),
+            "fixtures_sha256": FIXTURE_SHA256,
+            "runner_sha256": digest(__file__),
+            "tensorrt": engine.version,
+        }
+        cache = args.engine.with_suffix(".nano-validation.json")
+        previous = json.loads(cache.read_text()) if cache.is_file() else {}
+        if previous.get("passed") and all(previous.get(k) == v for k, v in contract.items()):
+            print("Reusing matching detector numerical check.", flush=True)
+            validation = previous
+        else:
+            print("Checking all three frozen detector fixtures once...", flush=True)
+            validation = validate(engine, args.fixtures)
         validation.update(
             {
                 "engine_sha256": digest(args.engine),
@@ -329,10 +367,22 @@ def main():
             }
         )
         write_json(args.output / "validation.json", validation)
-        print(json.dumps(validation, indent=2), flush=True)
+        write_json(cache, validation)
+        print("Detector check passed: " + str(validation["passed"]), flush=True)
         if not validation["passed"]:
             print("REJECTED: numerical gate failed. Demo will not run.", flush=True)
             return 2
+        if args.restorer:
+            from nano_restormer import check_restorer, restore
+
+            restorer = Engine(args.restorer, kind="restormer")
+            report = check_restorer(restorer, args.restorer, args.restorer_fixtures)
+            write_json(args.output / "restormer_validation.json", report)
+            if not report["passed"]:
+                print(
+                    "REJECTED: Restormer check failed. See restormer_validation.json.", flush=True
+                )
+                return 2
         if args.validate_only:
             return 0
         if args.image:
@@ -343,7 +393,7 @@ def main():
         else:
             frames = ros_frames(args.topic, args.max_frames)
             if args.serve:
-                preview = Preview(args.serve)
+                preview = Preview(args.serve, restored=restorer is not None)
                 print("Preview: http://127.0.0.1:{}/ via SSH tunnel".format(args.serve), flush=True)
         durations = []
         start = time.monotonic()
@@ -352,11 +402,15 @@ def main():
             with (args.output / "detections.jsonl").open("w") as stream:
                 for count, (frame, source) in enumerate(frames, 1):
                     before = time.monotonic()
-                    value, geometry = letterbox(frame)
+                    processed = restore(restorer, frame) if restorer else frame
+                    restored_at = time.monotonic()
+                    value, geometry = letterbox(processed)
                     boxes = decode(engine.run(value), geometry, args.conf)
                     processing_ms = (time.monotonic() - before) * 1000
                     durations.append(processing_ms)
-                    rendered = annotate(frame, boxes)
+                    rendered = annotate(processed, boxes)
+                    if restorer:
+                        rendered = np.concatenate((frame, rendered), axis=1)
                     ok, jpeg = cv2.imencode(".jpg", rendered)
                     if not ok:
                         raise RuntimeError("Cannot encode output image")
@@ -373,6 +427,7 @@ def main():
                                 "source": source,
                                 "boxes_xyxy_score_coco_class": boxes.tolist(),
                                 "processing_ms": processing_ms,
+                                "restoration_ms": (restored_at - before) * 1000,
                             }
                         )
                         + "\n"
@@ -398,7 +453,8 @@ def main():
                 "median_preprocess_inference_decode_ms": float(np.median(durations))
                 if durations
                 else None,
-                "scope": "YOLO-only demo; FPS includes capture/output; not mAP or Restormer timing",
+                "scope": "Restormer + YOLO demo" if restorer else "YOLO-only demo",
+                "timing_note": "FPS includes capture/output; not mAP or a sustained benchmark",
             },
         )
         print("Results saved in " + str(args.output), flush=True)
@@ -407,6 +463,8 @@ def main():
             frames.close()
         if preview:
             preview.close()
+        if restorer:
+            restorer.close()
         engine.close()
     return 0
 

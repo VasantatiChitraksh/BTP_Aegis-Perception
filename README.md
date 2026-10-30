@@ -17,6 +17,8 @@ The package preserves the trained Restormer + YOLOv8n deployment kit and adds a 
 
 The older `edge_pipeline/` examples and hardware plots below are experimental material, not evidence of validated hardware speed or accuracy. Build TensorRT engines on the target Jetson, retain validation and layer reports, and measure latency, memory and power before making deployment claims.
 
+For an **original Jetson Nano on JetPack 4 / TensorRT 8.2 / Python 3.6**, use the separate [Nano instructions](docs/nano_yolo_demo.txt). The Orin package's setup scripts do not support that stack. The Nano adapters support a checked detector and optional trained Restormer; combined hardware execution remains subject to device build, memory and numerical checks.
+
 ---
 
 ## 1. Repository Layout
