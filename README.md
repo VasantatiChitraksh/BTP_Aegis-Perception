@@ -3,11 +3,19 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch 2.4+](https://img.shields.io/badge/PyTorch-2.4+-ee4c2c.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Edge Ready](https://img.shields.io/badge/Edge%20Platform-Jetson%20Orin%20%7C%20Jetson%20Nano%20%7C%20RPi%205-green.svg)](artifacts/edge_v1/reports/README_REPORTS.md)
+[![Deployment target](https://img.shields.io/badge/Deployment%20target-Jetson%20Orin-blue.svg)](docs/edge_integrated_handoff.txt)
 
 **Aegis Perception** is an edge-optimized perception suite designed for weather-degraded autonomous driving and robotic systems under the **TiHAN–IIT Hyderabad ADAS** initiative. 
 
-It chains adverse-weather image restoration (deraining, dehazing, desnowing, desmoking) directly into road-object detection (YOLOv8), powered by **Aegis-HAMQ** (Hardware-Aware Adaptive Mixed-Precision Quantization).
+It chains adverse-weather image restoration (deraining, dehazing, desnowing, desmoking) into road-object detection (YOLOv8). **Aegis-HAMQ** is a proposed quantization research direction; validated custom INT8 execution and Jetson performance are not yet established.
+
+## Current deployment download
+
+Use the [integrated edge release](https://github.com/VasantatiChitraksh/BTP_Aegis-Perception/releases/tag/edge-integrated-20261030), containing `aegis_edge_integrated_20261030.tar.gz` and its SHA256 file. Model binaries are release assets, so cloning this repository alone does not download them. Extract the archive and read `START_INTEGRATED.txt` first.
+
+The package preserves the trained Restormer + YOLOv8n deployment kit and adds a reviewed adapter for the custom weight quantizer plus synthetic-weather experiments. The custom candidate remains a floating-point simulation: its four-image screen rejected it on numerical agreement for fog and smoke, and its ONNX size did not decrease. Use the baseline for initial deployment. [Measured screen](docs/quantization/restormer_custom_screen_20261030.json) · [Deployment instructions](docs/edge_integrated_handoff.txt) · [Weather-testing workflow](scripts/weather_testing/README.md).
+
+The older `edge_pipeline/` examples and hardware plots below are experimental material, not evidence of validated hardware speed or accuracy. Build TensorRT engines on the target Jetson, retain validation and layer reports, and measure latency, memory and power before making deployment claims.
 
 ---
 

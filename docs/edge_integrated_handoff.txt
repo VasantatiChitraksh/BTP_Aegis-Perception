@@ -1,0 +1,98 @@
+AEGIS INTEGRATED EDGE PACKAGE
+============================
+Read this file first. This package preserves every original file from the
+verified October 24 Restormer + YOLOv8n deployment kit. BASE_PACKAGE.json records
+that original manifest; PACKAGE.json covers the integrated package.
+
+What is integrated
+------------------
+Chitraksh's DevisedEdgeQuantizer is included with a new ONNX adapter that uses
+the verified TRAINED Restormer export, not the initialized template checkpoint.
+It applies the original channel-wise percentile weight-rounding mathematics.
+Input/output convolution preservation is explicit and recorded, not guessed
+from names such as 'head'. This is a fixed heuristic, not measured sensitivity.
+
+The candidate remains a FLOAT ONNX graph. It is not QDQ, does not quantize
+activations, and does not by itself accelerate inference or compress storage.
+Actual ONNX file sizes and quality against clean fixtures are recorded. The
+custom quantizer's legacy docstrings describe capabilities beyond what this
+adapter executes; those descriptions are not deployment or novelty claims.
+
+Local screen on 2026-10-30: default W8/99.95 candidate rounded 272 convolution
+weights and preserved two. All four clean-reference quality deltas passed the
+limits, but fog RMSE 0.006181 and smoke RMSE 0.004639 exceeded the 0.004 output
+agreement limit. Overall status: REJECTED. Both baseline and candidate ONNX
+were 105748439 bytes. This candidate is not promoted to the deployment default.
+
+The old template weights, mock-capable detector, alternative inference loop,
+unverified charts and template-derived benchmark reports are deliberately not
+deployment entry points. The existing verified runtime handles preprocessing,
+detection and actual TensorRT calibration. No new model was trained.
+
+FIRST: BASELINE DEPLOYMENT ON JETSON
+----------------------------------
+Extract the archive, change into its directory, and follow START_HERE.txt and
+docs/restormer_edge_handoff.txt for JetPack checks and environment setup.
+The old archive name in those preserved documents identifies the base release;
+you already have its contents and do not need to download it again.
+
+From the integrated package root, after creating the runtime environment:
+  export AEGIS_PYTHON="$PWD/.venv/bin/python"
+  "$AEGIS_PYTHON" scripts/deployment/edge_verify_package.py
+  bash scripts/deployment/edge_device.sh prepare
+  bash scripts/deployment/edge_device.sh benchmark
+
+Read docs/restormer_compression.txt before the real FP32/FP16/calibrated-INT8
+comparison. Then run on the Jetson:
+  bash scripts/deployment/edge_compression_device.sh
+
+Engine flags do not guarantee every layer executes at that precision. Inspect
+the recorded layer information. Hardware results remain pending until you run
+this on your actual Jetson. No PyTorch is required for the baseline device path.
+
+SECOND: CUSTOM WEIGHT SIMULATION ON THE LAPTOP
+---------------------------------------------
+Open a laptop terminal in the extracted integrated package directory:
+  python3 -m venv .experiment-venv
+  .experiment-venv/bin/python -m pip install -r configs/deployment/edge_experiment_requirements.txt
+  .experiment-venv/bin/python scripts/deployment/edge_custom_candidate.py --kit . --output results/custom_w8_p9995
+
+The command uses Chitraksh's quantizer on the trained ONNX convolution weights,
+preserves the input/output convolutions, and evaluates all four clean-reference
+fixtures. report.json includes hashes, actual file sizes, preserved/converted
+weights and per-image quality changes. Exit code 2 means REJECTED by the small
+screen; do not promote that candidate as validated. The candidate is retained
+for analysis. A passing screen is not full-dataset accuracy evidence.
+
+Optional controlled ablation, with a new output directory:
+  .experiment-venv/bin/python scripts/deployment/edge_custom_candidate.py --kit . --output results/custom_w8_all --quantize-boundary
+
+For a candidate that passes, copy its output directory to the same relative
+location on the Jetson. Its first hardware test uses FP16 execution, not a
+claim of custom INT8 kernels. From the Jetson package root:
+  "$AEGIS_PYTHON" scripts/deployment/edge_build.py --kind restormer --precision fp16 --onnx results/custom_w8_p9995/restoration_weight_simulation.onnx --fixtures artifacts/edge_v1/exports/256x448/restormer/fixtures.npz --output engines/custom_weight_sim_fp16.engine
+
+The builder checks against ORIGINAL trained-model fixtures again. If validation
+fails, stop. Successful custom engines can be supplied to edge_run.py or the
+weather runner just like baseline engines, using a clearly named custom label.
+Do not interpret baseline TensorRT entropy calibration as an implementation of
+the custom percentile scales. Explicit QDQ/custom activation integration is
+future work, not included functionality.
+
+THIRD: WEATHER TESTING
+---------------------
+The included scripts/weather_testing/README.md describes recording, synthesis,
+raw/resize/restored comparisons and scoring. Use its separate workstation
+dependencies. A camera or permitted input video must be supplied. Detection
+accuracy requires human-reviewed labels. Synthetic weather is a screen-space
+proxy, not proof of real-world weather performance. No camera/video is bundled.
+
+REPRODUCIBILITY
+---------------
+Keep PACKAGE.json, report.json, engine metadata, layer reports and test outputs.
+Generated environments/results do not modify checksummed source files.
+Rebuild this integrated archive from the repository with:
+  python3 scripts/deployment/edge_integrated_package.py --output artifacts/releases/NEW_UNIQUE_NAME
+The builder requires the original archive with its pinned SHA256. It refuses
+to overwrite existing packages. Device setup and hardware measurements cannot
+be verified on the laptop. The frozen dataset/model notices still apply.
