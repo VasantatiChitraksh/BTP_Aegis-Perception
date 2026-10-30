@@ -15,6 +15,11 @@ from nano_yolo_demo import Engine, digest, write_json
 
 GRAPH_SHA256 = "2761e778fc638727f4ae2bc9d0fb077ed414de84a314a6f12f6c578c061c026c"
 FIXTURE_SHA256 = "01aea6e12d4cce8cc3b94e36730d223b6d3b305a2e93df04a71a2b468b06b6a4"
+SMALL_FIXTURE_SHA256 = "992002fb730d3b0ec03153e96cc6ec904e51010b94e61ca59972ff86a73bd0e6"
+PROFILES = {
+    FIXTURE_SHA256: GRAPH_SHA256,
+    SMALL_FIXTURE_SHA256: "283f9f437d74e06b256ddcc88a9a1fa150f94d58e96b47d3608de247fb7cb725",
+}
 
 
 def quality(x, y):
@@ -78,11 +83,12 @@ def validate_restorer(engine, fixtures):
 
 
 def check_restorer(engine, path, fixtures):
-    if digest(fixtures) != FIXTURE_SHA256:
+    fixture_hash = digest(fixtures)
+    if fixture_hash not in PROFILES:
         raise ValueError("Restormer fixtures differ from the trained release")
     contract = {
         "engine_sha256": digest(path),
-        "fixtures_sha256": FIXTURE_SHA256,
+        "fixtures_sha256": fixture_hash,
         "validator_sha256": digest(__file__),
         "runtime_sha256": digest(Path(__file__).with_name("nano_yolo_demo.py")),
         "tensorrt": engine.version,
@@ -99,15 +105,18 @@ def check_restorer(engine, path, fixtures):
     return result
 
 
-def preprocess(bgr):
+def preprocess(bgr, canvas_height=256, canvas_width=448):
     from PIL import Image
 
     image = Image.fromarray(cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB))
     width, height = image.size
-    scale = min(448.0 / width, 256.0 / height)
-    new_w, new_h = max(1, min(448, round(width * scale))), max(1, min(256, round(height * scale)))
+    scale = min(float(canvas_width) / width, float(canvas_height) / height)
+    new_w = max(1, min(canvas_width, round(width * scale)))
+    new_h = max(1, min(canvas_height, round(height * scale)))
     resized = np.asarray(image.resize((new_w, new_h), Image.BILINEAR), dtype=np.float32)
-    padded = np.pad(resized, ((0, 256 - new_h), (0, 448 - new_w), (0, 0)), mode="edge")
+    padded = np.pad(
+        resized, ((0, canvas_height - new_h), (0, canvas_width - new_w), (0, 0)), mode="edge"
+    )
     value = np.ascontiguousarray((padded / 127.5 - 1).transpose(2, 0, 1)[None])
     return value, (width, height, new_w, new_h)
 
@@ -115,7 +124,7 @@ def preprocess(bgr):
 def postprocess(value, geometry):
     from PIL import Image
 
-    if value.shape != (1, 3, 256, 448) or not np.isfinite(value).all():
+    if value.shape not in ((1, 3, 256, 448), (1, 3, 128, 224)) or not np.isfinite(value).all():
         raise ValueError("Invalid Restormer output")
     width, height, new_w, new_h = geometry
     rgb = (np.clip(value[0, :, :new_h, :new_w], -1, 1).transpose(1, 2, 0) + 1) * 127.5
@@ -125,7 +134,7 @@ def postprocess(value, geometry):
 
 
 def restore(engine, frame):
-    value, geometry = preprocess(frame)
+    value, geometry = preprocess(frame, engine.input_shape[2], engine.input_shape[3])
     return postprocess(engine.run(value), geometry)
 
 
@@ -137,7 +146,8 @@ def build(args):
         raise RuntimeError("This Nano builder targets TensorRT 8.2 through 8.x")
     if args.workspace < 1:
         raise ValueError("Workspace must be positive")
-    if digest(args.onnx) != GRAPH_SHA256 or digest(args.fixtures) != FIXTURE_SHA256:
+    fixture_hash, graph_hash = digest(args.fixtures), digest(args.onnx)
+    if fixture_hash not in PROFILES or graph_hash != PROFILES[fixture_hash]:
         raise ValueError("Graph/fixtures must match the trained Restormer release")
     args.output.parent.mkdir(parents=True, exist_ok=True)
     if args.output.exists():
@@ -200,7 +210,7 @@ def build(args):
     write_json(
         args.output.with_suffix(".build.json"),
         {
-            "onnx_sha256": GRAPH_SHA256,
+            "onnx_sha256": graph_hash,
             "tensorrt": trt.__version__,
             "workspace_mib": args.workspace,
             "fp32_constrained_layers": constrained,

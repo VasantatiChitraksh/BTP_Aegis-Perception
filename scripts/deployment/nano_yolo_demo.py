@@ -60,7 +60,12 @@ class Engine:
             self.input_index, self.output_index = inputs[0], outputs[0]
             if kind not in ("yolo", "restormer"):
                 raise ValueError("Unknown engine kind")
-            self.input_shape = (1, 3, 640, 640) if kind == "yolo" else (1, 3, 256, 448)
+            self.input_shape = tuple(self.engine.get_binding_shape(self.input_index))
+            allowed = (
+                ((1, 3, 640, 640),) if kind == "yolo" else ((1, 3, 256, 448), (1, 3, 128, 224))
+            )
+            if self.input_shape not in allowed:
+                raise ValueError("Unsupported static input shape: " + str(self.input_shape))
             self.output_shape = (1, 84, 8400) if kind == "yolo" else self.input_shape
             expected = {self.input_index: self.input_shape, self.output_index: self.output_shape}
             for i in range(2):

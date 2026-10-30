@@ -66,6 +66,35 @@ This script is a separate Nano adapter; it does not modify the frozen Orin
 archive or add custom quantization. Hardware compatibility still requires the
 user to execute the build and checks on the Nano.
 
+LOWER-RESOLUTION FALLBACK AFTER BUILD MEMORY PRESSURE
+----------------------------------------------------
+The user's 256x448 build repeatedly skipped tactics requesting about 1365-1386
+MiB with about 1092 MiB available. Stop that attempt before trying another.
+Do not automatically stop ROS/camera services, increase workspace or replace
+system software. A process being alive does not prove useful build progress.
+
+The nano-restormer-128x224-20261030 GitHub release provides an archive named
+aegis_nano_restormer_128x224_20261030.tar.gz plus checksum. It extracts into
+restormer_128x224/ and includes updated nano_yolo_demo.py and nano_restormer.py.
+Copy both scripts into ~/aegis-nano before running. Keep the working FP32 YOLO.
+
+Same trained epoch-51 checkpoint; 128x224 processes one quarter of the previous
+pixels. Model parameter count is unchanged. Memory reduction is NOT guaranteed
+to equal 4x; lower resolution can lose details and must not inherit old quality
+claims. PyTorch/ONNX agreement passed on four images; Nano fit/speed is pending.
+
+From ~/aegis-nano, build only the replacement Restormer:
+  /usr/bin/python3 nano_restormer.py --onnx restormer_128x224/restoration.onnx --fixtures restormer_128x224/fixtures.npz --output engines/restormer_128x224_mixed.engine --workspace 256
+
+Use these two replacement options in the combined demo:
+  --restorer engines/restormer_128x224_mixed.engine --restorer-fixtures restormer_128x224/fixtures.npz
+
+The runner reads the engine shape and applies matching preprocessing. The
+four reference limits are unchanged and use newly generated 128x224 inputs
+and expected outputs. The previous 256x448 fixtures cannot validate this export.
+If repeated memory failures recur, stop and assess available RAM before any
+further build; do not continue an indefinite series of unchanged attempts.
+
 RESTORMER + YOLO
 ---------------
 Download nano_restormer.py beside the updated nano_yolo_demo.py from the SAME

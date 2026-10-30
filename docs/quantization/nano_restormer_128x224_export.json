@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "shape": [
+    1,
+    3,
+    128,
+    224
+  ],
+  "selected_epoch": 51,
+  "checkpoint_sha256": "5268af32c161413502a8978a839b311152a1dd2bf093ade137e07d58166a8555",
+  "onnx_sha256": "283f9f437d74e06b256ddcc88a9a1fa150f94d58e96b47d3608de247fb7cb725",
+  "fixtures_sha256": "992002fb730d3b0ec03153e96cc6ec904e51010b94e61ca59972ff86a73bd0e6",
+  "samples": [
+    {
+      "weather": "fog",
+      "sample_id": "reside6k/train/5607.jpg",
+      "input_sha256": "4a6338ccf6a0d533835a6dd0e106a3ac7d54135aefbb81d93e1b9cccc93bdffd",
+      "target_sha256": "30aea146d107ca0d0580a0319137decb0e2673c5b7fb7bfc1b8642944a7d407c",
+      "max_abs_error": 4.112720489501953e-06
+    },
+    {
+      "weather": "rain",
+      "sample_id": "realrain1k_h/validation/67",
+      "input_sha256": "252703008ad3bb40c3c1d8f9576bd3584358655db37dec38609f9abf7f9cffa0",
+      "target_sha256": "d962a1ff1b9e641ae71d9710972568e74f9c3d6b40e4834a45db8c74f3441fe8",
+      "max_abs_error": 2.1457672119140625e-06
+    },
+    {
+      "weather": "smoke",
+      "sample_id": "smokebench_v2/train/4022",
+      "input_sha256": "07f59e6798d121d13eefd683a909407a023e51e65898df7d76a8c1c5775fd261",
+      "target_sha256": "d10fa4732c3113b950a8ea6661abb54b86de7441894d15cc4d18cfa79a618106",
+      "max_abs_error": 1.7285346984863281e-06
+    },
+    {
+      "weather": "snow",
+      "sample_id": "snow_cityscapes/train/cityscape-5397",
+      "input_sha256": "9e6b610e88d269c45eb2847558645c118ee8cd5ab520a186682898f953dcda85",
+      "target_sha256": "234650636d93a9ecdd3278430e5dd6818441eceb7bb0e5c95753fbbfd3953b27",
+      "max_abs_error": 2.384185791015625e-06
+    }
+  ],
+  "scope": "Four-image export agreement; Nano build/inference NOT measured. Lower resolution is a new operating point, not equivalent quality.",
+  "exporter_sha256": "e381e6fef6c8cd15443892a73913e1b3f76e73d229c259b2cd861a5256f40c03"
+}
