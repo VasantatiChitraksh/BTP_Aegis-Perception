@@ -62,7 +62,9 @@ class Engine:
                 raise ValueError("Unknown engine kind")
             self.input_shape = tuple(self.engine.get_binding_shape(self.input_index))
             allowed = (
-                ((1, 3, 640, 640),) if kind == "yolo" else ((1, 3, 256, 448), (1, 3, 128, 224))
+                ((1, 3, 640, 640),)
+                if kind == "yolo"
+                else ((1, 3, 256, 448), (1, 3, 128, 224), (1, 3, 128, 128))
             )
             if self.input_shape not in allowed:
                 raise ValueError("Unsupported static input shape: " + str(self.input_shape))

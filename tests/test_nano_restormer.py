@@ -20,15 +20,18 @@ rest = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(rest)
 
 
-@pytest.mark.parametrize("height,width", [(256, 448), (128, 224)])
-def test_python36_and_frozen_input_geometry(height, width):
+@pytest.mark.parametrize(
+    "height,width,resized_w,resized_h",
+    [(256, 448, 341, 256), (128, 224, 171, 128), (128, 128, 128, 96)],
+)
+def test_python36_and_frozen_input_geometry(height, width, resized_w, resized_h):
     ast.parse(Path(rest.__file__).read_text(), feature_version=(3, 6))
     image = np.random.default_rng(2).integers(0, 256, (480, 640, 3), dtype=np.uint8)
     actual, geometry = rest.preprocess(image[:, :, ::-1].copy(), height, width)
     expected, _ = reference_preprocess(Image.fromarray(image), height, width)
     np.testing.assert_array_equal(actual, expected)
     assert actual.shape == (1, 3, height, width)
-    assert geometry == (640, 480, round(640 * height / 480), height)
+    assert geometry == (640, 480, resized_w, resized_h)
     assert rest.postprocess(actual, geometry).shape == image.shape
 
 

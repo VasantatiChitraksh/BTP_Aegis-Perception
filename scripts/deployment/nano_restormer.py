@@ -17,6 +17,8 @@ GRAPH_SHA256 = "2761e778fc638727f4ae2bc9d0fb077ed414de84a314a6f12f6c578c061c026c
 FIXTURE_SHA256 = "01aea6e12d4cce8cc3b94e36730d223b6d3b305a2e93df04a71a2b468b06b6a4"
 SMALL_FIXTURE_SHA256 = "992002fb730d3b0ec03153e96cc6ec904e51010b94e61ca59972ff86a73bd0e6"
 PROFILES = {
+    "776cb711e4a62cb2008b933caf3e7510b08d987eda33a52d74cd13c78cd544ca":
+        "b65d0fdac5ddc8c2127c37e7286c1a1ae2b9fb0e599d045524e297b8fab6cec2",
     FIXTURE_SHA256: GRAPH_SHA256,
     SMALL_FIXTURE_SHA256: "283f9f437d74e06b256ddcc88a9a1fa150f94d58e96b47d3608de247fb7cb725",
 }
@@ -124,7 +126,10 @@ def preprocess(bgr, canvas_height=256, canvas_width=448):
 def postprocess(value, geometry):
     from PIL import Image
 
-    if value.shape not in ((1, 3, 256, 448), (1, 3, 128, 224)) or not np.isfinite(value).all():
+    if (
+        value.shape not in ((1, 3, 256, 448), (1, 3, 128, 224), (1, 3, 128, 128))
+        or not np.isfinite(value).all()
+    ):
         raise ValueError("Invalid Restormer output")
     width, height, new_w, new_h = geometry
     rgb = (np.clip(value[0, :, :new_h, :new_w], -1, 1).transpose(1, 2, 0) + 1) * 127.5

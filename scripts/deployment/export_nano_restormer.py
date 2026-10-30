@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Workstation-only: export the trained Restormer at 128x224 with four references."""
+"""Workstation-only: export the trained Restormer at a selected static size with four references."""
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -19,7 +20,11 @@ from aegis_perception.official_runtime import activate
 
 
 def main():
-    output = ROOT / "artifacts/edge_v1/exports/128x224/restormer"
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--width", type=int, choices=(128, 224), default=224)
+    args = parser.parse_args()
+    width = args.width
+    output = ROOT / "artifacts/edge_v1/exports" / ("128x%d" % width) / "restormer"
     output.mkdir(parents=True, exist_ok=False)
     checkpoint, _ = model_info("restormer")
     activate()
@@ -27,11 +32,11 @@ def main():
     model, state = load_generator(checkpoint, device="cpu")
     model.eval()
     graph = output / "restoration.onnx"
-    print("Exporting trained epoch {} at 128x224".format(state["epoch"]), flush=True)
+    print("Exporting trained epoch {} at 128x{}".format(state["epoch"], width), flush=True)
     with torch.inference_mode():
         torch.onnx.export(
             model,
-            torch.zeros(1, 3, 128, 224),
+            torch.zeros(1, 3, 128, width),
             str(graph),
             input_names=["degraded"],
             output_names=["restored"],
@@ -44,9 +49,9 @@ def main():
     fixtures, rows = {}, []
     for record in select_panel("val", 1):
         with Image.open(record.input_path) as image:
-            value, geometry = preprocess(image, 128, 224)
+            value, geometry = preprocess(image, 128, width)
         with Image.open(record.target_path) as image:
-            target, target_geometry = preprocess(image, 128, 224)
+            target, target_geometry = preprocess(image, 128, width)
         if geometry != target_geometry:
             raise ValueError("Paired fixture geometry mismatch")
         with torch.inference_mode():
@@ -59,8 +64,8 @@ def main():
         fixtures["input_" + weather] = value
         fixtures["expected_" + weather] = actual
         fixtures["target_" + weather] = target
-        width, height = geometry["resized_wh"]
-        fixtures["valid_hw_" + weather] = np.array([height, width], np.int32)
+        valid_width, height = geometry["resized_wh"]
+        fixtures["valid_hw_" + weather] = np.array([height, valid_width], np.int32)
         rows.append(
             {
                 "weather": weather,
@@ -74,7 +79,7 @@ def main():
     np.savez_compressed(str(output / "fixtures.npz"), **fixtures)
     report = {
         "passed": True,
-        "shape": [1, 3, 128, 224],
+        "shape": [1, 3, 128, width],
         "selected_epoch": state["epoch"],
         "checkpoint_sha256": digest(checkpoint),
         "onnx_sha256": digest(graph),

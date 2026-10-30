@@ -122,3 +122,22 @@ edge padding as the frozen pipeline. Output is unpadded, clipped, rounded and
 resized back before detection. Two models share a primary CUDA context, with
 explicit balanced context selection for each model call. This is not proof
 of restoration improving detection; a labelled evaluation would establish that.
+
+128x128 TRIAL (2026-10-30)
+-------------------------
+The user stopped the 128x224 build after repeated skipped tactics (1008MB
+requested, 978MB available). No final TensorRT build-failure message was
+observed. Neither attempted Restormer size has a validated Nano engine yet.
+
+The nano-restormer-128x128-20261030 release contains the same epoch-51 trained
+weights exported at static batch 1, 128x128. Extract restormer_128x128/ and
+copy both bundled Python scripts into ~/aegis-nano. Build with:
+  /usr/bin/python3 nano_restormer.py --onnx restormer_128x128/restoration.onnx --fixtures restormer_128x128/fixtures.npz --output engines/restormer_128x128_mixed.engine --workspace 256
+
+This keeps the previous mixed-precision policy and validation limits. It does
+not add tiling: the current demo resizes/pads the whole frame to the engine
+shape, restores it, and resizes back. Lower image detail can change results.
+128x128 has 43% fewer pixels than 128x224; total memory savings are unknown.
+Nano build feasibility, latency and task accuracy remain unverified.
+Use the 128x128 engine and its matching fixtures in the live demo only after
+READY is printed. Do not overwrite the validated YOLO FP32 engine.
