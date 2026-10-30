@@ -1,0 +1,59 @@
+JETSON NANO / JETAUTOPRO DETECTOR DEMO
+====================================
+Target reported by user: original Nano 4GB, L4T 32.7.3, Python 3.6.9,
+TensorRT 8.2.1.8, numpy 1.19.4, OpenCV 4.5.5, PyCUDA and ROS installed.
+This standalone runner deliberately does not install the main Python package,
+change system Python or require cv_bridge, whose local compiled extension
+failed to load under Python 3.6.
+
+The user's trtexec log reports a successful YOLOv8n FP16-permitted build:
+1x3x640x640 input, 1x84x8400 output, 18.1549 queries/sec over a 3.08456-second
+random-input run. This is user-supplied engine benchmark evidence, not live
+camera FPS, a sustained benchmark, detection accuracy, or Restormer performance.
+Actual layer precision has not been audited. Restormer is not part of this demo.
+
+Download scripts/deployment/nano_yolo_demo.py to ~/aegis-nano/nano_yolo_demo.py
+from a pinned repository commit. No dependency installations are needed on the
+reported Nano. Keep the existing robot services and system libraries intact.
+
+From ~/aegis-nano, set:
+  export AEGIS_KIT="$HOME/aegis-nano/aegis_edge_integrated_20261030"
+
+Validate the already built engine; do not rebuild:
+  /usr/bin/python3 nano_yolo_demo.py --engine engines/yolov8n_fp16_candidate.engine --fixtures "$AEGIS_KIT/artifacts/edge_v1/exports/yolov8n/fixtures.npz" --validate-only --output results/yolo_validation_01
+
+Continue only if passed=true. A rejected engine is not approved just because
+trtexec succeeded. Every demo also repeats this three-image numerical gate.
+Fixture hashes are pinned; validation records engine and runner hashes.
+
+Saved camera image:
+  /usr/bin/python3 nano_yolo_demo.py --engine engines/yolov8n_fp16_candidate.engine --fixtures "$AEGIS_KIT/artifacts/edge_v1/exports/yolov8n/fixtures.npz" --image results/astra_camera_test.png --output results/yolo_image_01
+
+Outputs: validation.json, first.jpg, latest.jpg, detections.jsonl, summary.json.
+Only person, bicycle, car, motorcycle, bus and truck are displayed. Zero road
+objects indoors is possible and is not automatically a runtime failure.
+Detection confidence is not accuracy. New runs require new output directories.
+
+Live Astra RGB, on the Jetson (Ctrl+C stops cleanly):
+  /usr/bin/python3 nano_yolo_demo.py --engine engines/yolov8n_fp16_candidate.engine --fixtures "$AEGIS_KIT/artifacts/edge_v1/exports/yolov8n/fixtures.npz" --topic /astra_cam/rgb/image_raw/compressed --max-frames 0 --serve 8080 --output results/yolo_live_01
+
+ROS callback keeps only the latest message, so frames can be dropped during
+processing rather than building an unbounded inference queue. CUDA calls stay
+on the main thread. No new direct camera capture is opened. Camera input is
+compressed; this is not a lossless restoration-quality evaluation protocol.
+
+On the LAPTOP, open a separate terminal and substitute the SSH address:
+  ssh -N -L 8080:127.0.0.1:8080 jetauto@JETSON_IP
+Leave that command running, then open http://127.0.0.1:8080 in the laptop browser.
+The preview shows latest processed images, refreshed approximately every 300ms.
+Browser refresh rate is not inference FPS. Preview is bound to localhost only.
+It stops when the runner stops. No camera footage is sent to a third-party host.
+
+CPU tests cover Python 3.6 syntax, RGB/letterbox geometry, class-aware NMS,
+reference rejection and localhost preview. Actual TensorRT/PyCUDA execution
+and ROS integration require running the script on the user's Nano; they have
+not been tested on developer hardware. If validation rejects, preserve its
+JSON and the build log rather than weakening limits.
+
+This script is a separate Nano adapter; it does not modify the frozen Orin
+archive, add custom quantization, or claim support for Restormer on Nano.
