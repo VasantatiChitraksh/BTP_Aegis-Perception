@@ -1,0 +1,346 @@
+AEGIS / RESTORATION BENCHMARK                                                                                         24 OCT 2026 / 01
+
+
+
+
+Six models. One benchmark.
+6/6 completed runs verified locally. One frozen benchmark; validation-selected checkpoints. Observed test quality,
+with failures and model size kept visible.
+
+
+
+   HIGHEST TEST PSNR                                HIGHEST TEST SSIM                             FEWEST PARAMETERS
+
+
+
+
+   32.58 dB                                         0.9297                                        0.935 M
+   Restormer                                        Restormer                                     RAMiT
+
+
+
+
+01 / OVERALL TEST QUALITY
+
+
+ Model                                   PSNR ↑            SSIM ↑            ΔPSNR ↑           ΔSSIM ↑           Params M ↓
+
+
+ Restormer                               32.58             0.9297            13.97             0.2162            26.127
+
+
+ PromptIR                                31.39             0.9182            12.77             0.2047            35.592
+
+
+ TransWeather                            29.04             0.9000            10.43             0.1865            38.052
+
+
+ RAMiT                                   28.66             0.8995            10.04             0.1860            0.935
+
+
+ LiteWeather v2                          27.21             0.8644            8.59              0.1509            2.189
+
+
+ Attention Pix2Pix                       24.73             0.8201            6.11              0.1066            29.855
+
+
+
+Read the table: green bold cells mark the best displayed value in each column; ties share highlighting. Deltas compare
+restored images with the same degraded inputs. Each weather contributes 25% of the headline score, regardless of image count.
+
+
+
+
+02 / QUALITY VERSUS PARAMETER COUNT
+
+
+
+
+                                                                                                                 2
+  32
+                                                                                                                          5
+
+
+  29
+                                                                                                                              4
+                   6
+
+                                          3
+
+  26
+                                                                                                                     1
+
+  23
+               1                    2                           5                    10                 20                40
+
+                                          Parameters (millions, log scale) • PSNR (dB)
+
+
+1 Attention Pix2Pix · 2 Restormer · 3 LiteWeather v2 · 4 TransWeather · 5 PromptIR · 6 RAMiT
+
+
+
+
+VERIFIED FINAL RESULTS                                                                                   Frozen weather-v3 | 1 / 5
+AEGIS / RESTORATION BENCHMARK                                                                          24 OCT 2026 / 02
+
+
+
+
+Where each model succeeds.
+Per-weather scene-balanced metrics. A strong average can still hide damaged images.
+
+
+
+03 / PSNR BY WEATHER — HIGHER IS BETTER
+
+
+ Model                              Rain                 Fog                  Snow                    Smoke
+
+
+ Attention Pix2Pix                  28.46                23.55                29.05                   17.85
+
+ Restormer                          38.77                31.51                39.51                   20.55
+
+ LiteWeather v2                     31.02                27.42                31.40                   18.98
+
+ TransWeather                       34.19                29.58                32.31                   20.10
+
+ PromptIR                           36.40                31.88                37.63                   19.65
+
+ RAMiT                              34.37                24.19                36.85                   19.23
+
+
+
+
+04 / SSIM BY WEATHER — HIGHER IS BETTER
+
+
+ Model                              Rain                 Fog                  Snow                    Smoke
+
+
+ Attention Pix2Pix                  0.8674               0.8708               0.8514                  0.6909
+
+ Restormer                          0.9768               0.9666               0.9816                  0.7937
+
+ LiteWeather v2                     0.8772               0.9353               0.9045                  0.7408
+
+ TransWeather                       0.9507               0.9525               0.9260                  0.7710
+
+ PromptIR                           0.9656               0.9672               0.9739                  0.7662
+
+ RAMiT                              0.9526               0.9206               0.9685                  0.7561
+
+
+
+
+05 / IMAGES MADE WORSE — PSNR / SSIM COUNTS ↓
+
+
+ Model                              Rain /224            Fog /1000            Snow /768               Smoke /342
+
+
+ Attention Pix2Pix                  21 / 29              9 / 105              0/0                     179 / 341
+
+ Restormer                          0/1                  0/0                  0/0                     27 / 37
+
+ LiteWeather v2                     3 / 11               1/0                  0/0                     88 / 249
+
+ TransWeather                       2/4                  0/1                  0/0                     58 / 106
+
+ PromptIR                           0/1                  1/0                  0/0                     68 / 128
+
+ RAMiT                              6 / 11               41 / 56              0/0                     79 / 200
+
+
+Smoke deserves separate scrutiny: 342 test images cover just six independent backgrounds. PSNR and SSIM regression
+counts overlap; do not add them together.
+
+
+
+
+VERIFIED FINAL RESULTS                                                                    Frozen weather-v3 | 2 / 5
+AEGIS / RESTORATION BENCHMARK                                                                                     24 OCT 2026 / 03
+
+
+
+
+Learning curves. Real costs.
+Every curve covers 60 epochs. Dots mark the checkpoint selected by validation PSNR, not by test scores.
+
+
+
+
+Validation scene-balanced PSNR (dB)
+
+33.6
+
+
+
+
+28.5
+
+
+
+
+23.4
+
+
+
+
+18.4
+         1                                       20                                          40                                      60
+
+
+
+
+Validation scene-balanced SSIM
+
+0.949
+
+
+
+
+0.824
+
+
+
+
+0.699
+
+
+
+
+0.574
+         1                                       20                                          40                                      60
+
+Attention Pix2Pix · Restormer · LiteWeather v2 · TransWeather · PromptIR · RAMiT
+
+
+
+
+06 / RECORDED TRAINING AND CHECKPOINT FOOTPRINT
+
+
+ Model                                    Best epoch           Epoch hours            best.pt MiB              Inference MiB
+
+
+ Attention Pix2Pix                        59                   1.45                   373.6                    114.0
+
+ Restormer                                51                   15.38                  299.7                    99.9
+
+ LiteWeather v2                           59                   1.64                   25.3                     8.4
+
+ TransWeather                             58                   2.73                   433.7                    145.3
+
+ PromptIR                                 50                   16.67                  406.4                    136.0
+
+ RAMiT                                    45                   13.92                  12.0                     4.4
+
+
+Epoch hours sum logged training + validation time; exclude queues, preflight and final test. Parameter count and checkpoint size do not
+measure Jetson latency. INT8 quality, memory and FPS alongside YOLOv8 remain unmeasured.
+
+
+
+
+VERIFIED FINAL RESULTS                                                                               Frozen weather-v3 | 3 / 5
+AEGIS / RESTORATION BENCHMARK                                                                                            24 OCT 2026 / 04
+
+
+
+
+The evidence behind the scores.
+A reproducible protocol, an honest interpretation, and locally traceable weights.
+
+
+
+07 / FROZEN SPLIT
+
+
+ Weather / source                                             Train                       Validation                  Test
+
+
+ Rain / RealRain1k-H                                          773                         112                         224
+
+ Fog / RESIDE6K                                               5102                        897                         1000
+
+ Snow / SnowCityscapes                                        5382                        618                         768
+
+ Smoke / SmokeBench v2                                        7353                        384                         342
+
+ Total                                                        18610                       2011                        2334
+
+
+Shared sampling: seed 42; 4,096 draws/epoch with replacement; rain/fog/snow/smoke probabilities 0.30/0.30/0.30/0.10; batch
+4; paired 256-pixel crops and flips. 60 epochs = 61,440 generator updates. Native-size BF16 validation and test. Headline scores
+average within strata, then backgrounds, then weather classes.
+
+
+
+
+08 / EXAMPLE DEGRADED INPUTS AND CLEAN TARGETS
+
+Rain                                Fog                                  Snow                                 Smoke
+
+
+
+
+Top: degraded input. Bottom: clean target. Fixed score-blind examples from the prior audit; lowest sample-ID SHA256 per weather among images
+≤500,000 pixels. Display thumbnails only; metrics use native resolution. These are dataset pairs, not model predictions.
+
+
+
+
+09 / WHAT THE COMPARISON CAN SUPPORT
+
+Attention Pix2Pix and LiteWeather v2 started randomly. Restormer and RAMiT used deraining weights; TransWeather used
+All-Weather weights; PromptIR used all-in-one weights. Unequal pretraining means this is a system comparison, not an isolated
+architecture test. Pretraining overlap is not ruled out, particularly for RESIDE fog. Single-seed ranks and small score gaps do not
+establish statistical superiority. Cluster-bootstrap intervals are retained in the metrics JSON; they do not measure training-seed
+uncertainty.
+
+
+
+
+Local handoff: artifacts/models/<model>/ contains best.pt, inference.pt, metrics, history and SHA256SUMS. Original run folders and earlier
+Restormer results remain preserved.
+
+
+
+
+VERIFIED FINAL RESULTS                                                                                      Frozen weather-v3 | 4 / 5
+AEGIS / VISUAL EVIDENCE
+
+
+
+Same scene. Six restorations.
+Fixed, score-blind examples • Native-resolution CPU FP32 inference • No cherry-picking by model scores
+
+
+ Degraded                   Attention Pix2Pix           Restormer                  LiteWeather v2              TransWeather                   PromptIR   RAMiT   Clean target
+
+
+ RAIN
+
+
+
+
+ FOG
+
+
+
+
+ SNOW
+
+
+
+
+ SMOKE
+
+
+
+
+These four examples illustrate behavior; they are not a representative visual survey. Numerical rankings use all 2,334 test images in BF16.
+
+Full-resolution PNGs, sample IDs and checkpoint hashes are saved beside this PDF in examples/.                                                                                  5/5

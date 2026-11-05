@@ -1,0 +1,13 @@
+weather,split,pairs,backgrounds,clusters
+fog,train,5102,5061,5061
+fog,val,897,893,893
+fog,test,1000,542,542
+rain,train,773,755,755
+rain,val,112,112,112
+rain,test,224,224,224
+smoke,train,7353,31,31
+smoke,val,384,6,6
+smoke,test,342,6,6
+snow,train,5382,1794,1794
+snow,val,618,206,206
+snow,test,768,256,256

@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-11-05",
+  "purpose": "Manuscript hardware identity and evidence status; not runtime configuration",
+  "latest_reported_device": {
+    "model": "Original NVIDIA Jetson Nano",
+    "ram_gb": 4,
+    "l4t": "32.7.3",
+    "python": "3.6.9",
+    "tensorrt": "8.2.1.8",
+    "source": "docs/nano_yolo_demo.txt",
+    "evidence_level": "User-reported device details recorded in checked-in operator notes; no fresh device inspection in this pack"
+  },
+  "earlier_planned_target": {
+    "model": "Jetson Orin Nano",
+    "ram_gb": [4, 8],
+    "status": "Earlier plan; separate Orin package, no accepted Orin hardware measurements in this evidence pack"
+  },
+  "deployment_model": {
+    "name": "Restormer",
+    "selected_epoch": 51,
+    "parameters": 26126644,
+    "inference_sha256": "5268af32c161413502a8978a839b311152a1dd2bf093ade137e07d58166a8555",
+    "detector": "Frozen COCO-pretrained YOLOv8n",
+    "restoration_export_shapes": [[1, 3, 256, 448], [1, 3, 128, 224], [1, 3, 128, 128]],
+    "export_precision": "FP32 ONNX"
+  },
+  "status": {
+    "local_export_parity": "Passed on small reference panels",
+    "nano_detector": "Limited user-reported engine test; FP16 candidate failed fog numerical gate; note refers to working FP32 detector without a full acceptance record bundled here",
+    "nano_restormer": "Memory pressure reported in 256x448 and 128x224 build attempts; 128x128 trial prepared; no accepted Restormer engine evidence",
+    "sustained_full_pipeline_measured": false,
+    "accepted_int8_restormer_measurements": false,
+    "fps": null,
+    "latency_ms": null,
+    "peak_memory_mb": null,
+    "power_w": null
+  },
+  "update_rule": "Attach actual device/engine logs with hashes and measurement conditions before changing an unverified status to measured. Update DEPLOYMENT.md and the root README consistently."
+}

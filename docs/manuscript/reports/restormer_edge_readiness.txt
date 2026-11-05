@@ -1,0 +1,189 @@
+ AEGIS / DEPLOYMENT NOTE 01 / 24 OCT 2026
+
+
+ Restormer, ready for
+ the device test.
+ Frozen weights. Verified exports. Measured local evidence. Jetson
+ results still pending.
+
+  DELIVERED                       EVIDENCE
+
+
+  Restormer ONNX                  Epoch 51 checkpoint; 26.13M parameters; static 1×3×256×448 input.
+
+
+  Frozen YOLOv8n ONNX             Official COCO weights; static 1×3×640×640 input; no detector finetuning.
+
+
+  Numerical checks                Restormer: four weather inputs, largest output error 3e-05. YOLO: three inputs, decoder
+                                  agrees with Ultralytics.
+
+
+  Runtime & acceptance            FP16 engine builder, FP32 fallback, optional calibrated INT8, file/video/camera runner,
+                                  checksums and timing logs.
+
+
+  Preserved                       Training weights, restoration splits and Chitraksh’s contributed files are unchanged.
+
+
+
+ The deployment geometry is a deliberate tradeoff
+ Each image is resized with its aspect ratio preserved, padded to 256×448, restored, and returned to its
+ original dimensions before detection. This reduces compute but may remove small-object details. The original
+ 32.58 dB / 0.9297 native-resolution restoration score is not the score of this resized pipeline.
+
+ Local validation passed; edge acceptance has not happened
+ The laptop is CPU-only. No TensorRT engine, Jetson FPS, thermal limit, power draw or device memory result
+ has been measured. Engines must be built and tested on the actual Jetson. The package does not contain
+ invented hardware results.
+
+ Local CPU smoke timing: five ONNX model calls after two warmups, median 14.94 seconds. This short measurement checks
+ execution only; it is not an edge-performance forecast.
+
+
+
+
+AEGIS / FROZEN RESTORMER + YOLOv8n / RESEARCH HANDOFF                                                                       1
+ 02 / DOES RESTORATION HELP DETECTION?
+
+
+ Measure the downstream task.
+ 72 real DAWN images: 24 fog, 24 rain, 24 snow. Images were selected by filename hash before scores were
+ computed. All three views use the same frozen YOLOv8n and the same annotations.
+
+
+  Weather / view                           mAP50 ↑             mAP50–95 ↑           Precision           Recall
+
+
+  all / original                           44.85               29.97                58.57               40.07
+
+
+  all / resize only                        44.52               29.25                54.45               41.62
+
+
+  all / restored                           49.09               32.86                72.02               41.13
+
+
+  fog / original                           40.91               26.99                47.36               49.92
+
+
+  fog / resize only                        44.65               29.40                46.19               45.89
+
+
+  fog / restored                           56.30               37.11                89.54               41.12
+
+
+  rain / original                          58.99               38.87                63.87               51.33
+
+
+  rain / resize only                       55.27               37.07                74.37               46.73
+
+
+  rain / restored                          55.87               37.21                76.35               46.61
+
+
+  snow / original                          47.72               36.27                38.97               57.83
+
+
+  snow / resize only                       44.65               33.47                42.98               45.67
+
+
+  snow / restored                          47.92               35.62                47.96               55.12
+
+
+ Across the pilot, restored minus original mAP50–95 is +2.89 percentage points; restored minus resize-only
+ is +3.60 points. These are observed pilot differences, not a statistical superiority claim.
+
+ Bold marks the highest value within each weather group. Values are percentages. Precision/recall use the maximum-F1
+ confidence; mAP uses conf=.001, IoU=.7 NMS and up to 300 detections. Overall AP is pooled across the 72 images, not the
+ arithmetic mean of weather AP.
+
+
+
+
+AEGIS / FROZEN RESTORMER + YOLOv8n / RESEARCH HANDOFF                                                                      2
+ 03 / QUALITY CONTROLS & HANDOFF
+
+
+ A testable next step.
+ Data checks that make the comparison interpretable
+ All 704 available DAWN annotation pairs were checked: 300 fog, 200 rain and 204 snow images; 5,610 boxes
+ across six road classes. Source TXT IDs were corrected to COCO IDs only in derived evaluation labels; every
+ box was checked against VOC XML. One train object is outside the six-class scope. 17 exact duplicate groups
+ were found; image counts must not be treated as independent scene counts.
+
+ No DAWN smoke detection labels are available in this project. COCO pretraining overlap is unverified. Pilot
+ image choices, source hashes, class-level results and the full annotation audit are saved in JSON. The full
+ 704-image evaluation is supplied as a separate resumable command; it was not run for this handoff.
+
+ Device acceptance sequence
+
+  STEP                             PASS CONDITION
+
+
+  1 · Verify & preflight           Package checksums match. CUDA/TensorRT/OpenCV imports work. Actual hardware,
+                                   free memory and software versions are recorded.
+
+
+  2 · Compile locally              Build one engine at a time. FP16 uses FP32-sensitive transformer math. No changes to
+                                   system power modes or drivers.
+
+
+  3 · Precision gate               Finite output; restoration numerical agreement plus per-fixture PSNR drop ≤0.1 dB and
+                                   SSIM drop ≤0.001. Reject failed candidates and retain FP32 fallback.
+
+
+  4 · Sustained run                Measure original, resize-only and restored paths with identical settings; record
+                                   median/p95, wall throughput and tegrastats.
+
+
+  5 · Adoption decision            Check longer videos and untouched labelled data. Keep raw detection available. Small
+                                   fixture tests alone do not establish field reliability.
+
+
+
+ Run from the extracted kit
+ bash scripts/deployment/edge_device.sh prepare
+ bash scripts/deployment/edge_device.sh benchmark
+
+ Read START_HERE.txt first for the JetPack system-packages environment, FP32 fallback, optional INT8 experiment and camera
+ command. The archive has ONNX graphs, four-weather fixtures, 64 training-only calibration inputs, three DAWN samples and a
+ SHA-256 manifest.
+
+ Sources: NVIDIA TensorRT engine compatibility and accuracy documentation; Ultralytics v8.3.0 source; DAWN Mendeley v3.
+ Full links and third-party license notices are included in the handoff.
+
+
+
+
+AEGIS / FROZEN RESTORMER + YOLOv8n / RESEARCH HANDOFF                                                                         3
+ 04 / FIXED EXAMPLES
+
+
+ Inspect the actual outputs.
+ One preselected pilot image per weather, shown before and after restoration. These are real degraded road
+ images; no paired clean ground truth is available. A visually cleaner image is not proof of better object
+ detection.
+
+ FOG / fog__mist-015
+
+  ORIGINAL                                                RESTORED
+
+
+
+
+ RAIN / rain__rain_storm-042
+
+  ORIGINAL                                                RESTORED
+
+
+
+
+ SNOW / snow__snow_storm-045
+
+  ORIGINAL                                                RESTORED
+
+
+
+
+AEGIS / FROZEN RESTORMER + YOLOv8n / RESEARCH HANDOFF                                                        4

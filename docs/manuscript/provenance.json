@@ -1,0 +1,536 @@
+{
+  "as_of": "2026-11-05",
+  "outputs": {
+    "evidence/custom_quantization_screen.json": {
+      "derivation": "Unchanged byte copy",
+      "sources": [
+        "docs/quantization/restormer_custom_screen_20261030.json"
+      ]
+    },
+    "evidence/data_audit.json": {
+      "derivation": "Unchanged byte copy",
+      "sources": [
+        "artifacts/data/research_joint_v3/audit.json"
+      ]
+    },
+    "evidence/data_protocol.json": {
+      "derivation": "Unchanged byte copy",
+      "sources": [
+        "data/manifests/weather_v3/protocol.json"
+      ]
+    },
+    "evidence/dataset_sources.json": {
+      "derivation": "Select only source catalog entries used in restoration or DAWN pilot",
+      "sources": [
+        "data/datasets.yaml"
+      ]
+    },
+    "evidence/edge_readiness.json": {
+      "derivation": "Unchanged byte copy",
+      "sources": [
+        "artifacts/edge_v1/reports/restormer_edge_readiness.json"
+      ]
+    },
+    "evidence/joint_experiments.json": {
+      "derivation": "Combine run/history/selection/calibration/jobs/test metrics; omit per-image samples",
+      "sources": [
+        "artifacts/restoration/joint_v3_dgx/selection_before_test.json",
+        "artifacts/restoration/joint_v3_dgx/calibration.json",
+        "artifacts/restoration/joint_v3_dgx/jobs.json",
+        "artifacts/restoration/joint_v3_dgx/control_seed42/run.json",
+        "artifacts/restoration/joint_v3_dgx/control_seed42/history.json",
+        "artifacts/restoration/joint_v3_dgx/control_seed42/selection_status.json",
+        "artifacts/restoration/joint_v3_dgx/test/control.json",
+        "artifacts/restoration/joint_v3_dgx/spatial_seed42/run.json",
+        "artifacts/restoration/joint_v3_dgx/spatial_seed42/history.json",
+        "artifacts/restoration/joint_v3_dgx/spatial_seed42/selection_status.json",
+        "artifacts/restoration/joint_v3_dgx/test/spatial.json",
+        "artifacts/restoration/joint_v3_dgx/detail_seed42/run.json",
+        "artifacts/restoration/joint_v3_dgx/detail_seed42/history.json",
+        "artifacts/restoration/joint_v3_dgx/detail_seed42/selection_status.json",
+        "artifacts/restoration/joint_v3_dgx/test/detail.json",
+        "artifacts/restoration/joint_v3_dgx/combined_seed42/run.json",
+        "artifacts/restoration/joint_v3_dgx/combined_seed42/history.json",
+        "artifacts/restoration/joint_v3_dgx/combined_seed42/selection_status.json",
+        "artifacts/restoration/joint_v3_dgx/test/combined.json",
+        "artifacts/restoration/joint_v3_dgx/recipe_only_seed42/run.json",
+        "artifacts/restoration/joint_v3_dgx/recipe_only_seed42/history.json",
+        "artifacts/restoration/joint_v3_dgx/recipe_only_seed42/selection_status.json",
+        "artifacts/restoration/joint_v3_dgx/test/recipe_only.json",
+        "artifacts/restoration/joint_v3_dgx/combined_ssim_seed42/run.json",
+        "artifacts/restoration/joint_v3_dgx/combined_ssim_seed42/history.json",
+        "artifacts/restoration/joint_v3_dgx/combined_ssim_seed42/selection_status.json",
+        "artifacts/restoration/joint_v3_dgx/test/combined_ssim.json",
+        "artifacts/restoration/joint_v3_dgx/combined_ffl_seed42/run.json",
+        "artifacts/restoration/joint_v3_dgx/combined_ffl_seed42/history.json",
+        "artifacts/restoration/joint_v3_dgx/combined_ffl_seed42/selection_status.json",
+        "artifacts/restoration/joint_v3_dgx/test/combined_ffl.json",
+        "artifacts/restoration/joint_v3_dgx/combined_recipe_seed42/run.json",
+        "artifacts/restoration/joint_v3_dgx/combined_recipe_seed42/history.json",
+        "artifacts/restoration/joint_v3_dgx/combined_recipe_seed42/selection_status.json",
+        "artifacts/restoration/joint_v3_dgx/test/combined_recipe.json",
+        "artifacts/restoration/joint_v3_dgx/test/original.json"
+      ]
+    },
+    "evidence/per_image_restoration.csv.gz": {
+      "derivation": "All six samples lists; add model key; CSV + deterministic gzip; no images",
+      "sources": [
+        "artifacts/restoration/baselines_v1/attention_pix2pix_seed42/metrics_test.json",
+        "artifacts/restoration/baselines_v1/restormer_seed42/metrics_test.json",
+        "artifacts/restoration/liteweather_v1/liteweatherformer_v2_seed42/metrics_test.json",
+        "artifacts/restoration/official_v1/transweather_seed42/metrics_test.json",
+        "artifacts/restoration/official_v1/promptir_seed42/metrics_test.json",
+        "artifacts/restoration/official_v1/ramit_seed42/metrics_test.json"
+      ]
+    },
+    "evidence/rain_baseline_historical.json": {
+      "derivation": "Historical rain run and history; test/pretrained metrics with samples omitted",
+      "sources": [
+        "artifacts/restoration/rain_restormer_seed42/run.json",
+        "artifacts/restoration/rain_restormer_seed42/metrics_test.json",
+        "artifacts/restoration/rain_restormer_seed42/metrics_test_pretrained.json",
+        "artifacts/restoration/rain_restormer_seed42/history.json"
+      ]
+    },
+    "evidence/restormer_export_checks.json": {
+      "derivation": "Local numerical export reports, not TensorRT device measurements",
+      "sources": [
+        "artifacts/edge_v1/exports/256x448/restormer/validation.json",
+        "artifacts/edge_v1/exports/128x224/restormer/validation.json",
+        "artifacts/edge_v1/exports/128x128/restormer/validation.json"
+      ]
+    },
+    "evidence/six_models.json": {
+      "derivation": "Combine exact model index/run/history/metrics; samples moved losslessly to compressed CSV",
+      "sources": [
+        "artifacts/models/index.json",
+        "artifacts/restoration/baselines_v1/attention_pix2pix_seed42/run.json",
+        "artifacts/restoration/baselines_v1/attention_pix2pix_seed42/metrics_test.json",
+        "artifacts/restoration/baselines_v1/attention_pix2pix_seed42/history.json",
+        "artifacts/restoration/baselines_v1/restormer_seed42/run.json",
+        "artifacts/restoration/baselines_v1/restormer_seed42/metrics_test.json",
+        "artifacts/restoration/baselines_v1/restormer_seed42/history.json",
+        "artifacts/restoration/liteweather_v1/liteweatherformer_v2_seed42/run.json",
+        "artifacts/restoration/liteweather_v1/liteweatherformer_v2_seed42/metrics_test.json",
+        "artifacts/restoration/liteweather_v1/liteweatherformer_v2_seed42/history.json",
+        "artifacts/restoration/official_v1/transweather_seed42/run.json",
+        "artifacts/restoration/official_v1/transweather_seed42/metrics_test.json",
+        "artifacts/restoration/official_v1/transweather_seed42/history.json",
+        "artifacts/restoration/official_v1/promptir_seed42/run.json",
+        "artifacts/restoration/official_v1/promptir_seed42/metrics_test.json",
+        "artifacts/restoration/official_v1/promptir_seed42/history.json",
+        "artifacts/restoration/official_v1/ramit_seed42/run.json",
+        "artifacts/restoration/official_v1/ramit_seed42/metrics_test.json",
+        "artifacts/restoration/official_v1/ramit_seed42/history.json"
+      ]
+    },
+    "reports/joint_research_report.pdf": {
+      "derivation": "Unchanged byte copy",
+      "sources": [
+        "artifacts/restoration/joint_v3_dgx/joint_research_report.pdf"
+      ]
+    },
+    "reports/joint_research_report.txt": {
+      "derivation": "pdftotext -layout; trailing whitespace trimmed; PDF authoritative",
+      "sources": [
+        "artifacts/restoration/joint_v3_dgx/joint_research_report.pdf"
+      ]
+    },
+    "reports/rain_baseline_historical.pdf": {
+      "derivation": "Unchanged byte copy",
+      "sources": [
+        "artifacts/restoration/rain_restormer_seed42/rain_training_report.pdf"
+      ]
+    },
+    "reports/rain_baseline_historical.txt": {
+      "derivation": "pdftotext -layout; trailing whitespace trimmed; PDF authoritative",
+      "sources": [
+        "artifacts/restoration/rain_restormer_seed42/rain_training_report.pdf"
+      ]
+    },
+    "reports/restormer_edge_readiness.pdf": {
+      "derivation": "Unchanged byte copy",
+      "sources": [
+        "artifacts/edge_v1/reports/restormer_edge_readiness.pdf"
+      ]
+    },
+    "reports/restormer_edge_readiness.txt": {
+      "derivation": "pdftotext -layout; trailing whitespace trimmed; PDF authoritative",
+      "sources": [
+        "artifacts/edge_v1/reports/restormer_edge_readiness.pdf"
+      ]
+    },
+    "reports/six_model_benchmark.pdf": {
+      "derivation": "Unchanged byte copy",
+      "sources": [
+        "artifacts/reports/six_models_20261024/aegis_six_model_benchmark.pdf"
+      ]
+    },
+    "reports/six_model_benchmark.txt": {
+      "derivation": "pdftotext -layout; trailing whitespace trimmed; PDF authoritative",
+      "sources": [
+        "artifacts/reports/six_models_20261024/aegis_six_model_benchmark.pdf"
+      ]
+    },
+    "tables/dataset_split.csv": {
+      "derivation": "Flatten counts object",
+      "sources": [
+        "data/manifests/weather_v3/protocol.json"
+      ]
+    },
+    "tables/detection_pilot72.csv": {
+      "derivation": "CSV copy with LF newlines; values unchanged",
+      "sources": [
+        "artifacts/edge_v1/reports/detection_pilot72.csv"
+      ]
+    },
+    "tables/joint_test.csv": {
+      "derivation": "CSV copy with LF newlines; values unchanged",
+      "sources": [
+        "artifacts/restoration/joint_v3_dgx/comparison.csv"
+      ]
+    },
+    "tables/joint_validation.csv": {
+      "derivation": "CSV copy with LF newlines; values unchanged",
+      "sources": [
+        "artifacts/restoration/joint_v3_dgx/validation_comparison.csv"
+      ]
+    },
+    "tables/pruning_screen.csv": {
+      "derivation": "CSV copy with LF newlines; values unchanged",
+      "sources": [
+        "artifacts/edge_v1/reports/restormer_compression_screen.csv"
+      ]
+    },
+    "tables/six_models.csv": {
+      "derivation": "CSV copy with LF newlines; values unchanged",
+      "sources": [
+        "artifacts/reports/six_models_20261024/aegis_six_model_benchmark.csv"
+      ]
+    }
+  },
+  "scope": "Manuscript evidence snapshot, not a full training or deployment package",
+  "source_repository_commit": "ec6b6af98bb1fce027e9a7b3ffb3ce21396b67b6",
+  "sources": {
+    "artifacts/data/research_joint_v3/audit.json": {
+      "bytes": 21270,
+      "sha256": "c5f20bc4d198ffd987dfede0b2a5b77f93ae2c5ecd7c396797bb95225404f458"
+    },
+    "artifacts/edge_v1/exports/128x128/restormer/validation.json": {
+      "bytes": 1870,
+      "sha256": "a900bfe54be1eb58712cfd1963b5b44f3ba751d3815aa6d1df2ed9079cc4bf19"
+    },
+    "artifacts/edge_v1/exports/128x224/restormer/validation.json": {
+      "bytes": 1871,
+      "sha256": "2e7b96d5e154dfd12c7165b7f956dfc839ee2b2e15ff402db4dafa5a34e621c3"
+    },
+    "artifacts/edge_v1/exports/256x448/restormer/validation.json": {
+      "bytes": 2472,
+      "sha256": "24a6e90e1ffb55389ec76e0481fbac211c3c0d749571b602f139e2068a45ed1c"
+    },
+    "artifacts/edge_v1/reports/detection_pilot72.csv": {
+      "bytes": 1177,
+      "sha256": "6ab6592cc4094942cd5e47487eb96dc73ec19bcdee3bf79f46957e27f31eb759"
+    },
+    "artifacts/edge_v1/reports/restormer_compression_screen.csv": {
+      "bytes": 3724,
+      "sha256": "07fbe25b2e6eb144c7eb1ebc03f898f215f6eb2e642b4f114b2f5ef5fa1290f4"
+    },
+    "artifacts/edge_v1/reports/restormer_edge_readiness.json": {
+      "bytes": 7709,
+      "sha256": "850a2ec1d77f1e741166760e53272b3dde037bf81db1350c35afdf6768cdecfc"
+    },
+    "artifacts/edge_v1/reports/restormer_edge_readiness.pdf": {
+      "bytes": 7813859,
+      "sha256": "efc17a833931f3c6b84cd68dd92da0adc067216aed82b27eed8e3dbd956650c4"
+    },
+    "artifacts/models/index.json": {
+      "bytes": 3008,
+      "sha256": "7040e3ffa410560c3b59a8b2116ac18f781e64319eb9ee15726c8b59b23e030c"
+    },
+    "artifacts/reports/six_models_20261024/aegis_six_model_benchmark.csv": {
+      "bytes": 5596,
+      "sha256": "38110fb9572c18cfeceb791db6f30c7a8d7c6d6412543c89f730bd86e9258f72"
+    },
+    "artifacts/reports/six_models_20261024/aegis_six_model_benchmark.pdf": {
+      "bytes": 4669953,
+      "sha256": "8eaa70554dd095e8cfbc112584bc679483b4778ddefa85a73ee68d5d55a62712"
+    },
+    "artifacts/restoration/baselines_v1/attention_pix2pix_seed42/history.json": {
+      "bytes": 132333,
+      "sha256": "ca0318a09671cdbbe8e03ca4b437f03dada81cbbe5e2dade57d202064a30e576"
+    },
+    "artifacts/restoration/baselines_v1/attention_pix2pix_seed42/metrics_test.json": {
+      "bytes": 1235546,
+      "sha256": "a3e33dc60a5df70409351d7c9fcbd41117e844c5f8356e34f9070f6b8d89dff1"
+    },
+    "artifacts/restoration/baselines_v1/attention_pix2pix_seed42/run.json": {
+      "bytes": 2353,
+      "sha256": "14ed3cceab4e3a65b1a5ae3811cdddada3f807ad2da68fee04d454a40c9871bf"
+    },
+    "artifacts/restoration/baselines_v1/restormer_seed42/history.json": {
+      "bytes": 130070,
+      "sha256": "2cfe6e6384c88bc5359ac6bfcaff6fcf7aab60441b82967a127df9b450c5dbf1"
+    },
+    "artifacts/restoration/baselines_v1/restormer_seed42/metrics_test.json": {
+      "bytes": 1234409,
+      "sha256": "3a0c7ae3485fe6d0dafeef6f48e073524ba72d8a48fbc10f5fb91c518384ffea"
+    },
+    "artifacts/restoration/baselines_v1/restormer_seed42/run.json": {
+      "bytes": 2799,
+      "sha256": "e15dff48e507aa5832d6089afb98c8dc33973b8d7b745a90d8f9194ef6482dbc"
+    },
+    "artifacts/restoration/joint_v3_dgx/calibration.json": {
+      "bytes": 31361,
+      "sha256": "41bea354ccc95c0ddd682fc637e7d170160c07569627cb15f469a44f0c5b5138"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_ffl_seed42/history.json": {
+      "bytes": 39920,
+      "sha256": "8a05d4bebc627efc2bc17b241ebbf6ddf0802efa164d48db22a653bf2fb5cb2f"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_ffl_seed42/run.json": {
+      "bytes": 3424,
+      "sha256": "fd9b6b78c9e778ef5e3897406fb055586807cdfcd95ede08e7bf9ec262d7efdf"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_ffl_seed42/selection_status.json": {
+      "bytes": 165,
+      "sha256": "c08bb551bbbd6ef7dcb2a20c1826ae29d4f92ad610b720075259d3f273651296"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_recipe_seed42/history.json": {
+      "bytes": 40231,
+      "sha256": "33a6cb907a52dbe0bdf3ca2bf546291612d545241df4690f94acf9670ef2d5cb"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_recipe_seed42/run.json": {
+      "bytes": 3462,
+      "sha256": "00872915dabd125d161bba2be76bea97aef4418d9396786fb06c81a233b88be8"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_recipe_seed42/selection_status.json": {
+      "bytes": 166,
+      "sha256": "db5f89cb298e1ffef94e6901e8212e72f981961e00e68d7d9b6b91ea973942a7"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_seed42/history.json": {
+      "bytes": 39488,
+      "sha256": "1f39ca9af191eaa7f006a36e5dfc741d3d19a095fd733d464d24498783f5a2e2"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_seed42/run.json": {
+      "bytes": 3380,
+      "sha256": "9e8da1e368e4efb2b5a42f6af774962d98b8db354e65e72e924a6fcf9d814144"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_seed42/selection_status.json": {
+      "bytes": 167,
+      "sha256": "466be555730406b2f67af88db0290e87a593f65e7637f6bc4bc10f8285c63c7b"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_ssim_seed42/history.json": {
+      "bytes": 39843,
+      "sha256": "3dffe23b17df9bf24f2bd2a4de69b005aa166f60e6f3cf02d2503117945c3eab"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_ssim_seed42/run.json": {
+      "bytes": 3428,
+      "sha256": "9a592f7a0337dbb4d3b077b244a6413fd3dbf835ec2412b8697046b0dddad6c6"
+    },
+    "artifacts/restoration/joint_v3_dgx/combined_ssim_seed42/selection_status.json": {
+      "bytes": 166,
+      "sha256": "3561be8e7817650bd745095f443852347b6b3b02bb8e541589ec22740437cc6e"
+    },
+    "artifacts/restoration/joint_v3_dgx/comparison.csv": {
+      "bytes": 1518,
+      "sha256": "4673ac079046f9fdfaf467eb126d9ebee8bd15687bcf9e7d08d1c86159d6904b"
+    },
+    "artifacts/restoration/joint_v3_dgx/control_seed42/history.json": {
+      "bytes": 39537,
+      "sha256": "ac78923456c48b2a53c9af2219c6ab1c58a1ff2b44e1597b5e7b33b697526b61"
+    },
+    "artifacts/restoration/joint_v3_dgx/control_seed42/run.json": {
+      "bytes": 3377,
+      "sha256": "afb4f3b9c00948d91dfd31b6d0fc6b90f7a97539fea9685b1c2a9362a12fd6fb"
+    },
+    "artifacts/restoration/joint_v3_dgx/control_seed42/selection_status.json": {
+      "bytes": 166,
+      "sha256": "b6f0e368f3a86024266d9a2296cc3f3e35137dbf3e86f5eb7e9a1d65773e0e00"
+    },
+    "artifacts/restoration/joint_v3_dgx/detail_seed42/history.json": {
+      "bytes": 39455,
+      "sha256": "827a78f121486c4d6aafb1f65a53e46eafda2e8207aa9a27b297d205fb99036d"
+    },
+    "artifacts/restoration/joint_v3_dgx/detail_seed42/run.json": {
+      "bytes": 3374,
+      "sha256": "31e84cbdc607901e5600ddab75c93e371a2cc690333f3566fc60bfb0713e0057"
+    },
+    "artifacts/restoration/joint_v3_dgx/detail_seed42/selection_status.json": {
+      "bytes": 167,
+      "sha256": "f627cfde1f75b8ce69a3ac22e4fd0b24378d86153f8da01dbe5ead6baeacf384"
+    },
+    "artifacts/restoration/joint_v3_dgx/jobs.json": {
+      "bytes": 3156,
+      "sha256": "8fb16dc34ca89bea186330ba3e47524c368d19e0dfb64b8870654f0e5ca908a7"
+    },
+    "artifacts/restoration/joint_v3_dgx/joint_research_report.pdf": {
+      "bytes": 829027,
+      "sha256": "ac678ccfba9d57e2c1528206b6cdf04f1a769320e91d40815c30336d12fff491"
+    },
+    "artifacts/restoration/joint_v3_dgx/recipe_only_seed42/history.json": {
+      "bytes": 40224,
+      "sha256": "48eb6180352dc8e8cc88bdce9ed8b8c5f1aba7ccb1405a7a8d78ee56251ecd09"
+    },
+    "artifacts/restoration/joint_v3_dgx/recipe_only_seed42/run.json": {
+      "bytes": 3453,
+      "sha256": "e367182ab71fc4d54f2794d78c05c157dad8179a110a1967fa2cb2d5a24036cb"
+    },
+    "artifacts/restoration/joint_v3_dgx/recipe_only_seed42/selection_status.json": {
+      "bytes": 166,
+      "sha256": "3676fb0d70335d600a54489bfde7a36a9b4f7f36b3128013def2f423341b1b73"
+    },
+    "artifacts/restoration/joint_v3_dgx/selection_before_test.json": {
+      "bytes": 1034,
+      "sha256": "0a0309e2e7ee1ac3a577f16881694036466a1c684fc94c1a1bb47b4211695c9c"
+    },
+    "artifacts/restoration/joint_v3_dgx/spatial_seed42/history.json": {
+      "bytes": 39576,
+      "sha256": "9552ce9495d6222a2dd6e7baad4aa330ae9719f46d91f02e1f9b16a842c83fd3"
+    },
+    "artifacts/restoration/joint_v3_dgx/spatial_seed42/run.json": {
+      "bytes": 3377,
+      "sha256": "a918955f8f8a42e91950715e7280c17e96198deae6740b15ba36935e04967cb9"
+    },
+    "artifacts/restoration/joint_v3_dgx/spatial_seed42/selection_status.json": {
+      "bytes": 166,
+      "sha256": "ea5fb57ba5cf3fd4b49b36bcd46151357c4edc7a31fcd898f3f0e6e9812e9409"
+    },
+    "artifacts/restoration/joint_v3_dgx/test/combined.json": {
+      "bytes": 1234362,
+      "sha256": "71c4d5c926d509111a8dc037f88b971bf7b7aaa1cb20e0fd1c8918d752c1ce3c"
+    },
+    "artifacts/restoration/joint_v3_dgx/test/combined_ffl.json": {
+      "bytes": 1234311,
+      "sha256": "33108b3619cb327ab4f578bdb6660920794d46852fd608ea67fc58a240de0691"
+    },
+    "artifacts/restoration/joint_v3_dgx/test/combined_recipe.json": {
+      "bytes": 1234278,
+      "sha256": "8815bf6fc3d9c80ddf32ff9ee4298f914ea664530939b9cfc562c159f3119e41"
+    },
+    "artifacts/restoration/joint_v3_dgx/test/combined_ssim.json": {
+      "bytes": 1234235,
+      "sha256": "8d08a27e4405bb8ed89423d3cbc9f53594f59b8f8cd1b3e76d620b22487922d1"
+    },
+    "artifacts/restoration/joint_v3_dgx/test/control.json": {
+      "bytes": 1234297,
+      "sha256": "5e234eeb011f5c81377ef39d389a40116ae2eaf280c768dc422227dcb37a9222"
+    },
+    "artifacts/restoration/joint_v3_dgx/test/detail.json": {
+      "bytes": 1234324,
+      "sha256": "3ae9f6575ed35049cafa5e4111ea9dd0f4e928bb013ae85c8bac326f690350a8"
+    },
+    "artifacts/restoration/joint_v3_dgx/test/original.json": {
+      "bytes": 1234400,
+      "sha256": "73bd2bd1a8e34529db9c1f47224a3c882800811565cdaec2d31caa5a041c7663"
+    },
+    "artifacts/restoration/joint_v3_dgx/test/recipe_only.json": {
+      "bytes": 1234232,
+      "sha256": "87162539b3433f00f24357b9b1378a02147d4e46033ba040975cf461f54cfb5e"
+    },
+    "artifacts/restoration/joint_v3_dgx/test/spatial.json": {
+      "bytes": 1234222,
+      "sha256": "b5e79d14b624d4a181bd961949fcccc072d2ad65de099bdf045360d04e047758"
+    },
+    "artifacts/restoration/joint_v3_dgx/validation_comparison.csv": {
+      "bytes": 1122,
+      "sha256": "e6b44f983c7b67aa1ed48308ef7bf09ebf779e7904b842fbfcc50e2df29cb5af"
+    },
+    "artifacts/restoration/liteweather_v1/liteweatherformer_v2_seed42/history.json": {
+      "bytes": 131541,
+      "sha256": "e4646fea080fd574f4cd280025eae4a8c1f8b1256136e33784a74cd01720b74b"
+    },
+    "artifacts/restoration/liteweather_v1/liteweatherformer_v2_seed42/metrics_test.json": {
+      "bytes": 1235569,
+      "sha256": "48ee10863467b6ac376147b89807a24ec9ac59be222698903ac9c03b0adb1e01"
+    },
+    "artifacts/restoration/liteweather_v1/liteweatherformer_v2_seed42/run.json": {
+      "bytes": 2531,
+      "sha256": "4d9a0a6b8b1d27702ca9624cbec0c46f48fe139f3c7fd10b4ba90ca1a2565916"
+    },
+    "artifacts/restoration/official_v1/promptir_seed42/history.json": {
+      "bytes": 131416,
+      "sha256": "7a3bd0cc943d58abcd3341a55d0efc1e8ecbdfff7269e14068b8ac65859fd4f1"
+    },
+    "artifacts/restoration/official_v1/promptir_seed42/metrics_test.json": {
+      "bytes": 1234598,
+      "sha256": "1c8f28762084a125024d1bc4852b7fd5d305dd608f09d8495a4404caa4afdebf"
+    },
+    "artifacts/restoration/official_v1/promptir_seed42/run.json": {
+      "bytes": 2566,
+      "sha256": "065be9f194a32ec1475a46313a063c28b8148fa2a00585b14911ced0dadc6f0b"
+    },
+    "artifacts/restoration/official_v1/ramit_seed42/history.json": {
+      "bytes": 131706,
+      "sha256": "af26be286b432f7b2bc89f7231de01223cdddeddf82db55af7e86957646492f4"
+    },
+    "artifacts/restoration/official_v1/ramit_seed42/metrics_test.json": {
+      "bytes": 1235101,
+      "sha256": "69879de12613a8bf961627a415fab4537441bd11d70dee83e814d64f140ec4ad"
+    },
+    "artifacts/restoration/official_v1/ramit_seed42/run.json": {
+      "bytes": 2554,
+      "sha256": "4d1f2c815dd165911b00afc7324807ae199c2266e34cb9654fd905c630d4e72c"
+    },
+    "artifacts/restoration/official_v1/transweather_seed42/history.json": {
+      "bytes": 131355,
+      "sha256": "65bcd522367f6075117d6926db34463cd43e9cbaffd44d1d5238970dfb886bed"
+    },
+    "artifacts/restoration/official_v1/transweather_seed42/metrics_test.json": {
+      "bytes": 1235082,
+      "sha256": "a6d0700a84d6417a08a6f9d68d7106a638681344d44b7d34c09f9847f997c0fc"
+    },
+    "artifacts/restoration/official_v1/transweather_seed42/run.json": {
+      "bytes": 2581,
+      "sha256": "899384c1f95bc3a99483342d6f772190967e76d72f28657d081fe4a35b30e03d"
+    },
+    "artifacts/restoration/rain_restormer_seed42/history.json": {
+      "bytes": 9164,
+      "sha256": "a111d8b381aa9d614941ab2ff8a59f299303265a81da5eae9aed85573f3b797d"
+    },
+    "artifacts/restoration/rain_restormer_seed42/metrics_test.json": {
+      "bytes": 59298,
+      "sha256": "8665cc51f63952b94382c27873ff1ae0ca917c670d98b173db0049045ce23a65"
+    },
+    "artifacts/restoration/rain_restormer_seed42/metrics_test_pretrained.json": {
+      "bytes": 59624,
+      "sha256": "e47f60a6fdfa32c7ba3ad2e2de64acf7823051c17db215ae8fc4301e268f696c"
+    },
+    "artifacts/restoration/rain_restormer_seed42/rain_training_report.pdf": {
+      "bytes": 9515252,
+      "sha256": "b5fe5bd2eee07a91b2187eae3e2351e05aae1c6a9c6eae577e354b6d0ea94b4c"
+    },
+    "artifacts/restoration/rain_restormer_seed42/run.json": {
+      "bytes": 2089,
+      "sha256": "1534fa5c0c4bf657d193ccbf1a9508e06fb30c3951791b4b407416eda4a7a3cc"
+    },
+    "configs/restoration/official_v1/sources.json": {
+      "bytes": 5445,
+      "sha256": "c7cbd1e4a43cd83452889d3b473f18f8da286773fda6cc607d780df5af0f4c41"
+    },
+    "data/datasets.yaml": {
+      "bytes": 17973,
+      "sha256": "15d7a8a76e42bc1d0f10a376522334ab899f8d85d6fd7e0ca3fb407a10b30f82"
+    },
+    "data/manifests/weather_v3/active.csv": {
+      "bytes": 7239883,
+      "sha256": "9e7c661f66626761a1641f887f8c8720fc69fc9dffcad5602ef649a944c904ab"
+    },
+    "data/manifests/weather_v3/protocol.json": {
+      "bytes": 5305,
+      "sha256": "0fca0d9c2849b731c4281e6528ff473dc606ca6d01773c6d8ef8d9ed56a17886"
+    },
+    "data/manifests/weather_v3/reserve.csv": {
+      "bytes": 2785675,
+      "sha256": "62d147373cafdb0701490bab6bb73c02aa7a763ab595fe94bf8dc78144c03883"
+    },
+    "docs/nano_yolo_demo.txt": {
+      "bytes": 9143,
+      "sha256": "b03a1fd4caa3c6f1f9e28adc7b48c405c022838bef19130cea56ffaf82ded5fc"
+    },
+    "docs/quantization/restormer_custom_screen_20261030.json": {
+      "bytes": 17673,
+      "sha256": "0f475a4cb5f29671b4a85449fbac04f0a815cb65da1e00b80af48e6d8690b8c3"
+    }
+  }
+}

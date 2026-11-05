@@ -1,0 +1,121 @@
+                                                             RESTORMER / COMBINED RESEARCH
+
+ Spatial context, gated detail correction and training-objective ablations
+
+ All eight runs continue the same trained checkpoint. Zero-start adapters preserve its initial function. Loss coefficients come from training-only gradient calibration. Raw and
+ EMA states compete under the same validation selection rule.
+
+ Decision frozen before test: original. This is an exploratory single-seed screen; test ranks do not change the selection.
+
+        Model / experiment                                                      Test PSNR (dB)      Test SSIM                       PSNR vs original
+
+        original                                                                32.583              0.92969                         +0.000
+
+        control                                                                 32.702              0.93079                         +0.119
+
+        spatial                                                                 32.708              0.93082                         +0.125
+
+        detail                                                                  32.705              0.93080                         +0.122
+
+        combined                                                                32.704              0.93078                         +0.120
+
+        recipe only                                                             32.731              0.93166                         +0.148
+
+        combined ssim                                                           32.718              0.93172                         +0.135
+
+        combined ffl                                                            32.704              0.93060                         +0.121
+
+        combined recipe                                                         32.708              0.93144                         +0.125
+
+
+
+ Bold identifies the highest value in a column. Headline scores weight weather, background and degradation stratum equally; snow image count does not dominate. PSNR
+ and SSIM describe the same selected checkpoint, not separate best epochs.
+
+
+
+
+Aegis | validation-selected checkpoints | previously inspected test benchmark                                                                                                      1
+                                   WHERE THE CHANGE HELPS — AND WHERE IT DOES NOT
+        Experiment                                          Fog PSNR / SSIM     Rain PSNR / SSIM              Smoke PSNR / SSIM              Snow PSNR / SSIM
+
+        original                                            31.51 / 0.9666      38.77 / 0.9768                20.55 / 0.7937                 39.51 / 0.9816
+
+        control                                             31.79 / 0.9682      38.70 / 0.9762                20.75 / 0.7971                 39.57 / 0.9817
+
+        spatial                                             31.79 / 0.9682      38.71 / 0.9763                20.76 / 0.7971                 39.57 / 0.9817
+
+        detail                                              31.79 / 0.9681      38.70 / 0.9762                20.76 / 0.7971                 39.57 / 0.9818
+
+        combined                                            31.80 / 0.9682      38.70 / 0.9762                20.76 / 0.7971                 39.57 / 0.9818
+
+        recipe only                                         31.80 / 0.9686      38.72 / 0.9766                20.80 / 0.7994                 39.60 / 0.9820
+
+        combined ssim                                       31.81 / 0.9687      38.71 / 0.9766                20.75 / 0.7996                 39.60 / 0.9820
+
+        combined ffl                                        31.80 / 0.9682      38.68 / 0.9759                20.78 / 0.7966                 39.57 / 0.9817
+
+        combined recipe                                     31.79 / 0.9685      38.72 / 0.9765                20.73 / 0.7988                 39.59 / 0.9819
+
+
+ Dataset: 18,610 training / 2,011 validation / 2,334 test pairs. Freshly decoded 52,140 active/reserve image files; no exact decoded-pair duplicates or cross-split near-copy
+ candidates under the recorded rule. Native files and references were retained. Unknown semantic/sequence duplicates remain possible.
+
+ Smoke limitation: 31 training backgrounds and only six validation/six test backgrounds. Repeated frames do not establish independent generalization. Per-image
+ regressions and cluster intervals are retained in test/*.json.
+
+ Interpretation: architecture-only versus control isolates added capacity; recipe-only versus control tests training changes; combined SSIM/FFL isolate auxiliaries;
+ combined recipe tests their interaction. Raw-versus-EMA histories are available for each epoch. No Jetson latency or quantization gain is claimed.
+
+
+
+
+Aegis | validation-selected checkpoints | previously inspected test benchmark                                                                                                   2
+                                                                     VISUAL CHECK / original / SET 1
+ Examples were selected by IDs before looking at quality. Each row shows degraded input, restored output and clean reference; display uses thumbnails.
+
+ FOG · reside6k/test/0329_0.8_0.12.jpg
+
+
+
+
+ RAIN · realrain1k_h/test/767
+
+
+
+
+ SMOKE · smokebench_v2/train/1147
+
+
+
+
+ SNOW · snow_cityscapes/test/largeSnow/lindau_000001_000019_leftimg8bit
+
+
+
+
+Aegis | validation-selected checkpoints | previously inspected test benchmark                                                                            3
+                                                                     VISUAL CHECK / original / SET 2
+ Examples were selected by IDs before looking at quality. Each row shows degraded input, restored output and clean reference; display uses thumbnails.
+
+ FOG · reside6k/test/1006_1_0.16.jpg
+
+
+
+
+ RAIN · realrain1k_h/test/54
+
+
+
+
+ SMOKE · smokebench_v2/train/9247
+
+
+
+
+ SNOW · snow_cityscapes/test/mediumSnow/berlin_000153_000019_leftimg8bit
+
+
+
+
+Aegis | validation-selected checkpoints | previously inspected test benchmark                                                                            4

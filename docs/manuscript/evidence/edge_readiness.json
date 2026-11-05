@@ -1,0 +1,267 @@
+{
+  "status": "Local preparation complete; Jetson execution and acceptance pending",
+  "restormer_export": {
+    "passed": true,
+    "name": "restormer",
+    "shape": [
+      1,
+      3,
+      256,
+      448
+    ],
+    "selected_epoch": 51,
+    "parameters": 26126644,
+    "checkpoint_sha256": "5268af32c161413502a8978a839b311152a1dd2bf093ade137e07d58166a8555",
+    "source_best_sha256": "b513d1723bed5c009702ed0f8c03356052c9b0c49b5ef03e9fcf831d66cb07a4",
+    "onnx_sha256": "2761e778fc638727f4ae2bc9d0fb077ed414de84a314a6f12f6c578c061c026c",
+    "opset": 17,
+    "precision": "FP32",
+    "tolerances": {
+      "atol": 0.0005,
+      "rtol": 0.001
+    },
+    "validation_panel": [
+      {
+        "sample_id": "reside6k/train/5607.jpg",
+        "weather": "fog",
+        "max_abs_error": 1.6450881958007812e-05,
+        "rmse": 2.1312559965736e-06,
+        "pytorch_psnr": 24.14627313588271,
+        "onnx_psnr": 24.146351687235978,
+        "pytorch_ssim": 0.8707239627838135,
+        "onnx_ssim": 0.870725691318512
+      },
+      {
+        "sample_id": "realrain1k_h/validation/67",
+        "weather": "rain",
+        "max_abs_error": 6.079673767089844e-06,
+        "rmse": 3.845193248253054e-07,
+        "pytorch_psnr": 31.54581797465894,
+        "onnx_psnr": 31.545823170296185,
+        "pytorch_ssim": 0.938929557800293,
+        "onnx_ssim": 0.938929557800293
+      },
+      {
+        "sample_id": "smokebench_v2/train/4022",
+        "weather": "smoke",
+        "max_abs_error": 2.9742717742919922e-05,
+        "rmse": 3.924141310562845e-06,
+        "pytorch_psnr": 21.237005844278876,
+        "onnx_psnr": 21.237017021147523,
+        "pytorch_ssim": 0.8066313862800598,
+        "onnx_ssim": 0.8066313862800598
+      },
+      {
+        "sample_id": "snow_cityscapes/train/cityscape-5397",
+        "weather": "snow",
+        "max_abs_error": 1.4007091522216797e-05,
+        "rmse": 6.717210681017605e-07,
+        "pytorch_psnr": 31.901896605987297,
+        "onnx_psnr": 31.901846600973848,
+        "pytorch_ssim": 0.9260748028755188,
+        "onnx_ssim": 0.9260743260383606
+      }
+    ],
+    "cpu_smoke_timing_ms": {
+      "runs": 5,
+      "warmup": 2,
+      "median": 14939.978677997715,
+      "p95": 15115.113873999508
+    },
+    "timing_scope": "Local CPU ORT model call only; NOT Jetson or end-to-end FPS",
+    "elapsed_seconds": 236.54560187600146,
+    "environment": {
+      "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+      "machine": "x86_64",
+      "cpu_count": 12,
+      "torch": "2.5.1+cpu",
+      "onnx": "1.17.0",
+      "onnxruntime": "1.20.1",
+      "ultralytics": "8.3.0",
+      "numpy": "1.26.4",
+      "Pillow": "12.3.0",
+      "tensorrt": null,
+      "jetson_model": null,
+      "jetpack_l4t": null
+    }
+  },
+  "detector_export": {
+    "passed": true,
+    "weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "onnx_sha256": "31511f31e44b3a15d3cd5feed2d7cb4290c5b61ab0e87bc152ff4dc410543ef7",
+    "source": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt",
+    "license": "Ultralytics AGPL-3.0; review terms before distribution/commercial use",
+    "shape": [
+      1,
+      3,
+      640,
+      640
+    ],
+    "output": [
+      1,
+      84,
+      8400
+    ],
+    "checks": [
+      {
+        "weather": "fog",
+        "detections": 3,
+        "max_abs_error": 0.00372314453125,
+        "decoder_matches_ultralytics": true
+      },
+      {
+        "weather": "rain",
+        "detections": 5,
+        "max_abs_error": 0.00213623046875,
+        "decoder_matches_ultralytics": true
+      },
+      {
+        "weather": "snow",
+        "detections": 2,
+        "max_abs_error": 0.001800537109375,
+        "decoder_matches_ultralytics": true
+      }
+    ],
+    "environment": {
+      "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+      "machine": "x86_64",
+      "cpu_count": 12,
+      "torch": "2.5.1+cpu",
+      "onnx": "1.17.0",
+      "onnxruntime": "1.20.1",
+      "ultralytics": "8.3.0",
+      "numpy": "1.26.4",
+      "Pillow": "12.3.0",
+      "tensorrt": null,
+      "jetson_model": null,
+      "jetpack_l4t": null
+    }
+  },
+  "detection_pilot": [
+    {
+      "view": "raw",
+      "weather": "all",
+      "images": 72,
+      "precision": 0.5856955424541475,
+      "recall": 0.40072991345780595,
+      "map50": 0.4484915849471986,
+      "map50_95": 0.2996962666280543
+    },
+    {
+      "view": "raw",
+      "weather": "fog",
+      "images": 24,
+      "precision": 0.4735885299413164,
+      "recall": 0.49915383214477843,
+      "map50": 0.4091089657763316,
+      "map50_95": 0.26991707017421485
+    },
+    {
+      "view": "raw",
+      "weather": "rain",
+      "images": 24,
+      "precision": 0.6386821201253968,
+      "recall": 0.5133032128514057,
+      "map50": 0.5899376264119252,
+      "map50_95": 0.3886981377067388
+    },
+    {
+      "view": "raw",
+      "weather": "snow",
+      "images": 24,
+      "precision": 0.3896908569274659,
+      "recall": 0.5783133261018436,
+      "map50": 0.4772259589788657,
+      "map50_95": 0.3627128864136774
+    },
+    {
+      "view": "resize_control",
+      "weather": "all",
+      "images": 72,
+      "precision": 0.5444607167143644,
+      "recall": 0.41617465335153386,
+      "map50": 0.44515777896870085,
+      "map50_95": 0.2925306263815425
+    },
+    {
+      "view": "resize_control",
+      "weather": "fog",
+      "images": 24,
+      "precision": 0.4618850584113111,
+      "recall": 0.45889864320911045,
+      "map50": 0.4465166148837299,
+      "map50_95": 0.2940009743798957
+    },
+    {
+      "view": "resize_control",
+      "weather": "rain",
+      "images": 24,
+      "precision": 0.7436866624613417,
+      "recall": 0.4672865855269396,
+      "map50": 0.5526749544886683,
+      "map50_95": 0.3706913366883105
+    },
+    {
+      "view": "resize_control",
+      "weather": "snow",
+      "images": 24,
+      "precision": 0.42981469320253174,
+      "recall": 0.456661316211878,
+      "map50": 0.44653698975499484,
+      "map50_95": 0.33474895450137476
+    },
+    {
+      "view": "restormer",
+      "weather": "all",
+      "images": 72,
+      "precision": 0.7201587050107465,
+      "recall": 0.41126730344081297,
+      "map50": 0.4909375960848411,
+      "map50_95": 0.3285628210336163
+    },
+    {
+      "view": "restormer",
+      "weather": "fog",
+      "images": 24,
+      "precision": 0.8954370413792742,
+      "recall": 0.4112290149891944,
+      "map50": 0.5630265435558309,
+      "map50_95": 0.371088814941765
+    },
+    {
+      "view": "restormer",
+      "weather": "rain",
+      "images": 24,
+      "precision": 0.7635390833264057,
+      "recall": 0.466089307945063,
+      "map50": 0.5587033679815037,
+      "map50_95": 0.37206221061894196
+    },
+    {
+      "view": "restormer",
+      "weather": "snow",
+      "images": 24,
+      "precision": 0.479612405008395,
+      "recall": 0.5512306046013912,
+      "map50": 0.4791974627623619,
+      "map50_95": 0.3562330470745002
+    }
+  ],
+  "pilot_restored_minus_raw_map50_95": 0.02886655440556196,
+  "pilot_restored_minus_control_map50_95": 0.0360321946520738,
+  "jetson": {
+    "measured": false,
+    "fps": null,
+    "ram_bytes": null,
+    "fp16_quality": null,
+    "int8_quality": null
+  },
+  "decision": "Keep raw detection as default; restoration remains an explicit comparison mode until device/accuracy acceptance",
+  "limits": [
+    "72-image exploratory pilot, no confidence intervals or superiority claim",
+    "No smoke detection labels",
+    "Unknown pretrained-detector data overlap",
+    "Four restoration and three detection export fixtures are smoke tests, not full accuracy validation",
+    "256x448 deployment restoration differs from native-resolution training benchmark"
+  ]
+}

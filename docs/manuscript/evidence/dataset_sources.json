@@ -1,0 +1,219 @@
+{
+  "datasets": [
+    {
+      "archive": {
+        "expected_bytes": 1037588008,
+        "filename": "reside6k_train.zip",
+        "format": "zip",
+        "sha256": "49b2929605d57c4967a1c932564e2b61fa13f83542b42096997ee1dd7b94cce5",
+        "url": "https://drive.usercontent.google.com/download?id=1yaY_trqGn-SNoy7mrX040KUU7xhTPvas&export=download&confirm=t"
+      },
+      "auto_download": true,
+      "conditions": [
+        "fog"
+      ],
+      "extract_to": "data/raw/fog/reside6k_train",
+      "id": "reside6k_train",
+      "license": {
+        "note": "Cite RESIDE and DehazeFormer; dataset redistribution rights are separate from code.",
+        "status": "verify"
+      },
+      "name": "RESIDE-6K training (DehazeFormer authors' release)",
+      "notes": "Compact indoor/outdoor synthetic haze subset, distributed by the DehazeFormer authors (IEEE TIP 2023). Haze is the fog training proxy, not real driving fog. Group all haze variants of a clean reference before holding out validation.\n",
+      "selection": "core",
+      "source_page": "https://github.com/IDKiro/DehazeFormer",
+      "tasks": [
+        "paired-restoration"
+      ]
+    },
+    {
+      "archive": {
+        "expected_bytes": 551950085,
+        "filename": "reside6k_test.zip",
+        "format": "zip",
+        "sha256": "bf298811155e89193f2841681912573f9643f47c7eb69bdf8686485f8e49b980",
+        "url": "https://drive.usercontent.google.com/download?id=1c9uDHCzhZX7WPWzKRYjrIDhHhw2FuYkG&export=download&confirm=t"
+      },
+      "auto_download": true,
+      "conditions": [
+        "fog"
+      ],
+      "extract_to": "data/raw/fog/reside6k_test",
+      "id": "reside6k_test",
+      "license": {
+        "note": "Cite RESIDE and DehazeFormer; dataset redistribution rights are separate from code.",
+        "status": "verify"
+      },
+      "name": "RESIDE-6K test (DehazeFormer authors' release)",
+      "notes": "Preserve the provided test split and audit reference overlap against training.",
+      "selection": "core",
+      "source_page": "https://github.com/IDKiro/DehazeFormer",
+      "tasks": [
+        "paired-restoration",
+        "benchmark"
+      ]
+    },
+    {
+      "archive": {
+        "expected_bytes": 1582670081,
+        "filename": "smokebench.zip",
+        "format": "zip",
+        "sha256": "0fa5f81e5c1fe7308cab21f14556653db36f7afbd8ed607d57632fc9154c22f0",
+        "url": "https://drive.usercontent.google.com/download?id=1NfusIRKwB9el2TpD2xYMOB1fIxPf8PW8&export=download&confirm=t"
+      },
+      "auto_download": true,
+      "conditions": [
+        "smoke"
+      ],
+      "extract_to": "data/raw/smoke/smokebench",
+      "id": "smokebench",
+      "license": {
+        "note": "Confirm the dataset terms in the official release before redistribution.",
+        "status": "verify"
+      },
+      "name": "SmokeBench",
+      "notes": "Modern real paired smoke/clear benchmark; complements the small historical archive.",
+      "selection": "core",
+      "source_page": "https://github.com/ncfjd/SmokeBench",
+      "tasks": [
+        "paired-restoration",
+        "surveillance"
+      ]
+    },
+    {
+      "archive": {
+        "expected_bytes": 4914915619,
+        "filename": "realrain1k.zip",
+        "format": "zip",
+        "sha256": "8ba06f39bf38345ac277b16d5a96f26b2a25fd530aff0936ae6dba3df8ae7272",
+        "url": "https://drive.usercontent.google.com/download?id=1x1YuRxsykHlMApne2ErChCJ0DuLiq798&export=download&confirm=t"
+      },
+      "auto_download": true,
+      "conditions": [
+        "rain"
+      ],
+      "extract_to": "data/raw/rain/realrain1k",
+      "id": "realrain1k",
+      "license": {
+        "note": "The repository license may cover code only; verify the data terms.",
+        "status": "verify"
+      },
+      "name": "RealRain-1k",
+      "notes": "1,120 high-resolution realistic paired images; SynRain-13k is omitted as redundant.",
+      "selection": "core",
+      "source_page": "https://github.com/hiker-lw/RealRain-1k",
+      "tasks": [
+        "paired-restoration"
+      ]
+    },
+    {
+      "archive": {
+        "expected_bytes": 3724673024,
+        "filename": "snow_cityscapes.tar",
+        "format": "tar",
+        "sha256": "051fb81f9bdcd45022ee385add79ec7ff4601a7a5a41ca4ba2b64eb55675ea2a",
+        "url": "https://drive.usercontent.google.com/download?id=1E6iXFV6K5UJ4Mrqer17v6KsHhQOFvjtO&export=download&confirm=t"
+      },
+      "auto_download": true,
+      "conditions": [
+        "snow"
+      ],
+      "extract_to": "data/raw/snow/snow_cityscapes",
+      "id": "snow_cityscapes",
+      "license": {
+        "note": "Derived from Cityscapes; comply with Cityscapes non-commercial terms.",
+        "status": "restricted"
+      },
+      "name": "SnowCityscapes",
+      "notes": "Road-oriented paired synthetic snow; retain original scene groups in one split.",
+      "selection": "core",
+      "source_page": "https://github.com/weitingchen83/ICCV2021-Single-Image-Desnowing-HDCWNet",
+      "tasks": [
+        "paired-restoration",
+        "synthetic-road"
+      ]
+    },
+    {
+      "archive": {
+        "expected_bytes": 30571774,
+        "filename": "dawn_fog.zip",
+        "format": "zip",
+        "sha256": "09f4f8987e030b8da9e76eb73ab00b64fb628cd43df42e460bc26b9a0912c7c2",
+        "url": "https://data.mendeley.com/public-files/datasets/766ygrbt8y/files/c286e791-88c9-4bec-b43d-2ed276dd11ba/file_downloaded"
+      },
+      "auto_download": true,
+      "conditions": [
+        "fog"
+      ],
+      "extract_to": "data/raw/dawn/fog",
+      "id": "dawn_fog",
+      "license": {
+        "note": "CC BY-NC 3.0",
+        "status": "known"
+      },
+      "name": "DAWN Fog",
+      "notes": "Real adverse-weather road images with Pascal VOC and YOLO annotations.",
+      "selection": "core",
+      "source_page": "https://data.mendeley.com/datasets/766ygrbt8y/3",
+      "tasks": [
+        "object-detection",
+        "real-road"
+      ]
+    },
+    {
+      "archive": {
+        "expected_bytes": 29881690,
+        "filename": "dawn_rain.zip",
+        "format": "zip",
+        "sha256": "005bff2cc6c4dad1d4da76d58a50d2a6e071194b3583c28a4d1c8f90a972b76c",
+        "url": "https://data.mendeley.com/public-files/datasets/766ygrbt8y/files/7b37087a-db6b-4ce9-8ec4-ee64f963f073/file_downloaded"
+      },
+      "auto_download": true,
+      "conditions": [
+        "rain"
+      ],
+      "extract_to": "data/raw/dawn/rain",
+      "id": "dawn_rain",
+      "license": {
+        "note": "CC BY-NC 3.0",
+        "status": "known"
+      },
+      "name": "DAWN Rain",
+      "notes": "Real adverse-weather road images with Pascal VOC and YOLO annotations.",
+      "selection": "core",
+      "source_page": "https://data.mendeley.com/datasets/766ygrbt8y/3",
+      "tasks": [
+        "object-detection",
+        "real-road"
+      ]
+    },
+    {
+      "archive": {
+        "expected_bytes": 43899038,
+        "filename": "dawn_snow.zip",
+        "format": "zip",
+        "sha256": "9cf3ccbef87e2ae4055d87a9b4a9e24010f6ef2951a84ced6bd30b04820b3f6f",
+        "url": "https://data.mendeley.com/public-files/datasets/766ygrbt8y/files/d5abcff0-484f-49c9-b9f7-bf36c3b325a2/file_downloaded"
+      },
+      "auto_download": true,
+      "conditions": [
+        "snow"
+      ],
+      "extract_to": "data/raw/dawn/snow",
+      "id": "dawn_snow",
+      "license": {
+        "note": "CC BY-NC 3.0",
+        "status": "known"
+      },
+      "name": "DAWN Snow",
+      "notes": "Real adverse-weather road images with Pascal VOC and YOLO annotations.",
+      "selection": "core",
+      "source_page": "https://data.mendeley.com/datasets/766ygrbt8y/3",
+      "tasks": [
+        "object-detection",
+        "real-road"
+      ]
+    }
+  ],
+  "note": "Catalog metadata; usage and provenance caveats are in DATASET.md"
+}

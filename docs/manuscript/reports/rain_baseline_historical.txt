@@ -1,0 +1,246 @@
+ Aegis Perception
+ Rain restoration experiment
+ RealRain-1k-H | Restormer fine-tuning | Seed 42
+ Report prepared: 7 October 2026
+
+ A completed initial restoration baseline: 20 epochs of supervised fine-tuning, validation-selected checkpoint,
+ evaluation on all 224 test pairs, an untouched pretrained comparison, and three fixed qualitative examples. This
+ report records the completed run; it is not an all-weather or deployment result.
+
+ Main result: selected checkpoint at epoch 15
+   Test condition (same 224 pairs)                                                    PSNR (dB)                   SSIM
+
+   Raw rainy input                                                                    22.2721                     0.741376
+
+   Untouched pretrained Restormer                                                     23.1265                     0.794034
+
+   Fine-tuned Restormer (best.pt)                                                     37.2565                     0.972978
+
+
+ Fine-tuning improved mean test PSNR by 14.13 dB over pretrained weights and 14.98 dB over raw input. Mean
+ SSIM improved by 0.1789 over pretrained weights.
+
+ Which trained file should be used?
+ best.pt: epoch 15, chosen by the highest validation PSNR. Use this checkpoint for the reported results,
+ restoration inference, and later export experiments.
+ last.pt: epoch 20, the latest completed training state. Use it when resuming training. It is not the best checkpoint
+ in this run.
+
+ Both files are in:
+ artifacts/restoration/rain_restormer_seed42/
+
+ Training job 47223 completed with exit code 0:0 and a reported SLURM elapsed time of 39 minutes 49 seconds. Fine-tuned test evaluation
+ was job 47224; pretrained test evaluation was job 47225. Queue waiting time is excluded from runtime.
+
+ Evidence: run.json, history.json, metrics_test.json, metrics_test_pretrained.json, checkpoint contents, and archived logs. Job
+ completion/elapsed time is also supported by the user-supplied sacct output.
+
+
+
+
+Aegis Perception | Rain restoration | Seed 42                                                                                      Page 1
+ Data, architecture, and training recipe
+   Item                                Recorded value
+
+   Dataset and split                   RealRain-1k-H: 784 train / 112 validation / 224 test pairs
+
+   Manifest                            data/manifests/realrain1k.csv
+
+   Local data root                     data/raw/rain/realrain1k/RealRain-1k/RealRain-1k-H/
+
+   Model                               Restormer; 26,126,644 trainable parameters
+
+   Architecture                        Base width 48; blocks [4,6,6,8]; heads [1,2,4,8]; 4 refinement blocks; expansion 2.66; WithBias
+                                       LayerNorm; convolution bias disabled
+
+   Initialization                      Official deraining.pth weights loaded strictly; all model parameters fine-tuned
+
+   Training images                     Synchronized 128 x 128 random crops; paired horizontal flips; batch 4; 4 data workers
+
+   Schedule                            20 epochs; 196 batches per epoch; 3,920 optimizer updates; seed 42
+
+   Objective                           L1 reconstruction, weight 1.0; no discriminator or adversarial term
+
+   Optimizer                           AdamW; learning rate 0.0001; betas (0.9,0.999); weight decay 0.0001
+
+   Learning rate and gradients         Cosine schedule toward 0.000001; gradient clipping 1.0
+
+   Precision                           BF16 autocast for CUDA model execution; reconstruction loss computed from float predictions
+
+
+ Project tensors use [-1,1]. For Restormer, the trainer multiplies their mean absolute reconstruction error by 0.5, making the training objective
+ equivalent to mean L1 on RGB [0,1]. The logged validation L1 uses [-1,1] without this factor, so its magnitude should not be compared
+ directly to the logged training L1.
+
+
+ Evaluation protocol
+ Validation and test use native image resolution, batch size 1, and BF16 model execution on CUDA. Input
+ padding meets the architecture dimensions and is removed before scoring. Outputs are converted to RGB [0,1]
+ and clamped. PSNR uses per-image RGB MSE with a 1e-12 floor, followed by an arithmetic mean across
+ images; SSIM uses scikit-image with channel_axis=-1 and data_range=1. These are RGB scores, not Y-channel
+ scores.
+
+ All 112 validation images were checked before optimization. Checkpoint selection used validation only. The pretrained and fine-tuned test
+ files have matching manifests and evaluation protocols. Numeric metrics are calculated before saving the 8-bit PNG illustrations; figure
+ export is not the scoring path.
+
+
+
+
+Aegis Perception | Rain restoration | Seed 42                                                                                               Page 2
+ Learning curve and resource usage
+
+
+
+
+   Measurement                                            Value
+
+   Pretrained validation PSNR                             23.7324 dB
+
+   Validation: epoch 1 / best epoch 15 / epoch 20         32.3582 / 37.2741 / 36.9392 dB
+
+   Hardware and environment                               NVIDIA A100-SXM4-40GB; Python 3.10.18; Torch 2.5.1+cu118; CUDA build
+                                                          11.8
+
+   SLURM resource request                                 1 full A100 40 GB; 4 CPU cores; 30000M system RAM; longq
+
+   Mean training / total epoch time                       40.9 s / 114.5 s
+
+   Peak allocated CUDA memory (logged)                    22.28 GiB; not total process/reserved GPU memory
+
+
+ Epochs 15-20 broadly plateaued; epoch 20 was 0.335 dB below the selected checkpoint. This supports keeping epoch 15 for this run. It does
+ not prove that a longer or different schedule cannot improve performance, or establish overfitting from this curve alone.
+
+
+
+
+Aegis Perception | Rain restoration | Seed 42                                                                                       Page 3
+ Per-image behavior and limits of the average
+   Test statistic                                                                        Value
+
+   PSNR improved over raw input                                                          224 / 224 images
+
+   Median / 10th-percentile PSNR gain over raw                                           15.93 / 6.15 dB
+
+   Minimum / maximum final PSNR                                                          18.19 / 49.68 dB
+
+   SSIM below raw input                                                                  2 / 224: test/107, test/863
+
+   PSNR below pretrained output                                                          2 / 224 images
+
+
+
+
+   Example                              Raw PSNR                  Final PSNR                Raw SSIM                   Final SSIM
+
+   test/52                              15.92                     18.19                     0.7708                     0.8324
+
+   test/45                              19.29                     21.57                     0.8194                     0.9524
+
+   test/863                             19.19                     21.76                     0.8412                     0.8334
+
+   test/107                             21.97                     23.50                     0.8858                     0.8541
+
+
+ Observed: most pairs improve substantially, but a small number remain difficult. In test/107, PSNR rises while
+ SSIM falls, so a single metric does not describe every change in structure or appearance. The illustrated result
+ also changes brightness/contrast; possible overcorrection is a hypothesis to investigate, not a verified failure
+ mechanism.
+
+ Interpretation: fine-tuning adapted pretrained Restormer effectively to this dataset. The improvement does not isolate the effect of L1 versus
+ other losses; there was no loss ablation. BF16 completed successfully, but no matched FP32 comparison was run.
+
+
+
+
+Aegis Perception | Rain restoration | Seed 42                                                                                             Page 4
+ Fixed qualitative comparison
+ Columns: rainy input, fine-tuned Restormer, paired ground truth. The three examples were selected from
+ recorded test results by PSNR gain: minimum (test/107), upper-middle sorted entry (test/257), and maximum
+ (test/338). They are not three randomly sampled examples, and the weak case means weakest gain rather than
+ lowest absolute PSNR.
+
+
+
+
+   Selected test case                Gain over raw   Interpretation
+
+   test/107                          1.53 dB         Weakest PSNR gain; SSIM decreased
+
+   test/257                          15.95 dB        Near the median gain; visible residual streaks
+
+   test/338                          25.86 dB        Largest PSNR gain; substantial streak removal
+
+
+ The original restored PNGs retain their native sizes. The report figure reduces them for display only; quantitative
+ evaluation was performed at native resolution. Visual agreement on these examples is supporting evidence, not
+ a substitute for the full test-set metrics.
+
+ Full-size comparison files:
+ qualitative/rain_restoration_comparison.png
+ qualitative/rain_restoration_comparison.pdf
+
+
+
+
+Aegis Perception | Rain restoration | Seed 42                                                                  Page 5
+ Checkpoints, reproducibility, and scope
+   File                                                      Epoch         Use
+
+   best.pt                                                   15            Recommended for inference; highest validation PSNR
+
+   last.pt                                                   20            Latest state; use to resume training
+
+   epoch_005.pt / epoch_010.pt                               5 / 10        Intermediate training snapshots
+
+   epoch_015.pt                                              15            Periodic snapshot of the selected epoch
+
+   epoch_020.pt                                              20            Periodic snapshot of the final epoch
+
+   pretrained.pt                                             0             Untouched initialization packaged for project evaluation
+
+
+ Trained checkpoints are approximately 300 MiB each because they contain generator weights, AdamW optimizer state, scheduler/scaler
+ state, RNG state, configuration, history, and validation metadata. The pretrained checkpoint is approximately 100 MiB and has no optimizer
+ state. These are different training states, not multiple architectures. No checkpoint was deleted or renamed for this report.
+
+ Laptop artifact directory:
+ /home/bms/Desktop/BTP_Aegis-Perception/artifacts/restoration/
+ rain_restormer_seed42/
+ DGX artifact directory:
+ /scratch/cs23b051/aegis-perception/artifacts/restoration/
+ rain_restormer_seed42/
+
+ Core evidence: run.json (recipe/environment/checksums), history.json (20 epochs), baseline_validation.json, metrics_test.json,
+ metrics_test_pretrained.json (224 per-image records each), environment.txt, source_code.tar.gz, training/evaluation logs, and restored
+ images.
+
+ Recorded Git commit:
+ 3aa4ef4e5c6bb75e675293791b65cd89c8eb8948
+
+ Training source SHA-256:
+ 4314bcb8b0fd729bee1017ecbc730662a9195a57
+ d74f5d00ad4d69c70c9fbdb3
+
+ Manifest SHA-256:
+ b03a7799863f5e50e79140940fcb329cfbe36826
+ 7a76a62e5a6e61c8869f31c5
+
+ Official pretrained weight SHA-256:
+ 225ed9acf80b3527d7080e5182918f642a23a78e
+ f8593ad700b7e924bd660681
+
+ The run includes local source changes beyond the recorded Git commit; the recorded source checksum and retained code archive are
+ needed alongside the commit. BF16 reduced inference memory; large depthwise convolutions were split by independent channels to avoid
+ the older CUDA kernel indexing limit while retaining spatial context.
+
+ Supported conclusion: a successful single-weather, single-seed Restormer fine-tuning baseline on the recorded RealRain-1k-H split.
+ Cross-split near-duplicate scene auditing, seeds 43/44, unseen-dataset evaluation, multi-weather training, detector benefit, FP32/BF16
+ comparison, and quantized hardware measurements remain unverified. Single-seed results have no across-seed uncertainty estimate; they
+ are not evidence of state-of-the-art performance or submission readiness.
+
+
+
+
+Aegis Perception | Rain restoration | Seed 42                                                                                          Page 6
