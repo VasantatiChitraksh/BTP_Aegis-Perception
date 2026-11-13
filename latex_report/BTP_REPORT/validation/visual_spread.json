@@ -1,0 +1,121 @@
+[
+  {
+    "physical_page": 3,
+    "printed_page": "1",
+    "captions": [
+      "Figure 1: Four-weather restoration comparison. Each row shares one display crop; examples were fixed by sample-ID hash before score",
+      "Table 1: Principal measurements. Compare raw and restored results within each experiment: the local pilot and Nano replay use different"
+    ]
+  },
+  {
+    "physical_page": 4,
+    "printed_page": "2",
+    "captions": [
+      "Figure 2: Project timeline from dated records. Bars join the first and last milestones; dots identify records, not continuous daily effort. The",
+      "Table 2: Individual and shared contributions to the six completed experimental phases. Entries identify recorded work; they do not assign"
+    ]
+  },
+  {
+    "physical_page": 5,
+    "printed_page": "3",
+    "captions": [
+      "Figure 3: Experimental workflow. Epoch 51 initializes continuation and stays fixed for detection and Nano evaluation. Raw and resize-only"
+    ]
+  },
+  {
+    "physical_page": 6,
+    "printed_page": "4",
+    "captions": [
+      "Table 3: What the project establishes at each evaluation stage.",
+      "Figure 4: Test coverage and aggregation. The 342 smoke pairs",
+      "Table 4: Active paired split. Parentheses give background groups,"
+    ]
+  },
+  {
+    "physical_page": 7,
+    "printed_page": "5",
+    "captions": [
+      "Figure 5: Completed data preparation: the frozen train/validation/test mixture and the distinction between held-out pairs and backgrounds."
+    ]
+  },
+  {
+    "physical_page": 8,
+    "printed_page": "6",
+    "captions": [
+      "Figure 6: Architectures evaluated on the paired benchmark. Restormer uses transformer blocks (TBs) at all four scales. LiteWeather"
+    ]
+  },
+  {
+    "physical_page": 9,
+    "printed_page": "7",
+    "captions": [
+      "Figure 7: Performance across six trained systems. (a) Macro PSNR versus parameter count. Bars are 95% cluster-bootstrap intervals",
+      "Figure 8: The completed six-model benchmark as a weather-by-model comparison. Restormer leads rain, snow and smoke; PromptIR leads",
+      "Table 5: Native-resolution test results on 2,334 pairs. Weather columns report PSNR in dB. SSIM is scaled by 100 for display. Macro"
+    ]
+  },
+  {
+    "physical_page": 10,
+    "printed_page": "8",
+    "captions": [
+      "Figure 9: Distributions of per-image PSNR improvement over degraded input for Restormer and RAMiT, using the same 2,334 held-out"
+    ]
+  },
+  {
+    "physical_page": 11,
+    "printed_page": "9",
+    "captions": [
+      "Figure 10: Completed continuation experiments relative to the matched further-training control. Milli-decibels keep the small differences",
+      "Figure 11: Validation replacement criterion for the eight continuation arms. Panels compare selected checkpoints with the epoch-51 starting",
+      "Table 6: Recorded follow-up validation checkpoints. All selected states are EMA; all eight replacements fail. Parameters include added"
+    ]
+  },
+  {
+    "physical_page": 12,
+    "printed_page": "10",
+    "captions": [
+      "Figure 12: Labelled DAWN detection in the earlier local pilot and the Nano benchmark. The local comparison includes a 256 \u00d7 448 resize-",
+      "Figure 13: Matched local resolution diagnostic. (a) The same degraded source enters all branches. Native restoration only pads and crops."
+    ]
+  },
+  {
+    "physical_page": 13,
+    "printed_page": "11",
+    "captions": [
+      "Figure 14: Matched vehicle comparison: source-size YOLOv8n, a 128\u00d7128 resize-only canvas with YOLOv8n, and Restormer on the same"
+    ]
+  },
+  {
+    "physical_page": 14,
+    "printed_page": "12",
+    "captions": [
+      "Figure 15: The same three labelled people under four added-weather conditions, using the identical pipeline and thresholds as Figure 14."
+    ]
+  },
+  {
+    "physical_page": 15,
+    "printed_page": "13",
+    "captions": [
+      "Figure 16: Original Jetson Nano throughput and board input en-",
+      "Table 7: Recorded board memory and GPU utilization during la-"
+    ]
+  },
+  {
+    "physical_page": 16,
+    "printed_page": "14",
+    "captions": [
+      "Figure 17: Measured per-frame pipeline latency on the Jetson Nano for YOLOv8n alone and Restormer (128\u00d7128 restoration canvas)",
+      "Figure 18: Resource observations from the completed Nano replay. The cascade uses the GPU more heavily, while board-wide RAM peaks",
+      "Table 8: Absolute clean-reference quality and maximum output er-"
+    ]
+  },
+  {
+    "physical_page": 17,
+    "printed_page": "15",
+    "captions": [
+      "Figure 19: Weight-grid screen. Convolution weights are discretized per output channel and reconstructed in FP32. Clean-target quality",
+      "Figure 20: Offline numerical screens. (a) Weight-grid RMSE on normalized outputs, alongside clean-target PSNR changes. Fog and",
+      "Figure 21: Pruning changes in PSNR on four fixtures. The mean"
+    ]
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-13",
+  "folder_layout": [
+    "BTP_REPORT/",
+    "WORKSHOP PAPER/"
+  ],
+  "old_flat_files_archived": 197,
+  "all_relocated_bytes_unchanged": true,
+  "legacy_location": "artifacts/report_backups/pre_split_flat_files_20261113",
+  "archive": "artifacts/report_backups/latex_report_before_folder_split_20261113.tar.gz",
+  "archive_sha256": "3774f38a1db4890393c174cb654d780b9f3a1bdbf4208a33f4f94ec94e8e6bef",
+  "workshop_original_pdf_sha256": "d6e3c96ce4bc67e08733084ebb31b4d00e49d659d6a21b8cd0530c422e7b9b3f",
+  "workshop_original_pdf_unchanged": true,
+  "mtp_reference_sha256": "36352aaf3a9d6f38c63a2e9efbe4f5807166a88126d649be73f9e63f479a2806",
+  "mtp_reference_unchanged": true,
+  "btp_standalone_pages": 25,
+  "workshop_pages_in_btp": 0,
+  "current_revision": "Black comparison labels; workflow on page 5; figures/tables on all 15 main-body pages; condensed prose"
+}

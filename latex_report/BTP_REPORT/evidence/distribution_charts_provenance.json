@@ -1,0 +1,20 @@
+{
+  "generator": "scripts/build_distribution_charts.py",
+  "purpose": "Saved observation histograms; no new experiments.",
+  "generator_sha256": "158dc4e7c27fa589929718046e494ddece59b952af385f55c81aa9c24b161028",
+  "display_precision": "At most two decimals; numeric snapshot summaries retain full precision.",
+  "figures": {
+    "restoration_gain_histograms.pdf": {
+      "snapshot": "evidence/restoration_gain_histogram.json",
+      "sha256": "d137fd0e884c604876f3a507a8be2253af5815e6436a1b9013c484ce03d94d07",
+      "figure_sha256": "112ddd82e2b8fb50853cb9c7c025849b6a0032b5f49ae135ca6764f13bd376fd",
+      "scope": "2,334 paired test images per model; equally weighted observations, not benchmark aggregate metric."
+    },
+    "nano_pipeline_latency_histograms.pdf": {
+      "snapshot": "evidence/nano_latency_histogram.json",
+      "sha256": "5250c59ace0b1684a74ec3fdf3a0b651930b031d9e9bc72960dc6916c3f4a768",
+      "figure_sha256": "b47d1f58370330ee09ca9598404e8a07b188eecd9d1524b2f22a1092800fb334",
+      "scope": "Nano labelled replay; one recorded run per weather/path; 672 raw and 72 restored timing observations across 72 unique images."
+    }
+  }
+}

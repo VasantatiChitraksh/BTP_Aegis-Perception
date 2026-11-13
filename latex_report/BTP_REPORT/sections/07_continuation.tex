@@ -1,0 +1,63 @@
+\section{Continuation with Matched Training}
+\label{sec:jointresults}
+\subsection{Design and replacement rule}
+\label{sec:jointmethod}
+\begin{multicols}{2}\raggedcolumns
+All eight arms start from epoch 51 and continue for ten epochs with seed 42,
+global batch four on two A100s, and 4,096 weighted draws per epoch
+(10,240 updates per run). They use paired $256\times256$ crops, BF16,
+AdamW with $\beta=(0.9,0.999)$, weight decay $10^{-4}$, gradient clipping 1.0,
+and learning rate $2\times10^{-5}$ decayed to $10^{-6}$.
+
+The control retains the original architecture and L1 loss. Zero-start spatial
+and detail adapters use width 64, four heads and grid eight. The recipe-only
+arm keeps the network unchanged; combined-adapter arms test SSIM, focal
+frequency loss (FFL), and both auxiliaries:
+\begin{equation}
+\mathcal L=\mathcal L_1+\lambda_S\mathcal L_{\rm SSIM}
++\lambda_F\mathcal L_{\rm FFL}.
+\end{equation}
+Auxiliary weights use full-network FP32 gradient norms from 64 paired
+training crops:
+\begin{equation}
+\lambda_a=0.1\operatorname{median}_i\left(
+\frac{\|\nabla_\theta\mathcal L_{1,i}\|_2}{\|\nabla_\theta\mathcal L_{a,i}\|_2}\right).
+\end{equation}
+This gives $\lambda_S\approx7.81\times10^{-2}$ and $\lambda_F\approx3.10$;
+exact values remain in the saved configuration and are fixed before
+continuation~\cite{Jiang_2021_FFL}.
+
+Raw and EMA states (decay 0.999) compete by validation macro PSNR. Replacement
+requires at least 0.10\,dB over both initialization and matched control,
+retained macro SSIM, and per-weather losses no greater than 0.10\,dB and
+0.001 SSIM. All eight arms fail this rule; the epoch-51 model is retained
+before test evaluation.
+\end{multicols}
+\clearpage
+\noindent\begin{minipage}{\linewidth}
+\centering\comparisonplot[\linewidth]{figures/continuation_millidb.pdf}
+\captionof{figure}{Completed continuation experiments relative to the matched further-training control. Milli-decibels keep the small differences readable with two decimal places. The control improves over the original checkpoint by 118.97 mdB, while the best additional gain is 28.81 mdB. No arm passes the validation replacement rule.}
+\label{fig:joint}
+\end{minipage}
+\medskip
+\noindent\begin{minipage}{\linewidth}
+\centering\comparisonplot[\textwidth]{figures/continuation_validation_gate.pdf}
+\captionof{figure}{Validation replacement criterion for the eight continuation arms. Panels compare selected checkpoints with the epoch-51 starting checkpoint and matched continuation control. Both improvements must reach the dashed $+0.10$ dB threshold before applying SSIM and per-weather retention criteria.}
+\label{fig:continuation-gate}
+\end{minipage}
+\medskip
+\input{tables/joint_validation}
+\begin{multicols}{2}\raggedcolumns
+\textbf{Validation decision.} Seven arms select EMA at epoch six; combined
++ recipe selects EMA at epoch five (Table~\ref{tab:jointval}). The largest
+validation gain over control is 17.96\,mdB, below the 0.10\,dB replacement
+threshold (Fig.~\ref{fig:continuation-gate}).
+
+\textbf{Held-out comparison.} The control reaches 32.70\,dB, a gain of
+118.97\,mdB over epoch 51. Adapters add only 1.50--5.88\,mdB beyond matched
+training. The unchanged-network loss recipe gives the largest additional
+PSNR gain, 28.81\,mdB; combined + SSIM gives the highest scaled SSIM, 93.17.
+Table~\ref{tab:jointweather} retains the weather breakdown. These small
+single-seed differences do not justify replacing the selected model.
+\end{multicols}
+\clearpage

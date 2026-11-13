@@ -1,0 +1,28 @@
+\begin{tikzpicture}[
+  x=1cm,y=1cm,
+  flow/.style={draw=aegisgray!35,fill=aegishead,
+    text width=3.6cm,minimum height=1.38cm,inner sep=4pt,align=center,font=\small},
+  study/.style={draw=aegisblue!30,fill=aegisbest,
+    text width=4.95cm,minimum height=1.24cm,inner sep=4pt,align=center,font=\small},
+  arrow/.style={-{Latex[length=2.1mm]},aegisblue,line width=.75pt}
+]
+\node[flow] (sources) at (1.96,0) {\textbf{Paired weather data}\\Rain, fog, snow, smoke};
+\node[flow] (split) at (6.35,0) {\textbf{Training and validation}\\18,610 train pairs\\2,011 validation pairs};
+\node[flow] (train) at (10.74,0) {\textbf{Train six restorers}\\Select checkpoints by\\validation PSNR};
+\node[flow] (test) at (15.13,0) {\textbf{Held-out comparison}\\2,334 test pairs\\Balanced PSNR and SSIM};
+\draw[arrow] (sources) -- (split);
+\draw[arrow] (split) -- (train);
+\draw[arrow] (train) -- (test);
+\node[draw=aegisblue!45,fill=aegisblue!8,inner xsep=10pt,
+      inner ysep=4pt,font=\small\bfseries] (checkpoint) at (8.55,-1.70)
+      {Trained Restormer checkpoint (epoch 51)};
+\draw[arrow] (train.south) |- (checkpoint.east);
+\node[study] (joint) at (2.68,-3.32) {\textbf{Continuation study}\\Eight arms from the same weights\\Matched training control};
+\node[study] (dawn) at (8.55,-3.32) {\textbf{Downstream detection}\\Local controls and labelled Nano\\Frozen YOLOv8n};
+\node[study] (edge) at (14.42,-3.32) {\textbf{Edge measurements}\\Nano throughput and input energy\\Separate compression screens};
+\coordinate (branch) at (8.55,-2.37);
+\draw[aegisblue,line width=.75pt] (checkpoint.south) -- (branch);
+\draw[arrow] (branch) -| (joint.north);
+\draw[arrow] (branch) -- (dawn.north);
+\draw[arrow] (branch) -| (edge.north);
+\end{tikzpicture}

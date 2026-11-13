@@ -1,0 +1,7 @@
+# Preserve checksummed source and evidence bytes on every checkout platform.
+BTP_REPORT/** -text
+"WORKSHOP PAPER/**" -text
+*.zip binary
+*.pdf binary
+*.png binary
+*.jpg binary

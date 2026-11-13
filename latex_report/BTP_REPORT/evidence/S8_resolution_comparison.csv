@@ -1,0 +1,91 @@
+source,weather,mode,detections,tp,fp,fn,precision,recall,predictions
+truck_car,none,direct,2,2,0,0,1.0,1.0,car:0.827; truck:0.699
+truck_car,none,resize_128,1,1,0,1,1.0,0.5,car:0.567
+truck_car,none,restored_128,1,1,0,1,1.0,0.5,car:0.730
+truck_car,none,resize_256,2,2,0,0,1.0,1.0,car:0.796; truck:0.466
+truck_car,none,restored_256,2,2,0,0,1.0,1.0,car:0.831; truck:0.401
+truck_car,none,restored_native,2,2,0,0,1.0,1.0,car:0.845; truck:0.528
+truck_car,fog,direct,2,2,0,0,1.0,1.0,car:0.821; truck:0.537
+truck_car,fog,resize_128,1,1,0,1,1.0,0.5,car:0.704
+truck_car,fog,restored_128,1,1,0,1,1.0,0.5,car:0.805
+truck_car,fog,resize_256,2,2,0,0,1.0,1.0,car:0.775; truck:0.336
+truck_car,fog,restored_256,2,2,0,0,1.0,1.0,car:0.849; truck:0.302
+truck_car,fog,restored_native,2,2,0,0,1.0,1.0,car:0.835; truck:0.643
+truck_car,rain,direct,1,1,0,1,1.0,0.5,car:0.462
+truck_car,rain,resize_128,2,1,1,1,0.5,0.5,car:0.516; truck:0.436
+truck_car,rain,restored_128,1,1,0,1,1.0,0.5,car:0.634
+truck_car,rain,resize_256,2,2,0,0,1.0,1.0,car:0.693; truck:0.538
+truck_car,rain,restored_256,2,2,0,0,1.0,1.0,car:0.831; truck:0.432
+truck_car,rain,restored_native,2,2,0,0,1.0,1.0,car:0.818; truck:0.475
+truck_car,snow,direct,2,2,0,0,1.0,1.0,car:0.809; truck:0.757
+truck_car,snow,resize_128,1,1,0,1,1.0,0.5,car:0.581
+truck_car,snow,restored_128,2,2,0,0,1.0,1.0,car:0.716; truck:0.291
+truck_car,snow,resize_256,3,2,1,0,0.6666666666666666,1.0,car:0.817; truck:0.654; person:0.258
+truck_car,snow,restored_256,3,2,1,0,0.6666666666666666,1.0,car:0.856; truck:0.632; person:0.377
+truck_car,snow,restored_native,2,2,0,0,1.0,1.0,car:0.811; truck:0.752
+truck_car,smoke,direct,2,2,0,0,1.0,1.0,car:0.827; truck:0.621
+truck_car,smoke,resize_128,1,1,0,1,1.0,0.5,car:0.562
+truck_car,smoke,restored_128,1,1,0,1,1.0,0.5,car:0.689
+truck_car,smoke,resize_256,2,2,0,0,1.0,1.0,car:0.778; truck:0.311
+truck_car,smoke,restored_256,2,2,0,0,1.0,1.0,car:0.836; truck:0.286
+truck_car,smoke,restored_native,1,1,0,1,1.0,0.5,car:0.754
+small_people,none,direct,3,3,0,0,1.0,1.0,person:0.891; person:0.870; person:0.617
+small_people,none,resize_128,3,3,0,0,1.0,1.0,person:0.854; person:0.748; person:0.309
+small_people,none,restored_128,3,3,0,0,1.0,1.0,person:0.860; person:0.711; person:0.357
+small_people,none,resize_256,3,3,0,0,1.0,1.0,person:0.895; person:0.815; person:0.504
+small_people,none,restored_256,4,3,1,0,0.75,1.0,person:0.877; person:0.762; person:0.374; person:0.333
+small_people,none,restored_native,4,3,1,0,0.75,1.0,person:0.898; person:0.839; person:0.630; person:0.262
+small_people,fog,direct,3,3,0,0,1.0,1.0,person:0.886; person:0.850; person:0.483
+small_people,fog,resize_128,2,2,0,1,1.0,0.6666666666666666,person:0.773; person:0.590
+small_people,fog,restored_128,3,3,0,0,1.0,1.0,person:0.781; person:0.669; person:0.437
+small_people,fog,resize_256,4,3,1,0,0.75,1.0,person:0.878; person:0.778; person:0.404; person:0.256
+small_people,fog,restored_256,4,3,1,0,0.75,1.0,person:0.836; person:0.718; person:0.308; person:0.301
+small_people,fog,restored_native,3,3,0,0,1.0,1.0,person:0.889; person:0.800; person:0.663
+small_people,rain,direct,3,3,0,0,1.0,1.0,person:0.872; person:0.686; person:0.596
+small_people,rain,resize_128,3,3,0,0,1.0,1.0,person:0.699; person:0.334; person:0.304
+small_people,rain,restored_128,3,3,0,0,1.0,1.0,person:0.675; person:0.359; person:0.329
+small_people,rain,resize_256,3,3,0,0,1.0,1.0,person:0.857; person:0.526; person:0.496
+small_people,rain,restored_256,3,3,0,0,1.0,1.0,person:0.800; person:0.563; person:0.403
+small_people,rain,restored_native,4,3,1,0,0.75,1.0,person:0.832; person:0.795; person:0.406; person:0.357
+small_people,snow,direct,3,3,0,0,1.0,1.0,person:0.874; person:0.820; person:0.524
+small_people,snow,resize_128,2,2,0,1,1.0,0.6666666666666666,person:0.717; person:0.453
+small_people,snow,restored_128,2,2,0,1,1.0,0.6666666666666666,person:0.773; person:0.591
+small_people,snow,resize_256,3,3,0,0,1.0,1.0,person:0.853; person:0.769; person:0.361
+small_people,snow,restored_256,3,2,1,1,0.6666666666666666,0.6666666666666666,person:0.779; person:0.682; person:0.353
+small_people,snow,restored_native,3,3,0,0,1.0,1.0,person:0.897; person:0.853; person:0.391
+small_people,smoke,direct,3,3,0,0,1.0,1.0,person:0.884; person:0.868; person:0.583
+small_people,smoke,resize_128,4,3,1,0,0.75,1.0,person:0.854; person:0.712; person:0.386; person:0.255
+small_people,smoke,restored_128,3,3,0,0,1.0,1.0,person:0.858; person:0.784; person:0.439
+small_people,smoke,resize_256,3,3,0,0,1.0,1.0,person:0.886; person:0.834; person:0.504
+small_people,smoke,restored_256,4,3,1,0,0.75,1.0,person:0.863; person:0.776; person:0.404; person:0.309
+small_people,smoke,restored_native,3,3,0,0,1.0,1.0,person:0.887; person:0.816; person:0.636
+camera_320,none,direct,2,,,,,,person:0.925; person:0.712
+camera_320,none,resize_128,3,,,,,,person:0.882; person:0.606; person:0.268
+camera_320,none,restored_128,3,,,,,,person:0.881; person:0.570; person:0.270
+camera_320,none,resize_256,2,,,,,,person:0.924; person:0.702
+camera_320,none,restored_256,2,,,,,,person:0.924; person:0.692
+camera_320,none,restored_native,2,,,,,,person:0.926; person:0.714
+camera_320,fog,direct,2,,,,,,person:0.927; person:0.630
+camera_320,fog,resize_128,2,,,,,,person:0.896; person:0.405
+camera_320,fog,restored_128,2,,,,,,person:0.879; person:0.390
+camera_320,fog,resize_256,2,,,,,,person:0.918; person:0.667
+camera_320,fog,restored_256,2,,,,,,person:0.922; person:0.722
+camera_320,fog,restored_native,2,,,,,,person:0.932; person:0.697
+camera_320,rain,direct,2,,,,,,person:0.920; person:0.692
+camera_320,rain,resize_128,3,,,,,,person:0.851; person:0.600; person:0.306
+camera_320,rain,restored_128,3,,,,,,person:0.843; person:0.593; person:0.266
+camera_320,rain,resize_256,2,,,,,,person:0.905; person:0.700
+camera_320,rain,restored_256,2,,,,,,person:0.908; person:0.720
+camera_320,rain,restored_native,2,,,,,,person:0.917; person:0.662
+camera_320,snow,direct,2,,,,,,person:0.925; person:0.739
+camera_320,snow,resize_128,3,,,,,,person:0.756; person:0.657; person:0.521
+camera_320,snow,restored_128,3,,,,,,person:0.756; person:0.592; person:0.527
+camera_320,snow,resize_256,3,,,,,,person:0.900; person:0.753; person:0.351
+camera_320,snow,restored_256,3,,,,,,person:0.900; person:0.735; person:0.282
+camera_320,snow,restored_native,2,,,,,,person:0.924; person:0.728
+camera_320,smoke,direct,2,,,,,,person:0.928; person:0.682
+camera_320,smoke,resize_128,3,,,,,,person:0.878; person:0.547; person:0.266
+camera_320,smoke,restored_128,3,,,,,,person:0.874; person:0.495; person:0.265
+camera_320,smoke,resize_256,2,,,,,,person:0.922; person:0.683
+camera_320,smoke,restored_256,2,,,,,,person:0.926; person:0.700
+camera_320,smoke,restored_native,2,,,,,,person:0.930; person:0.702

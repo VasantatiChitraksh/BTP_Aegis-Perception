@@ -1,0 +1,48 @@
+{
+  "yolo": {
+    "passed": true,
+    "rows": [
+      {
+        "sample": "input_fog",
+        "score_max_abs_error": 0.0,
+        "box_rmse_pixels": 0.0,
+        "passed": true
+      },
+      {
+        "sample": "input_rain",
+        "score_max_abs_error": 0.0,
+        "box_rmse_pixels": 0.0,
+        "passed": true
+      },
+      {
+        "sample": "input_snow",
+        "score_max_abs_error": 0.0,
+        "box_rmse_pixels": 0.0,
+        "passed": true
+      }
+    ],
+    "scope": "Three-image numerical gate, not detection accuracy evaluation"
+  },
+  "restormer": [
+    {
+      "fixture": "input_fog",
+      "max_abs_error": 2.86102294921875e-06,
+      "passed": true
+    },
+    {
+      "fixture": "input_rain",
+      "max_abs_error": 1.1324882507324219e-06,
+      "passed": true
+    },
+    {
+      "fixture": "input_smoke",
+      "max_abs_error": 8.344650268554688e-07,
+      "passed": true
+    },
+    {
+      "fixture": "input_snow",
+      "max_abs_error": 1.6093254089355469e-06,
+      "passed": true
+    }
+  ]
+}

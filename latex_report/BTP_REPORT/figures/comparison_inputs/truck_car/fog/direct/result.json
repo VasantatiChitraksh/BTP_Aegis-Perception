@@ -1,0 +1,46 @@
+{
+  "predictions": [
+    {
+      "xyxy": [
+        216.0406951904297,
+        164.4157257080078,
+        318.4447326660156,
+        242.12648010253906
+      ],
+      "class_id": 2,
+      "class_name": "car",
+      "confidence": 0.8213776350021362
+    },
+    {
+      "xyxy": [
+        348.5617370605469,
+        111.71258544921875,
+        433.57452392578125,
+        223.44674682617188
+      ],
+      "class_id": 7,
+      "class_name": "truck",
+      "confidence": 0.5368334054946899
+    }
+  ],
+  "matches": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "matches": [
+      {
+        "gt_index": 0,
+        "iou": 0.92143752820507
+      },
+      {
+        "gt_index": 1,
+        "iou": 0.9116303088787236
+      }
+    ]
+  },
+  "input_shape": null,
+  "local_restorer_seconds_unbenchmarked": null,
+  "weather_source_sha256": "956fcd0bb3bdff188447afc44714308a15efb7ba06207b9dd936a31e51ecf773"
+}

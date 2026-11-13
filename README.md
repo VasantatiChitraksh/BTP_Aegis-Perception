@@ -5,6 +5,15 @@ perception. The project compares six trained restoration models on a fixed
 four-weather protocol and prepares the trained Restormer + YOLOv8n pipeline for
 edge testing. Sustained full-pipeline device performance is not yet established.
 
+## LaTeX reports and Overleaf sources
+
+The [LaTeX report folder](latex_report/README.md) contains the complete editable
+BTP and workshop projects, their PDFs, and separate ZIPs ready to upload to
+Overleaf. Use [BTP_REPORT_Overleaf.zip](https://github.com/VasantatiChitraksh/BTP_Aegis-Perception/raw/refs/heads/main/latex_report/BTP_REPORT_Overleaf.zip)
+with XeLaTeX, or [WORKSHOP_PAPER_Overleaf.zip](https://github.com/VasantatiChitraksh/BTP_Aegis-Perception/raw/refs/heads/main/latex_report/WORKSHOP_PAPER_Overleaf.zip)
+with pdfLaTeX; both use `main.tex`. The current BTP report includes the measured
+Nano study and the ongoing RAMiT + YOLOv12 deployment phase.
+
 ## Writing the paper: start here
 
 **[Manuscript evidence pack](docs/manuscript/README.md)** is the reference for

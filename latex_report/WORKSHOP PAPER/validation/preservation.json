@@ -1,0 +1,62 @@
+{
+  "canonical_pdf": "Workshop_Paper.pdf",
+  "canonical_pages": 8,
+  "canonical_sha256": "d6e3c96ce4bc67e08733084ebb31b4d00e49d659d6a21b8cd0530c422e7b9b3f",
+  "canonical_unchanged": true,
+  "compiled_pdf": "Workshop_Recompiled.pdf",
+  "compiled_pages": 8,
+  "compiler": "tectonic",
+  "compile_issues": [],
+  "source_files_changed_since_separation": [],
+  "page_comparison": [
+    {
+      "page": 1,
+      "geometry_equal": true,
+      "text_equal": false,
+      "render_equal_144dpi": false
+    },
+    {
+      "page": 2,
+      "geometry_equal": true,
+      "text_equal": false,
+      "render_equal_144dpi": false
+    },
+    {
+      "page": 3,
+      "geometry_equal": true,
+      "text_equal": false,
+      "render_equal_144dpi": false
+    },
+    {
+      "page": 4,
+      "geometry_equal": true,
+      "text_equal": false,
+      "render_equal_144dpi": false
+    },
+    {
+      "page": 5,
+      "geometry_equal": true,
+      "text_equal": false,
+      "render_equal_144dpi": false
+    },
+    {
+      "page": 6,
+      "geometry_equal": true,
+      "text_equal": false,
+      "render_equal_144dpi": false
+    },
+    {
+      "page": 7,
+      "geometry_equal": true,
+      "text_equal": false,
+      "render_equal_144dpi": false
+    },
+    {
+      "page": 8,
+      "geometry_equal": true,
+      "text_equal": false,
+      "render_equal_144dpi": false
+    }
+  ],
+  "reproduction_note": "The supplied PDF remains canonical and byte-identical. Compiler/font and microtype differences may change the rebuilt rendering. Original source contents are preserved; the new main.tex wrapper disables the supplement for every entry point."
+}

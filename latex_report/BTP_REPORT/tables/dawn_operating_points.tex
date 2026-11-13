@@ -1,0 +1,14 @@
+\noindent\begin{minipage}{\linewidth}
+\centering\small\renewcommand{\arraystretch}{1.12}\setlength{\tabcolsep}{3.5pt}
+\captionof{table}{Labelled DAWN results in percent. Local entries are raw / resize only / Restormer. Nano entries are YOLO only / Restormer + YOLO. Nano precision and recall use confidence 0.25 and IoU 0.50. Pooled AP is computed over 72 images.}
+\label{tab:dawn-operating}
+\begin{tabular}{@{}lrccccc@{}}\toprule
+Subset & Images & Local AP$_{50:95}$ & Nano AP$_{50:95}$ & Nano AP$_{50}$ & Nano precision & Nano recall\\
+\midrule
+All & 72 & 29.97 / 29.25 / 32.86 & 29.59 / 14.50 & 44.32 / 23.06 & 74.59 / 64.71 & 49.91 / 20.33\\
+Fog & 24 & 26.99 / 29.40 / 37.11 & 25.39 / 10.32 & 38.38 / 18.02 & 69.77 / 71.88 & 42.55 / 16.31\\
+Rain & 24 & 38.87 / 37.07 / 37.21 & 38.91 / 29.24 & 58.74 / 39.22 & 71.76 / 65.52 & 47.24 / 19.10\\
+Snow & 24 & 36.27 / 33.47 / 35.62 & 36.98 / 15.94 & 49.36 / 26.07 & 80.00 / 61.25 & 57.71 / 24.38\\
+\bottomrule
+\end{tabular}
+\end{minipage}\par

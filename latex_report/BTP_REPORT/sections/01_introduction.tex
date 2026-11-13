@@ -1,0 +1,30 @@
+\section{Introduction}
+\label{sec:introduction}
+\subsection{Problem and motivation}
+Rain, fog, snow and smoke obscure objects and reduce contrast. Restoration
+can remove corruption, but it can also erase boundaries or lose detail during
+resizing. Higher PSNR therefore need not improve detection.
+
+Aegis Perception tests that distinction through paired-image benchmarks,
+fixed-detector comparisons and execution on the original 4\,GB Jetson Nano.
+The project follows one selected checkpoint from reconstruction to downstream
+accuracy and processing cost (Fig.~\ref{fig:project-workflow}).
+
+\subsection{Research questions and scope}
+\begin{enumerate}
+\item Which of six restoration recipes leads a shared four-weather benchmark?
+\item Do model or loss changes outperform equal-budget continued training?
+\item Does restoration help a fixed detector after controlling input geometry?
+\item What accuracy, throughput and energy does the Nano cascade deliver?
+\end{enumerate}
+These questions produce six completed work packages (Fig.~\ref{fig:timeline}).
+All models use reconstruction objectives; detector training and detector-loss
+optimization lie outside the completed study. Different pretrained starting
+points mean that the benchmark compares recorded recipes, not architecture alone.
+
+\subsection{Main contribution}
+The project connects an audited data split, six trained models, eight matched
+continuation arms and measured detection/device results. The rejected
+continuation changes and the Nano accuracy loss establish useful limits on
+this pipeline. Supplementary Material preserves detailed controls, validation
+trajectories and the evidence map.

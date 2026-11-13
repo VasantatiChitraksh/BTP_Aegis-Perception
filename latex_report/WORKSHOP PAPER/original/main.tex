@@ -1,0 +1,29 @@
+% CVPR paper and full project report share the same scientific content.
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\ifdefined\AegisReview
+\usepackage[review]{cvpr}
+\def\AegisPaperOnly{1}
+\else
+\usepackage[pagenumbers]{cvpr}
+\fi
+\input{preamble}
+\def\confName{CVPR}
+\def\confYear{2027}
+\input{title}
+\input{authors}
+\begin{document}
+\maketitle
+\input{body}
+\ifdefined\AegisReview\else\nobalance\fi
+\ifdefined\AegisPaperOnly\else
+% Start the full report's references in the next column.
+\newpage
+\fi
+{\small\bibliographystyle{ieeenat_fullname}\bibliography{references}}
+\ifdefined\AegisPaperOnly\else
+\section*{Technical Supplement}
+\input{appendix}
+\input{sections/08_project_record}
+\fi
+
+\end{document}

@@ -1,0 +1,16 @@
+\noindent\begin{minipage}{\linewidth}
+\centering\small\setlength{\tabcolsep}{4pt}
+\captionof{table}{Recorded follow-up validation checkpoints. All selected states are EMA; all eight replacements fail. Parameters include added adapters.}
+\label{tab:jointval}
+\begin{tabular}{@{}lrrrr@{}}\toprule
+Arm & Params (M)& Epoch & PSNR & SSIM $\times100$\\\midrule
+Continuation control &26.13&6&32.49&92.11\\
+Spatial &26.23&6&32.49&92.11\\
+Detail &26.20&6&32.49&92.11\\
+Combined &26.27&6&32.49&92.11\\
+Recipe only &26.13&6&32.49&92.17\\
+Combined + SSIM &26.27&6&32.51&92.19\\
+Combined + FFL &26.27&6&32.47&92.08\\
+Combined + recipe &26.27&5&32.49&92.16\\
+\bottomrule\end{tabular}
+\end{minipage}

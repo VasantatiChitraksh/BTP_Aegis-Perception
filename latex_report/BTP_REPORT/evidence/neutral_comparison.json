@@ -1,0 +1,11 @@
+{
+  "source": "figures/weather_examples.pdf",
+  "output": "figures/weather_examples_mono.pdf",
+  "source_sha256": "941552a01812e79ae8a75334195e63a26c886ba97571e071392a63c01f2576c3",
+  "output_sha256": "a4f4c7d5a040eed70a6851c113cfeafc9d29e1bb550d94a4463620675e271cdb",
+  "all_headers_black": true,
+  "embedded_image_streams_unchanged": true,
+  "image_count": 16,
+  "row_frames": "0.35 pt neutral rule; one group per weather",
+  "generator": "scripts/build_neutral_comparison.py"
+}

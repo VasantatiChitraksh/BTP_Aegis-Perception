@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "rows": [
+    {
+      "sample": "fog",
+      "rmse": 0.00019509982666932046,
+      "max_abs_error": 0.0017158985137939453,
+      "psnr_delta_db": -0.0016531238825585604,
+      "ssim_delta": -1.9952110009935353e-05,
+      "passed": true
+    },
+    {
+      "sample": "rain",
+      "rmse": 5.2544408390531316e-05,
+      "max_abs_error": 0.0008680224418640137,
+      "psnr_delta_db": 0.001662270373905983,
+      "ssim_delta": 1.2846228055751752e-05,
+      "passed": true
+    },
+    {
+      "sample": "smoke",
+      "rmse": 0.0001789535308489576,
+      "max_abs_error": 0.0008149147033691406,
+      "psnr_delta_db": 0.004762455732816306,
+      "ssim_delta": 2.1733988621486233e-05,
+      "passed": true
+    },
+    {
+      "sample": "snow",
+      "rmse": 0.00013481239147949964,
+      "max_abs_error": 0.0012200474739074707,
+      "psnr_delta_db": 9.339267358043912e-05,
+      "ssim_delta": 2.3105252176303104e-05,
+      "passed": true
+    }
+  ],
+  "scope": "Four-reference acceptance check, not a full benchmark",
+  "contract": {
+    "engine_sha256": "f4ed7fab90807b52551675f51bdfd3bb59579447aa53c9d81a04abe4d492aeab",
+    "fixtures_sha256": "776cb711e4a62cb2008b933caf3e7510b08d987eda33a52d74cd13c78cd544ca",
+    "validator_sha256": "f16359a42501eea27158ba2656b8285e44108edd00610e68b313362a3d98ad7f",
+    "runtime_sha256": "15dac9d14e7a2f9ddefe2b4dcd9aa3bd310e78e748af5fc579f0e6f72cfda547",
+    "tensorrt": "8.2.1.8"
+  }
+}

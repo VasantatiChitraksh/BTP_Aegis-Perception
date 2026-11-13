@@ -1,0 +1,120 @@
+VISUAL SPREAD AND NEUTRAL COMPARISONS — 13 NOVEMBER 2026
+
+- Made all weather-grid and detector-gallery row/column labels black. Removed
+  header shading from galleries and the active-data table.
+- Grouped matched image rows, principal results and main quantitative comparisons
+  with thin neutral borders; emphasized key results with bold text.
+- Moved the workflow from page 3 to page 5. Early results remain on page 3 and
+  the MTP-style Gantt and contribution table remain on page 4.
+- Every main-body page, physical 3–17, now contains figures or tables. The
+  distribution is checked in validation/visual_spread.json.
+- Condensed the introduction, implementation summary and discussion. Removed
+  the mostly empty closing page: 25 total pages, with 29 numbered figures.
+- Separated the detection chart legend from its x-axis title and corrected a
+  stale appendix letter in the export chart. Plotted values remain unchanged.
+- Preserved all experimental inputs, the separate eight-page workshop and MTP.
+  The weather-grid derivative retains all 16 original embedded image streams.
+
+ACADEMIC OPENING AND TIGHTER RESULTS LAYOUT — 13 NOVEMBER 2026
+
+- Replaced the dashboard and status cards with saved comparison images,
+  an outlined scientific workflow, and a conventional numerical table on page 3.
+- Moved the dated Gantt and individual contribution table to page 4.
+  Removed coloured completion checks, large KPI values and banner headings.
+- Replaced the contribution graphic with an editable LaTeX table and concise
+  attribution paragraphs. The six completed studies and ongoing phase are
+  stated in normal prose; no success/failure badge is used.
+- Moved existing content instead of repeating it. The four-weather image grid
+  appears once at the opening; all 24 matched detector panels remain intact.
+- Kept results plots and their explanations together using explicit layouts.
+  Trimmed repeated architecture, initialization and continuation descriptions,
+  preserving model identities, controls, losses, thresholds and numerical results.
+- Removed the decorative ongoing-phase graphic; retained the deployment plan
+  and its unmeasured status in the discussion.
+- Reduced the PDF from 27 to 26 pages. It contains 29 numbered figures plus
+  the cover diagram, with additional results/contribution tables.
+- Archived the previous version before editing. Obsolete presentation graphics
+  and their generators were retired from the active project; original evidence,
+  MTP and workshop remain unchanged.
+
+The entries below document earlier revisions and are historical.
+
+VISUAL COMPARISON AND PROJECT RECORD REVISION — 13 NOVEMBER 2026
+
+- Enlarged the unlabelled cover pipeline while retaining the three corrected
+  roll numbers and Guide: Dr Vishnu Chalavadi.
+- Added a visible "Supplementary Material" heading before the detailed
+  experiments, with S-prefixed page, figure and table numbering.
+- Corrected dataset-chart heading and legend spacing so that labels do not
+  collide in the body layout.
+- Added a full-width dated Gantt and phase-by-contributor allocation matrix,
+  following the MTP report's presentation. The timeline distinguishes six
+  completed experimental phases from ongoing RAMiT + YOLOv12 deployment.
+  Its condensed early axis is disclosed; no ongoing completion date or
+  measured effort shares are invented.
+- Expanded contribution attribution to include Chitraksh's custom quantizer
+  and pruning tooling, supported by named documentation and commits.
+  Sudhanva's training/export/runtime work and Rishikesh's recorded evaluation
+  role remain connected to shared experimental outputs and joint review.
+- Added two 12-panel galleries of actual saved detector overlays. Each gallery
+  compares source-resolution YOLOv8n, the matched 128-square resize control,
+  and 128-square Restormer + YOLOv8n under fog, rain, snow and smoke.
+  Per-panel TP/FP/FN values come from saved matching results. Detection boxes
+  and scores are preserved; the vehicle crop is identical across panels.
+- Added genuine per-image restoration-gain histograms for Restormer and RAMiT,
+  and per-frame Nano pipeline-latency histograms for YOLOv8n and the cascade.
+  Compact count snapshots retain observation counts, bin edges, distribution
+  summaries and original source hashes for standalone regeneration.
+- Added scripts/build_work_timeline.py, scripts/build_comparison_gallery.py
+  and scripts/build_distribution_charts.py, with provenance records explaining
+  date, attribution, image, geometry and histogram scope.
+
+SCIENTIFIC SCOPE OF THE NEW VISUALS
+The 24 gallery panels reuse two labelled scenes with five annotated objects;
+weather variants are dependent copies, not independent test scenes. They are
+local CPU FP32 controls, not a new mAP benchmark or a device-speed comparison.
+The 128 x 128 size describes restoration/resize canvases; detector preprocessing
+is the same 640 x 640 letterbox in all three paths.
+Restoration histograms give equal weight to images, unlike the balanced headline
+benchmark aggregation. Latency histograms normalize each recorded replay run
+separately; repeated frames and different displayed x-axis ranges are explicit.
+No new inference, model training, hardware run or RAMiT + YOLOv12 result was
+introduced. Completed compression studies include rejected candidates.
+
+STANDALONE REORGANIZATION — 13 NOVEMBER 2026
+
+- Removed workshop pages from BTP_Report.pdf and maintained the workshop in
+  the independent ../WORKSHOP PAPER/ LaTeX project.
+- Organized BTP sources into main.tex, preamble.tex, frontmatter.tex, sections/,
+  tables/, figures/, evidence/, scripts/, reference/ and validation/.
+- Retained the MTP-derived A4/Termes/two-column design, results-first overview,
+  two-decimal supplementary displays and full-precision evidence files.
+- Replaced the PDF-joining build with a standalone compiler and numerical audit.
+- Preserved the MTP under reference/ and archived the previous flat directory
+  and combined PDF under the project artifacts/report_backups directory.
+
+VISUAL COVERAGE AND REGENERATION
+Opening: enlarged cover, measured-outcome dashboard, phase status and Gantt.
+System/data: evidence flow, split coverage and aggregation.
+Models: architecture, quality/size comparisons, weather heatmaps, gain
+  histograms, genuine restoration examples and validation histories.
+Continuation: matched-training gains, validation replacement gate and results.
+Detection: local/Nano AP, counts, geometry controls and saved-overlay galleries.
+Deployment: runtime, latency histograms, power/energy, memory and export screens.
+Project record: individual contributions, shared outputs and ongoing phase.
+Supplement: historical rain results, engine agreement and camera diagnostics.
+
+Regenerate included visuals with:
+  python3 scripts/build_project_visuals.py
+  python3 scripts/build_results_visuals.py
+  python3 scripts/build_cover.py
+  python3 scripts/build_work_timeline.py
+  python3 scripts/build_comparison_gallery.py
+  python3 scripts/build_distribution_charts.py
+Then rebuild and verify:
+  python3 build_report.py
+  python3 verify_report.py
+
+See README.txt for input requirements and scientific scope. Current PDF page
+counts and completed checks belong to validation/build.json,
+validation/evidence_checks.json and validation/visual_review.txt.

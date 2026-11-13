@@ -1,0 +1,51 @@
+\section{Restoration Results}
+\label{sec:restoration-results}
+
+\noindent\begin{minipage}{\linewidth}
+\centering\comparisonplot[\textwidth]{figures/benchmark_tradeoffs.pdf}
+\captionof{figure}{Performance across six trained systems. \textbf{(a)} Macro PSNR versus parameter count. Bars are 95\% cluster-bootstrap intervals conditional on the fixed checkpoints and test groups. The dashed segment connects the measured quality--size frontier. \textbf{(b)} Weather-balanced PSNR gain over the degraded input. Smoke has the smallest gains for all six systems.}
+\label{fig:size}
+\end{minipage}
+\medskip
+\noindent\begin{minipage}{\linewidth}
+\centering\comparisonplot[.94\linewidth]{figures/weather_psnr.pdf}
+\captionof{figure}{The completed six-model benchmark as a weather-by-model comparison. Restormer leads rain, snow and smoke; PromptIR leads fog. Each cell is the recorded balanced test PSNR, rounded to two decimals. The underlying comparison uses full precision.}
+\label{fig:weather-psnr}
+\end{minipage}
+\medskip
+\noindent\begin{minipage}{\linewidth}
+\centering\small\setlength{\tabcolsep}{4pt}
+\captionof{table}{Native-resolution test results on 2,334 pairs. Weather columns report PSNR in dB. SSIM is scaled by 100 for display. Macro metrics follow Eq.~\ref{eq:metric}. Bold marks the best measured values.}
+\label{tab:six}
+\begin{tabular}{@{}lrrrrrrrr@{}}\toprule
+Model & Params (M)& Epoch & Rain & Fog & Snow & Smoke & Macro PSNR & SSIM $\times100$\\\midrule
+Restormer & 26.13 & 51 & \textbf{38.77} & 31.51 & \textbf{39.51} & \textbf{20.55} & \textbf{32.58} & \textbf{92.97}\\
+PromptIR & 35.59 & 50 & 36.40 & \textbf{31.88} & 37.63 & 19.65 & 31.39 & 91.82\\
+TransWeather & 38.05 & 58 & 34.19 & 29.58 & 32.31 & 20.10 & 29.04 & 90.00\\
+RAMiT & \textbf{0.93} & 45 & 34.37 & 24.19 & 36.85 & 19.23 & 28.66 & 89.95\\
+LiteWeather v2 & 2.19 & 59 & 31.02 & 27.42 & 31.40 & 18.98 & 27.21 & 86.44\\
+Attention Pix2Pix & 29.85 & 59 & 28.46 & 23.55 & 29.05 & 17.85 & 24.73 & 82.01\\\bottomrule
+\end{tabular}
+\end{minipage}
+\begin{multicols}{2}\raggedcolumns
+\paragraph{Quality and model size.}
+The weather-wise comparison in Fig.~\ref{fig:weather-psnr} makes the model trade-offs explicit. Restormer gains 13.97 dB over degraded inputs and leads three of four weather columns (Tab.~\ref{tab:six}). PromptIR leads fog PSNR by 0.38 dB. RAMiT uses about $28\times$ fewer parameters than Restormer, with a 3.92 dB macro gap (Fig.~\ref{fig:size}a). LiteWeather v2 closes part of the fog gap relative to RAMiT, but trails it on macro PSNR. The device trials in Sec.~\ref{sec:edge} address execution.
+
+\paragraph{Smoke is the clearest remaining weakness.}
+Restormer's smoke gain is 2.34 dB, versus 15.92--21.11 dB on the other weathers (Fig.~\ref{fig:size}b). Of 342 smoke images, 27 lose PSNR and 37 lose SSIM relative to the raw input. Attention Pix2Pix also regresses on balanced smoke PSNR and SSIM. The qualitative panels (Fig.~\ref{fig:qual}) show streak and snow removal, increased contrast in haze, and residual smoke compared with the target. Six smoke backgrounds limit generalization from these outcomes.
+\end{multicols}
+\clearpage
+\noindent\begin{minipage}{\linewidth}
+\centering
+\comparisonplot[\textwidth]{figures/restoration_gain_histograms.pdf}
+\captionof{figure}{Distributions of per-image PSNR improvement over degraded input for Restormer and RAMiT, using the same 2,334 held-out paired images per model. Histograms use 2 dB bins and normalize each model within each weather to 100\%. Each image has equal weight here; these descriptive distributions are distinct from the group- and weather-balanced benchmark means. Restormer's median gain is higher in all four weather groups; smoke retains a negative-gain tail.}
+\label{fig:restoration-gain-histograms}
+\end{minipage}
+\begin{multicols}{2}\raggedcolumns
+\paragraph{Distribution of improvement.}
+Figure~\ref{fig:restoration-gain-histograms} adds the per-image view to the
+balanced means. Restormer's median gain exceeds RAMiT's in all four weather
+groups, while the smoke distribution includes degraded examples that lose
+PSNR. These distributions describe reconstruction; the ongoing RAMiT--YOLOv12
+phase still requires an integrated detector and device evaluation.
+\end{multicols}

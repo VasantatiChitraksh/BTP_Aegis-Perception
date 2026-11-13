@@ -1,0 +1,53 @@
+% Standalone BTP report. Workshop paper is maintained in ../WORKSHOP PAPER/.
+\documentclass[10pt,a4paper]{article}
+\input{preamble}
+\begin{document}
+\input{frontmatter}
+\pagenumbering{arabic}
+\input{sections/00_outcomes}
+\input{sections/11_contributions}
+\twocolumn[\input{sections/00_workflow}]
+\input{sections/01_introduction}
+\input{sections/02_system}
+\input{sections/03_related}
+\input{sections/04_data}
+\input{sections/05_method}
+\clearpage\onecolumn
+\input{sections/06_restoration}
+\input{sections/07_continuation}
+\input{sections/08_detection}
+\clearpage\onecolumn
+\input{sections/08_comparison_galleries}
+\clearpage\twocolumn
+\renewcommand{\dbltopfraction}{.85}
+\renewcommand{\topfraction}{.85}
+\input{sections/09_edge}
+\input{sections/10_discussion}
+\clearpage\onecolumn
+\phantomsection\addcontentsline{toc}{section}{References}
+\begingroup\small
+\begin{multicols}{2}
+\bibliographystyle{ieeenat_fullname}
+\bibliography{references}
+\end{multicols}
+\endgroup
+\onecolumn
+\vsize=\textheight
+\appendix
+\setcounter{page}{1}\renewcommand{\thepage}{S\arabic{page}}
+\setcounter{figure}{0}\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\theHfigure}{supp.\arabic{figure}}
+\setcounter{table}{0}\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theHtable}{supp.\arabic{table}}
+\setcounter{equation}{0}\renewcommand{\theequation}{S\arabic{equation}}
+\phantomsection\addcontentsline{toc}{section}{Supplementary Material}
+\label{sec:supplement}
+\begin{center}
+{\LARGE\bfseries Supplementary Material\par}
+\vspace{3pt}
+{\large Aegis Perception\par}
+\vspace{2pt}
+{\small Detailed experiments, controls and evidence supporting the main report.\par}
+\end{center}
+\input{sections/appendix}
+\end{document}

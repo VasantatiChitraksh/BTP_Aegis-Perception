@@ -1,0 +1,25 @@
+% Horizontal positions count days from 24 August 2026.
+\begin{tikzpicture}[x=.148cm,y=.56cm,font=\small]
+\foreach \day in {0,8,38,69,79}{
+  \draw[aegisgray!24] (\day,.30) -- (\day,4.65);
+}
+\node[anchor=west,font=\small\bfseries] at (0,5.0) {24 Aug};
+\node[anchor=west] at (8,5.0) {Sep};
+\node[anchor=west] at (38,5.0) {Oct};
+\node[anchor=east] at (69,5.0) {1 Nov};
+\node[anchor=east,font=\small\bfseries] at (79,5.0) {11 Nov};
+
+\node[anchor=east,text width=4.4cm,align=left] at (-1.5,4.0) {Scope and initial setup};
+\node[anchor=east,text width=4.4cm,align=left] at (-1.5,3.0) {Rain baseline and data split};
+\node[anchor=east,text width=4.4cm,align=left] at (-1.5,2.0) {Training and follow-up};
+\node[anchor=east,text width=4.4cm,align=left] at (-1.5,1.0) {Export checks and reporting};
+\draw[fill=aegisgray!10,draw=aegisgray,dashed,rounded corners=2pt] (0,3.72) rectangle (43,4.28);
+\node[font=\footnotesize,text=aegisgray] at (21.5,4.0) {Approximate planning interval};
+\fill[rounded corners=2pt,aegisblue!20] (44,2.72) rectangle (61,3.28);
+\fill[rounded corners=2pt,aegisblue!32] (57,1.72) rectangle (64,2.28);
+\fill[rounded corners=2pt,aegisamber!25] (61,.72) rectangle (79,1.28);
+
+\foreach \day/\row in {44/3,61/3,57/2,60/2,63/2,64/2,61/1,67/1,73/1,79/1}{
+  \fill[aegisblue] (\day,\row) circle[radius=1.65pt];
+}
+\end{tikzpicture}

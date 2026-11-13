@@ -1,0 +1,23 @@
+\section{Detection Across Operating Points}
+\label{sec:dawn}
+
+\noindent\begin{minipage}{\linewidth}
+\centering\comparisonplot[\textwidth]{figures/dawn_operating_points_spaced.pdf}
+\captionof{figure}{Labelled DAWN detection in the earlier local pilot and the Nano benchmark. The local comparison includes a $256\times448$ resize-only view. The Nano comparison evaluates the complete cascade with a $128\times128$ Restormer canvas. Both use 72 images, 24 per weather. Signed values show restored-minus-raw AP in percentage points within each evaluation.}
+\label{fig:det}
+\end{minipage}
+\medskip
+\noindent\begin{minipage}{\linewidth}
+\centering\comparisonplot[\textwidth]{figures/controlled_resolution.pdf}
+\captionof{figure}{Matched local resolution diagnostic. \textbf{(a)} The same degraded source enters all branches. Native restoration only pads and crops. Each branch maps to the source geometry and uses the same detector preprocessing. \textbf{(b)} Correct detections among two annotated vehicles in one DAWN scene. Under rain, the 256 resize-only view already recovers both vehicles. Native restoration gains a match in rain and loses one in smoke.}
+\label{fig:resolution}
+\end{minipage}
+\begin{multicols}{2}\raggedcolumns
+\paragraph{Earlier local pilot.}
+DAWN~\cite{Kenk_2020_DAWN} supplies real-weather road-object labels. The earlier local evaluation compares raw, resize-only, and restored views on 72 labelled images with one frozen COCO-pretrained YOLOv8n. The two transformed views use a $256\times448$ canvas and return to original geometry before $640\times640$ detector preprocessing. Pooled AP$_{50:95}$ rises from 29.97\% raw to 32.86\% restored, with the resize-only control at 29.25\%. Fog improves by 10.12 points against raw input. Rain and snow decline by 1.66 and 0.65 points (Fig.~\ref{fig:det}a).
+
+\paragraph{Labelled Nano benchmark.}
+The measured Nano evaluation has 72 images and 541 labelled objects across fog, rain, and snow. The $128\times128$ Restormer path returns to source geometry before the fixed FP32 YOLOv8n engine shared by the two Nano arms. Pooled AP$_{50:95}$ falls from 29.59\% to 14.50\%, a 15.08-point loss (Fig.~\ref{fig:det}b). At confidence 0.25 and IoU 0.50, matched objects fall from 270 to 110, and misses rise from 271 to 431. AP uses detections from confidence 0.001, class-aware NMS at 0.7, and at most 100 detections per image. Geometry, runtime, and scoring differ from the earlier local pilot. The measured drop pertains to the complete Nano cascade.
+
+
+\end{multicols}

@@ -1,0 +1,12 @@
+Workshop separation validation — 13 November 2026
+
+Canonical Workshop_Paper.pdf matches the selected supplied eight-page PDF byte-for-byte.
+27 original workshop source/style/figure dependencies match the original source ZIP.
+Tectonic compiles workshop.tex successfully to eight pages with no unresolved citations
+or references, overfull boxes, or missing-font warnings.
+The contact sheet of all eight rebuilt pages was visually reviewed: figures and tables
+fit their columns, text is legible, and no overlaps or clipped items are apparent.
+The rebuilt PDF is not a pixel-identical reproduction of the supplied PDF; compiler
+and microtype layout differences remain. The supplied PDF is retained as canonical.
+The workshop is separate from the BTP, and every public root-level entry point
+sets paper-only mode. The original shared main.tex is preserved under original/.

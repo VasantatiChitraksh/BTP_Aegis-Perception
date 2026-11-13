@@ -1,0 +1,143 @@
+{
+  "original_source_archive": "Aegis_Perception__Attention_Aware_Quantization_Screeningfor_Weather_Robust_Edge_Vision.zip",
+  "original_sources_checked": 27,
+  "source_files": [
+    {
+      "file": "authors.tex",
+      "archive_member": "authors.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "body.tex",
+      "archive_member": "body.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "cvpr.sty",
+      "archive_member": "cvpr.sty",
+      "matches_original_archive": true
+    },
+    {
+      "file": "figures/benchmark_protocol.pdf",
+      "archive_member": "figures/benchmark_protocol.pdf",
+      "matches_original_archive": true
+    },
+    {
+      "file": "figures/benchmark_tradeoffs.pdf",
+      "archive_member": "figures/benchmark_tradeoffs.pdf",
+      "matches_original_archive": true
+    },
+    {
+      "file": "figures/continuation_gains.pdf",
+      "archive_member": "figures/continuation_gains.pdf",
+      "matches_original_archive": true
+    },
+    {
+      "file": "figures/controlled_resolution.pdf",
+      "archive_member": "figures/controlled_resolution.pdf",
+      "matches_original_archive": true
+    },
+    {
+      "file": "figures/dawn_operating_points.pdf",
+      "archive_member": "figures/dawn_operating_points.pdf",
+      "matches_original_archive": true
+    },
+    {
+      "file": "figures/nano_runtime.pdf",
+      "archive_member": "figures/nano_runtime.pdf",
+      "matches_original_archive": true
+    },
+    {
+      "file": "figures/project_workflow.tex",
+      "archive_member": "figures/project_workflow.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "figures/restorer_architectures.pdf",
+      "archive_member": "figures/restorer_architectures.pdf",
+      "matches_original_archive": true
+    },
+    {
+      "file": "figures/results_overview.pdf",
+      "archive_member": "figures/results_overview.pdf",
+      "matches_original_archive": true
+    },
+    {
+      "file": "figures/weather_examples.pdf",
+      "archive_member": "figures/weather_examples.pdf",
+      "matches_original_archive": true
+    },
+    {
+      "file": "ieeenat_fullname.bst",
+      "archive_member": "ieeenat_fullname.bst",
+      "matches_original_archive": true
+    },
+    {
+      "file": "paper.tex",
+      "archive_member": "paper.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "preamble.tex",
+      "archive_member": "preamble.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "references.bib",
+      "archive_member": "references.bib",
+      "matches_original_archive": true
+    },
+    {
+      "file": "sections/00_abstract.tex",
+      "archive_member": "sections/00_abstract.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "sections/01_introduction.tex",
+      "archive_member": "sections/01_introduction.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "sections/02_related_work.tex",
+      "archive_member": "sections/02_related_work.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "sections/03_data.tex",
+      "archive_member": "sections/03_data.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "sections/04_method.tex",
+      "archive_member": "sections/04_method.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "sections/05_results.tex",
+      "archive_member": "sections/05_results.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "sections/06_edge.tex",
+      "archive_member": "sections/06_edge.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "sections/07_conclusion.tex",
+      "archive_member": "sections/07_conclusion.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "title.tex",
+      "archive_member": "title.tex",
+      "matches_original_archive": true
+    },
+    {
+      "file": "original/main.tex",
+      "archive_member": "main.tex",
+      "matches_original_archive": true
+    }
+  ],
+  "selected_workshop_pdf": "Aegis_Perception__Attention_Aware_Quantization_Screeningfor_Weather_Robust_Edge_Vision_8pg.pdf",
+  "canonical_pdf_equal_to_selected": true
+}

@@ -1,0 +1,35 @@
+\section{Models and Experimental Controls}
+\label{sec:method}
+
+\begin{figure*}[!t]
+\centering\resizebox{\textwidth}{!}{\input{figures/project_workflow}}
+\caption{Shared workflow from paired images to model and deployment evaluation. Training and validation select one checkpoint per model. The held-out split supplies the six-model comparison. The trained epoch-51 Restormer initializes the continuation arms, supplies the restored DAWN views, and is exported for the device evaluation.}
+\label{fig:project-workflow}
+\end{figure*}
+
+\begin{figure*}[!t]
+\centering\includegraphics[width=\textwidth]{figures/restorer_architectures.pdf}
+\caption{Architectures evaluated on the paired benchmark. Restormer uses transformer blocks (TBs) at all four scales. LiteWeather v2 uses local residual blocks at full and half resolution and attention at quarter and eighth resolution. Its soft prompt mixture is added before the eighth-scale transformer blocks. Arrows between scales represent down/up-sampling. Dashed arrows show encoder-to-decoder concatenation. Each network predicts a residual added to the degraded RGB image.}
+\label{fig:architecture}
+\end{figure*}
+
+\paragraph{Shared training schedule.}
+All six recipes use seed 42, 60 epochs, global batch four, and 4,096 paired draws per epoch with random $256\times256$ crops and flips. Background-aware sampling with replacement uses rain/fog/snow/smoke probabilities of 0.30/0.30/0.30/0.10. The non-GAN runs use L1 and AdamW, a $10^{-4}$ learning rate decayed to $10^{-6}$, $10^{-4}$ weight decay, and gradient clipping at 1.0. Attention Pix2Pix uses Adam, a patch discriminator, and adversarial loss plus $100$-weighted L1. BF16 training runs use an A100-SXM4-40GB. The best native-resolution validation macro PSNR selects the checkpoint.
+
+\paragraph{Initialization and model identity.}
+Attention Pix2Pix and LiteWeather v2 start from initialization. Restormer and RAMiT start from verified deraining weights, TransWeather from All-Weather weights, and PromptIR from its all-in-one weights. The published models use pinned sources and strict checkpoint loading. These recipes differ in prior data exposure.
+
+\paragraph{Architecture of the edge candidate.}
+The trained Restormer at epoch 51 (26.13M parameters) connects the follow-up, detection, and export studies in Fig.~\ref{fig:project-workflow}. The encoder has widths $[48,96,192,384]$, block counts $[4,6,6,8]$, and heads $[1,2,4,8]$, with four refinement blocks after decoding (Fig.~\ref{fig:architecture}a). Multi-Dconv-head transposed attention (MDTA) projects $Q,K,V$ with pointwise and depthwise convolutions and attends across channels. A gated feed-forward sublayer combines local mixing with a GELU gate~\cite{Zamir_2022_CVPR}. We fine-tune every layer, then freeze the selected weights for evaluation and export.
+
+\paragraph{Compact comparator.}
+LiteWeather v2 (2.19M parameters) uses two quarter-scale and four eighth-scale encoder/latent attention blocks with four and eight heads, respectively (Fig.~\ref{fig:architecture}b). Global pooling and a learned router assign softmax weights to four learned prompt vectors. The prompt mixture conditions the latent features without weather labels. The full- and half-scale paths use local residual blocks. These results use the attention-based v2 checkpoint.
+
+\subsection{Eight-arm continuation}
+\label{sec:jointmethod}
+Every arm starts from epoch 51 and runs ten more epochs with global batch four on two A100s, the same sampler, and an AdamW learning rate of $2\times10^{-5}$ decayed to $10^{-6}$. The control keeps the architecture and L1 objective. Zero-start spatial-context and gated-detail adapters are tested individually and together. Loss arms add SSIM and/or focal frequency loss (FFL), with a recipe-only arm leaving the network unchanged:
+\begin{equation}
+\mathcal L=\mathcal L_1+\lambda_S\mathcal L_{\rm SSIM}
++\lambda_F\mathcal L_{\rm FFL}.
+\end{equation}
+The recorded coefficients, $\lambda_S=0.07812751$ and $\lambda_F=3.10186888$, come from initial gradient norms on 64 training crops. Raw and EMA states (decay 0.999) compete by validation macro PSNR. An arm can replace the baseline only if it gains at least 0.10 dB on validation over both the initialization and control, retains macro SSIM, and bounds per-weather losses by 0.10 dB and 0.001 SSIM. Supplementary Appendix~B gives the calibration, configurations, and validation rows.

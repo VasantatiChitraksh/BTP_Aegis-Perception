@@ -1,0 +1,4 @@
+# Local compiler output; the canonical report PDFs and source ZIPs are tracked.
+.build/
+__pycache__/
+WORKSHOP PAPER/Workshop_Recompiled.pdf
