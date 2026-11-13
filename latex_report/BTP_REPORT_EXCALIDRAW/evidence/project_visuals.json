@@ -1,0 +1,19 @@
+{
+  "phase_status_source": "User-supplied project status, 13 November 2026. Phases 1\u20136 are completed experiments; phase 7 RAMiT + YOLOv12 edge deployment is ongoing exploration. No new performance claimed.",
+  "data_sources": [
+    "evidence/six_models.csv",
+    "evidence/S1_accuracy.csv",
+    "evidence/S2_dawn_performance.csv",
+    "evidence/detection_pilot72.csv",
+    "evidence/S3_camera_replay.csv",
+    "evidence/dataset_split.csv",
+    "figures/{weather}_{input,restormer}.png",
+    "sections/11_contributions.tex"
+  ],
+  "figures": [
+    "project_evidence_flow.pdf",
+    "dataset_coverage.pdf",
+    "camera_fidelity_scaled.pdf"
+  ],
+  "display_policy": "At most two decimal places; original evidence retained at full precision."
+}

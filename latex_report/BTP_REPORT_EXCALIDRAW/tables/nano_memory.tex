@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering\small
+\caption{Recorded board memory and GPU utilization during labelled DAWN replay. RAM and swap are board-wide peaks in the logged MB units, not isolated model allocations.}
+\label{tab:memory}
+\begin{tabular}{@{}llrrr@{}}\toprule
+Weather & Path & RAM & Swap & GPU (\%)\\\midrule
+Fog & YOLO & 3090 & 1384 & 58.4\\
+Fog & Cascade & 3004 & 1368 & 95.8\\
+Rain & YOLO & 3093 & 1384 & 48.1\\
+Rain & Cascade & 3066 & 1378 & 94.7\\
+Snow & YOLO & 3016 & 1384 & 44.7\\
+Snow & Cascade & 3056 & 1382 & 89.3\\
+\bottomrule
+\end{tabular}
+\end{table}

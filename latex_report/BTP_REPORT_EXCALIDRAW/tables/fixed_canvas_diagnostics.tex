@@ -1,0 +1,24 @@
+\noindent\begin{minipage}{\linewidth}
+\centering\small\renewcommand{\arraystretch}{1.12}\setlength{\tabcolsep}{3.5pt}
+\captionof{table}{Fixed-$128\times128$ Nano diagnostics. Synthetic weather is added after resizing. Labelled rows show TP/FP/FN. Camera entries count predictions. Timing is median pipeline latency over repeated calls on each input.}
+\label{tab:fixed-diagnostics}
+\begin{tabular}{@{}llrrr@{}}\toprule
+Source & Weather & Resize + YOLO & Restormer + YOLO & Median ms, resize / restored\\
+\midrule
+RTTS people & Original & 3/0/0 & 3/0/0 & 117.1 / 1554.7\\
+ & Rain & 2/0/1 & 2/1/1 & 115.7 / 1560.3\\
+ & Snow & 2/0/1 & 2/0/1 & 114.5 / 1560.6\\
+ & Smoke & 3/1/0 & 3/0/0 & 116.9 / 1561.8\\
+\midrule
+DAWN truck/car & Original & 1/0/1 & 1/0/1 & 119.1 / 1563.6\\
+ & Rain & 0/1/2 & 1/0/1 & 120.3 / 1562.7\\
+ & Snow & 1/0/1 & 1/0/1 & 122.4 / 1566.8\\
+ & Smoke & 1/0/1 & 1/0/1 & 120.5 / 1566.8\\
+\midrule
+320 × 240 camera & Original & 3 & 3 & 115.4 / 1564.7\\
+ & Rain & 4 & 2 & 118.7 / 1563.0\\
+ & Snow & 4 & 4 & 119.0 / 1562.2\\
+ & Smoke & 3 & 2 & 116.8 / 1565.0\\
+\bottomrule
+\end{tabular}
+\end{minipage}\par

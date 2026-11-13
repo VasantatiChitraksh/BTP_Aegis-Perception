@@ -1,0 +1,21 @@
+\begin{tikzpicture}[
+  x=1cm,y=1cm,
+  op/.style={draw=aegisgray!40,fill=aegishead,text width=3.56cm,
+    minimum height=1.18cm,inner sep=4pt,align=center,font=\small},
+  check/.style={draw=aegisblue!30,fill=aegisbest,text width=6.85cm,
+    minimum height=1.08cm,inner sep=4pt,align=center,font=\small},
+  flow/.style={-{Latex[length=2.0mm]},aegisblue,line width=.76pt}]
+\node[op] (weights) at (1.96,0) {\textbf{FP32 convolution}\\weights by output channel};
+\node[op] (scale) at (6.35,0) {\textbf{Scale from magnitudes}\\99.95th-percentile rank};
+\node[op] (grid) at (10.74,0) {\textbf{Round and clamp}\\Signed levels $[-128,127]$};
+\node[op] (onnx) at (15.13,0) {\textbf{Reconstruct as FP32}\\$\tilde w=sq$ in the ONNX graph};
+\draw[flow] (weights) -- (scale);
+\draw[flow] (scale) -- (grid);
+\draw[flow] (grid) -- (onnx);
+\node[check] (reference) at (4.27,-1.99) {\textbf{Quality against clean targets}\\Valid RGB pixels in $[0,1]$\\Change in PSNR and SSIM};
+\node[check] (output) at (12.83,-1.99) {\textbf{Agreement against the FP32 baseline}\\Normalized full output tensor\\RMSE and maximum absolute error};
+\coordinate (branch) at (15.13,-.94);
+\draw[aegisblue,line width=.76pt] (onnx.south) -- (branch);
+\draw[flow] (branch) -| (reference.north);
+\draw[flow] (branch) -| (output.north);
+\end{tikzpicture}

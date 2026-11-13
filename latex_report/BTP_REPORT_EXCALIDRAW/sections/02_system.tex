@@ -1,0 +1,48 @@
+\section{System Overview}
+\label{sec:system}
+\subsection{Experimental organization}
+The training path and inference path have distinct roles.
+Training receives paired degraded and target images and selects weights by
+validation quality. Inference receives an adverse image, applies the selected
+restorer, maps the result back to source geometry, and runs the same frozen
+YOLOv8n detector used for the raw-input comparison. Figure~\ref{fig:project-workflow}
+shows the common checkpoint linking the investigations.
+
+
+
+\subsection{Problem formulation}
+Let $x$ be an adverse-weather RGB image, $y$ its paired clean reference and
+$f_\theta$ a restoration model. The reconstruction experiment measures
+$\hat y=f_\theta(x)$ against $y$. Detection instead measures the predictions
+of a fixed detector $g_\phi$ against object annotations $b$:
+\begin{equation}
+\hat b_{\rm raw}=g_\phi(T_D(x)),\qquad
+\hat b_{\rm rest}=g_\phi(T_D(T_R^{-1}(f_\theta(T_R(x))))).
+\end{equation}
+Here $T_R$ is the restoration resize/pad operation and $T_R^{-1}$ denotes
+cropping and mapping back to source geometry, not an invertible recovery of
+lost pixels. $T_D$ is detector preprocessing. A resize-only control omits
+$f_\theta$ while retaining the same $T_R$ and return mapping. This control is
+necessary to distinguish restoration from the effects of geometry.
+
+\begin{table*}[t]
+\centering\small
+\caption{What the project establishes at each evaluation stage.}
+\label{tab:status}
+\begin{tabularx}{\textwidth}{@{}p{.19\textwidth}YY@{}}
+\toprule Stage & Recorded evidence & Boundary of the claim\\\midrule
+Paired restoration & Six checkpoints; 14,004 model/image test rows & Native-resolution reconstruction; one training seed per model\\
+Continuation & Eight ten-epoch arms; validation decisions & No accepted replacement of epoch 51\\
+Local DAWN pilot & Raw, resize-only and restored views; 72 images & Fixed detector; specific $256\times448$ restoration canvas\\
+Nano replay & 72 images, 541 objects; timing and power logs & Complete $128\times128$ cascade; one short run per condition\\
+Resolution controls & 90 paths, three sources, five labelled objects & Diagnostic cases; camera predictions are unlabelled\\
+Compression/export & Four-image weight/pruning screens and engine fixtures & Numerical acceptance is separate from task and device acceptance\\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\subsection{Implementation organization}
+The \texttt{src/aegis\_perception} package implements data loading, models,
+training, inference and metrics. Separate scripts handle export, labelled
+DAWN scoring and camera replay. Frozen configurations and saved outputs identify
+executed experiments; Appendix~\ref{app:repro} maps them to the evidence.

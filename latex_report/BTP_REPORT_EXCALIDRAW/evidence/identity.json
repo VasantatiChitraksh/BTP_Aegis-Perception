@@ -1,0 +1,18 @@
+{
+  "students": [
+    {
+      "name": "Chitraksh",
+      "roll": "CS23B054"
+    },
+    {
+      "name": "Sudhanva",
+      "roll": "CS23B051"
+    },
+    {
+      "name": "Rishikesh",
+      "roll": "CS23B015"
+    }
+  ],
+  "guide": "Dr Vishnu Chalavadi",
+  "source": "User instructions and correction, 13 November 2026"
+}

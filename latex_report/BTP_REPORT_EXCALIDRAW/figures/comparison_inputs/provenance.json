@@ -1,0 +1,406 @@
+{
+  "purpose": "Same-input 128-square canvas controls; render only previously saved detection overlays. No new inference.",
+  "source_directory": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1",
+  "scope": "Three-scene local FP32 accuracy diagnostic, not mAP benchmark or Nano timing/power experiment. Two labelled source images contain five GT objects total; camera unlabelled. Five weather variants are dependent copies, not independent scenes.",
+  "runtime": "CPU PyTorch FP32 restoration / ONNX Runtime FP32 detector",
+  "weather_order": "Apply once at original source dimensions BEFORE branching or resizing. Identical degraded pixels shared by all paths. No added weather / fog / rain / snow / smoke, level 2 seed 43 time 0.",
+  "geometry": "128 and 256 aspect-preserving square canvases, bottom/right edge padding; return to source dimensions before identical 640x640 detector letterbox. Native retains original pixels and pads bottom/right to multiple of 8, then crops. No anisotropic stretch.",
+  "thresholds": {
+    "confidence": 0.25,
+    "nms_iou": 0.7,
+    "match_iou": 0.5
+  },
+  "restormer_sha256": "5268af32c161413502a8978a839b311152a1dd2bf093ade137e07d58166a8555",
+  "yolo_sha256": "31511f31e44b3a15d3cd5feed2d7cb4290c5b61ab0e87bc152ff4dc410543ef7",
+  "source_meta_sha256": "d4124bc891a4fb03a166780f02cc836a301abed4646937b67ebe49cdae7545ce",
+  "inputs": [
+    {
+      "file": "truck_car/fog/direct/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/fog/direct/detections.png",
+      "sha256": "77dc0f2076267f3353586061a1dccb3da0b5f7b2656c263f1fd8f57ff8bb01d5"
+    },
+    {
+      "file": "truck_car/fog/direct/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/fog/direct/result.json",
+      "sha256": "40d84e5eb17f96a10d8bb0632fd4d28352be08e57c84da5625da7c5c97a911b7"
+    },
+    {
+      "file": "truck_car/fog/resize_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/fog/resize_128/detections.png",
+      "sha256": "b601e576a7d4d2e274e79fd339da2eaa94e2485d1e978018de0a9a1aca17eaa9"
+    },
+    {
+      "file": "truck_car/fog/resize_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/fog/resize_128/result.json",
+      "sha256": "93aa7e2901a0c050a0c90df243930e7b5c6f213a38a8d413251080f92f4d5900"
+    },
+    {
+      "file": "truck_car/fog/restored_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/fog/restored_128/detections.png",
+      "sha256": "f44a98b413ae76363259fe41512b239ddd43328bfbc95d5df4e7f0a78e9964a3"
+    },
+    {
+      "file": "truck_car/fog/restored_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/fog/restored_128/result.json",
+      "sha256": "5f1d6037dad6a6b13fddd1aa498161d1cf7a63df3a42be07891307f968185942"
+    },
+    {
+      "file": "truck_car/fog/weather_source.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/fog/weather_source.png",
+      "sha256": "956fcd0bb3bdff188447afc44714308a15efb7ba06207b9dd936a31e51ecf773"
+    },
+    {
+      "file": "truck_car/rain/direct/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/rain/direct/detections.png",
+      "sha256": "00507376ce5d15f301474456fed19cd04601ec00ba6f00d4d7c1fe960a2c29dc"
+    },
+    {
+      "file": "truck_car/rain/direct/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/rain/direct/result.json",
+      "sha256": "463d2179e589b1c408a997026f660d553b9671ef7ded376c3ec63745bce07fc7"
+    },
+    {
+      "file": "truck_car/rain/resize_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/rain/resize_128/detections.png",
+      "sha256": "79ff2529800effb88de3961613cf2eded36e24971643374d9e20100992c47bbd"
+    },
+    {
+      "file": "truck_car/rain/resize_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/rain/resize_128/result.json",
+      "sha256": "b7a6f3eed4067d5af276d0d6e28ffa611282954c39832bb5bd0f849f6d03180a"
+    },
+    {
+      "file": "truck_car/rain/restored_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/rain/restored_128/detections.png",
+      "sha256": "5409b314c258b0102ca3594adca59fc1837438ab2a228b55b2708e2103a43c64"
+    },
+    {
+      "file": "truck_car/rain/restored_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/rain/restored_128/result.json",
+      "sha256": "c0e4fe6c96bcd5d7576c9b16ff970b69401ff7180792320c85f4559b796080e6"
+    },
+    {
+      "file": "truck_car/rain/weather_source.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/rain/weather_source.png",
+      "sha256": "49e6f93af0c3c771ba351205adb973e9dd4dfef8c98bccb9973cf72c6be71602"
+    },
+    {
+      "file": "truck_car/snow/direct/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/snow/direct/detections.png",
+      "sha256": "b10e97a5784b160cd1ba0f29de6c0e55b8f49b6a8a7f578898fe34f01b0349d2"
+    },
+    {
+      "file": "truck_car/snow/direct/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/snow/direct/result.json",
+      "sha256": "5c7448950edb9f7f5028d6b2471ea878bf3cd995327ed5b4cf9cde305793e474"
+    },
+    {
+      "file": "truck_car/snow/resize_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/snow/resize_128/detections.png",
+      "sha256": "079197e13e43cfcf1d996347f31654d1183d3fbd44c32c515a3e474cba1a9eb6"
+    },
+    {
+      "file": "truck_car/snow/resize_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/snow/resize_128/result.json",
+      "sha256": "0613fb97f8dd649f15bc224d0f64d6ac19d884e084a3b1e29bc7e6c1e4d89c9d"
+    },
+    {
+      "file": "truck_car/snow/restored_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/snow/restored_128/detections.png",
+      "sha256": "5eceb69fdd88b34d385275802fd19546232a5fd4dc4b2fe5134dc4294f846a8c"
+    },
+    {
+      "file": "truck_car/snow/restored_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/snow/restored_128/result.json",
+      "sha256": "a8f7c67cdcb81e52ca08023283e9ebd6a37393cc3cc793482a9b12f7ca8f6680"
+    },
+    {
+      "file": "truck_car/snow/weather_source.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/snow/weather_source.png",
+      "sha256": "2e82896fccfa963682c5fcb9b52fe238dedc8566c2360dcad462345afee4400a"
+    },
+    {
+      "file": "truck_car/smoke/direct/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/smoke/direct/detections.png",
+      "sha256": "fdb7d39a7aff5656f43992c8458270f27fd5b1c145bb50ab697f7f248722e713"
+    },
+    {
+      "file": "truck_car/smoke/direct/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/smoke/direct/result.json",
+      "sha256": "515d7bf180aa720f76fc3e247de04ef285b2eb5f1dbc23e317218803a61144a3"
+    },
+    {
+      "file": "truck_car/smoke/resize_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/smoke/resize_128/detections.png",
+      "sha256": "19b95b8be34c1d79be3793a8805cd9958b26e3a5a680fea2fae0a51255b17b59"
+    },
+    {
+      "file": "truck_car/smoke/resize_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/smoke/resize_128/result.json",
+      "sha256": "e965d91ea7fcba82fa51186642c03d5fb669067d5a627f9e21cb4f9bf26639ee"
+    },
+    {
+      "file": "truck_car/smoke/restored_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/smoke/restored_128/detections.png",
+      "sha256": "b37908e68536dd5103b7c5b9899646401e3cf435b3c6ed87ed82be3b1ae3a909"
+    },
+    {
+      "file": "truck_car/smoke/restored_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/smoke/restored_128/result.json",
+      "sha256": "6d5e7a14170899a7d0a84eb39a42ec0688202e465965187f55f703bb2bcd6ca6"
+    },
+    {
+      "file": "truck_car/smoke/weather_source.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/truck_car/smoke/weather_source.png",
+      "sha256": "334789bc9fd5b4a80b0a056c99e79d2df3b27c49eb133fe4841226379f501b09"
+    },
+    {
+      "file": "small_people/fog/direct/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/fog/direct/detections.png",
+      "sha256": "6bbd498225b50335ef25add447451c07d234bbbdc367135e81d3886903474a68"
+    },
+    {
+      "file": "small_people/fog/direct/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/fog/direct/result.json",
+      "sha256": "e7a1f2e8702e3fa41b427289fc91ff38b49f6cea2f5c4da0be7b155663a7bc1f"
+    },
+    {
+      "file": "small_people/fog/resize_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/fog/resize_128/detections.png",
+      "sha256": "1598d46d78243cfe636b55d2786b6acbf2a53feee3f1121d287ffd408ae8f2d0"
+    },
+    {
+      "file": "small_people/fog/resize_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/fog/resize_128/result.json",
+      "sha256": "7e1d2c215614e7782fbebd410f211c389cf6b85adbea61b0b55b64f957701d39"
+    },
+    {
+      "file": "small_people/fog/restored_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/fog/restored_128/detections.png",
+      "sha256": "f1f9012cd46b2f9ad08fa303f718c59b5ce574a76eb8442e4f7e4a10bd60013e"
+    },
+    {
+      "file": "small_people/fog/restored_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/fog/restored_128/result.json",
+      "sha256": "ba7eb6db877d8d6ca0358a70d193ece7befafb35c70f19916487afd99354bc39"
+    },
+    {
+      "file": "small_people/fog/weather_source.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/fog/weather_source.png",
+      "sha256": "e14606a276fa6d372f5bafb1f1e9b626b0ea4117792ff16457c33d9784cd0573"
+    },
+    {
+      "file": "small_people/rain/direct/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/rain/direct/detections.png",
+      "sha256": "b18cac1b68fcdaba1960c42ce90369ac4b810ed7fcbb0aa7a6c51fd7f757c376"
+    },
+    {
+      "file": "small_people/rain/direct/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/rain/direct/result.json",
+      "sha256": "d0c51b9d70d3c015d7d4f56d63aae8efe229d6f12fda0ec31218f2b3cf3c9690"
+    },
+    {
+      "file": "small_people/rain/resize_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/rain/resize_128/detections.png",
+      "sha256": "684304e622ed6b5bff86b482c89e951b551bd500b769db440aa62e57cf677706"
+    },
+    {
+      "file": "small_people/rain/resize_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/rain/resize_128/result.json",
+      "sha256": "034f7003c1ac88f2ad80d5c1c80575c42cec5b025f4a47b2d9791e93c5530e60"
+    },
+    {
+      "file": "small_people/rain/restored_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/rain/restored_128/detections.png",
+      "sha256": "1b474151d19c35ca1d709749859ccda82ae74ea0ec71b8f042f1e59751e714a9"
+    },
+    {
+      "file": "small_people/rain/restored_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/rain/restored_128/result.json",
+      "sha256": "434e82c453d5e3a73998b44b18d51d19e21c293ba92061450a334d07a83178ef"
+    },
+    {
+      "file": "small_people/rain/weather_source.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/rain/weather_source.png",
+      "sha256": "07571e4e2449b0386d1077be5eea8868d36ba3a36d400f73c8c60db64f124a6f"
+    },
+    {
+      "file": "small_people/snow/direct/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/snow/direct/detections.png",
+      "sha256": "9e26a13ba535aabccc47efbf6e42a51de88c9cbf2a207cc348876017406b2df6"
+    },
+    {
+      "file": "small_people/snow/direct/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/snow/direct/result.json",
+      "sha256": "8046e6a35c0cfb60c73ad2c5015b2859b1224c453085392337bc65f9e4b2ae73"
+    },
+    {
+      "file": "small_people/snow/resize_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/snow/resize_128/detections.png",
+      "sha256": "7e55980cf0091a176bd9bb7b5250b2431ab86acad1ec057416545dc2d31ddb16"
+    },
+    {
+      "file": "small_people/snow/resize_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/snow/resize_128/result.json",
+      "sha256": "5f485aa9fb31b506fa53e79e15b0f9668df2e7aa7037baebb8d67c5b6f22e8a6"
+    },
+    {
+      "file": "small_people/snow/restored_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/snow/restored_128/detections.png",
+      "sha256": "61bfe66684fdb852cc7318332a40faf1c8754fda4433c7a4b539eed0b6e60623"
+    },
+    {
+      "file": "small_people/snow/restored_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/snow/restored_128/result.json",
+      "sha256": "7bafb8441521a837c63bde02cbdb69b9f219465feacb92d65fa0f3e37ab07baf"
+    },
+    {
+      "file": "small_people/snow/weather_source.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/snow/weather_source.png",
+      "sha256": "2b77f47d69c3f2d3dbdd151400074b50a1382abfab0e00ff4aaa4410466605e7"
+    },
+    {
+      "file": "small_people/smoke/direct/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/smoke/direct/detections.png",
+      "sha256": "eea81fd45f7bfcadf997e414dfa1b8b1a86904ef971d262fa2df60c24bbb12fc"
+    },
+    {
+      "file": "small_people/smoke/direct/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/smoke/direct/result.json",
+      "sha256": "c84ab56070dda59082ca2c009064efa6f44b994bc55dc4d2c01b7877fccfc613"
+    },
+    {
+      "file": "small_people/smoke/resize_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/smoke/resize_128/detections.png",
+      "sha256": "ccfca32ab488acac9153c38f5b57b92c6658918cbea7e502cd751f52d8352ba5"
+    },
+    {
+      "file": "small_people/smoke/resize_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/smoke/resize_128/result.json",
+      "sha256": "6b4faa48ea04ad0c03c8c80068cca9b50132b723c2fbe7e6aba1e5352f011c15"
+    },
+    {
+      "file": "small_people/smoke/restored_128/detections.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/smoke/restored_128/detections.png",
+      "sha256": "6f270fb360acddd8cd361929eb6c11a9e7f0cc0e6055ab815ae13d7f2f1b8908"
+    },
+    {
+      "file": "small_people/smoke/restored_128/result.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/smoke/restored_128/result.json",
+      "sha256": "59825e50a9ea84552527b5701e9cf3593a1bfbce67ccf7657211dbdb31fa985b"
+    },
+    {
+      "file": "small_people/smoke/weather_source.png",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/small_people/smoke/weather_source.png",
+      "sha256": "c94cae3eb1659e59b9c293f2398c440c0900019950a062c8d0c11eabb0add62c"
+    },
+    {
+      "file": "results.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/results.json",
+      "sha256": "d4124bc891a4fb03a166780f02cc836a301abed4646937b67ebe49cdae7545ce"
+    },
+    {
+      "file": "verification.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/verification.json",
+      "sha256": "7496f95d9b0cdcd0434fc574c4d667b0ca68c4d95e269b68cd0472d806c94cab"
+    },
+    {
+      "file": "validation.json",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/validation.json",
+      "sha256": "eba10a092ec38df63b43d490b5de0d0dda4cc664c7082817ee124e9aebd6a6f0"
+    },
+    {
+      "file": "README.txt",
+      "original": "artifacts/edge_v1/nano_20261111/resolution_accuracy_v1/README.txt",
+      "sha256": "736849fe212404f751ff0b7bcdb44a43dc0b240664f7291d8634cb032d1b62b5"
+    }
+  ],
+  "sources": {
+    "truck_car": {
+      "dimensions": [
+        600,
+        315
+      ],
+      "source_sha256": "addada00e512f61c444e6e0ee36f5a18e29ba327d5831d16da258c9049f37db4",
+      "gt": [
+        {
+          "class_name": "car",
+          "class_id": 2,
+          "xyxy": [
+            214.0,
+            167.0,
+            320.0,
+            241.0
+          ]
+        },
+        {
+          "class_name": "truck",
+          "class_id": 7,
+          "xyxy": [
+            348.0,
+            103.0,
+            433.0,
+            224.0
+          ]
+        }
+      ],
+      "existing_weather": "existing real haze/fog"
+    },
+    "small_people": {
+      "dimensions": [
+        224,
+        180
+      ],
+      "source_sha256": "523e45436aa86759b8a46a1786bc4934ea37259f00be516cf37089f6473c4dd8",
+      "gt": [
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "xyxy": [
+            131.0,
+            7.0,
+            209.0,
+            179.0
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "xyxy": [
+            181.0,
+            17.0,
+            224.0,
+            178.0
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "xyxy": [
+            10.0,
+            21.0,
+            71.0,
+            179.0
+          ]
+        }
+      ],
+      "existing_weather": "existing real haze/fog"
+    }
+  },
+  "rendering": {
+    "truck_car": {
+      "crop_xyxy": [
+        160,
+        65,
+        480,
+        270
+      ],
+      "note": "The identical display crop is applied to all vehicle panels; both annotated vehicles and all saved predictions remain visible."
+    },
+    "small_people": {
+      "crop_xyxy": null,
+      "note": "Full saved image, without cropping."
+    },
+    "saved_overlay_policy": "Original raster overlays copied byte for byte and displayed without modifying boxes or scores. Figure labels are outside the image panels."
+  }
+}

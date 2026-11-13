@@ -1,0 +1,120 @@
+FIGURE INVENTORY — 25-PAGE EXCALIDRAW-STYLE REPORT
+
+29 numbered figures, plus the hardware-photo cover diagram.
+Former Figure 14 is now Figure 3 on physical page 5 (printed page 3).
+
+Figure 1 | printed page 1 | fig:qual
+Source: sections/00_outcomes.tex
+Four-weather restoration comparison. Each row shares one display crop; examples were fixed by sample-ID hash before score inspection. Saved predictions use native-resolution CPU FP32; the benchmark uses BF16.
+
+Figure 2 | printed page 2 | fig:timeline
+Source: sections/11_contributions.tex
+Project timeline from dated records. Bars join the first and last milestones; dots identify records, not continuous daily effort. The axis is condensed before 7 October. Phase 7 is ongoing as of 13 November, with no completion date assigned.
+
+Figure 3 | printed page 3 | fig:matched-128-vehicles
+Source: sections/00_vehicle_results.tex
+Matched vehicle comparison: source-size YOLOv8n, a $128\times128$ resize-only canvas with YOLOv8n, and Restormer on the same $128\times128$ canvas followed by YOLOv8n. A common display crop retains both annotated vehicles and every saved prediction. TP/FP/FN use confidence 0.25 and class-aware IoU 0.50. Restoration recovers the truck relative to resize-only in snow, but it remains missed in fog, rain and smoke; the extra rain prediction in the resize control disappears. These saved CPU FP32 diagnostic overlays are not Nano benchmark frames.
+
+Figure 4 | printed page 4 | fig:project-workflow
+Source: sections/00_workflow.tex
+Experimental workflow. Epoch 51 initializes continuation and stays fixed for detection and Nano evaluation. Raw and resize-only views control the detector comparisons.
+
+Figure 5 | printed page 5 | fig:benchmark-protocol
+Source: sections/04_data.tex
+Test coverage and aggregation. The 342 smoke pairs come from six backgrounds. Image scores are averaged within strata and then across strata, backgrounds, and weather conditions with equal weights at each level.
+
+Figure 6 | printed page 6 | fig:dataset-coverage
+Source: sections/04_data.tex
+Completed data preparation: the frozen train/validation/test mixture and the distinction between held-out pairs and backgrounds. Smoke's many paired observations cover only six test backgrounds. Counts come from the saved split table.
+
+Figure 7 | printed page 7 | fig:architecture
+Source: sections/05_method.tex
+Architectures evaluated on the paired benchmark. Restormer uses transformer blocks (TBs) at all four scales. LiteWeather v2 uses local residual blocks at full and half resolution and attention at quarter and eighth resolution. Its soft prompt mixture is added before the eighth-scale transformer blocks. Arrows between scales represent down/up-sampling. Dashed arrows show encoder-to-decoder concatenation. Each network predicts a residual added to the degraded RGB image.
+
+Figure 8 | printed page 8 | fig:size
+Source: sections/06_restoration.tex
+Performance across six trained systems. \textbf{(a)} Macro PSNR versus parameter count. Bars are 95\% cluster-bootstrap intervals conditional on the fixed checkpoints and test groups. The dashed segment connects the measured quality--size frontier. \textbf{(b)} Weather-balanced PSNR gain over the degraded input. Smoke has the smallest gains for all six systems.
+
+Figure 9 | printed page 8 | fig:weather-psnr
+Source: sections/06_restoration.tex
+The completed six-model benchmark as a weather-by-model comparison. Restormer leads rain, snow and smoke; PromptIR leads fog. Each cell is the recorded balanced test PSNR, rounded to two decimals. The underlying comparison uses full precision.
+
+Figure 10 | printed page 9 | fig:restoration-gain-histograms
+Source: sections/06_restoration.tex
+Distributions of per-image PSNR improvement over degraded input for Restormer and RAMiT, using the same 2,334 held-out paired images per model. Histograms use 2 dB bins and normalize each model within each weather to 100\%. Each image has equal weight here; these descriptive distributions are distinct from the group- and weather-balanced benchmark means. Restormer's median gain is higher in all four weather groups; smoke retains a negative-gain tail.
+
+Figure 11 | printed page 10 | fig:joint
+Source: sections/07_continuation.tex
+Completed continuation experiments relative to the matched further-training control. Milli-decibels keep the small differences readable with two decimal places. The control improves over the original checkpoint by 118.97 mdB, while the best additional gain is 28.81 mdB. No arm passes the validation replacement rule.
+
+Figure 12 | printed page 10 | fig:continuation-gate
+Source: sections/07_continuation.tex
+Validation replacement criterion for the eight continuation arms. Panels compare selected checkpoints with the epoch-51 starting checkpoint and matched continuation control. Both improvements must reach the dashed $+0.10$ dB threshold before applying SSIM and per-weather retention criteria.
+
+Figure 13 | printed page 11 | fig:det
+Source: sections/08_detection.tex
+Labelled DAWN detection in the earlier local pilot and the Nano benchmark. The local comparison includes a $256\times448$ resize-only view. The Nano comparison evaluates the complete cascade with a $128\times128$ Restormer canvas. Both use 72 images, 24 per weather. Signed values show restored-minus-raw AP in percentage points within each evaluation.
+
+Figure 14 | printed page 11 | fig:resolution
+Source: sections/08_detection.tex
+Matched local resolution diagnostic. \textbf{(a)} The same degraded source enters all branches. Native restoration only pads and crops. Each branch maps to the source geometry and uses the same detector preprocessing. \textbf{(b)} Correct detections among two annotated vehicles in one DAWN scene. Under rain, the 256 resize-only view already recovers both vehicles. Native restoration gains a match in rain and loses one in smoke.
+
+Figure 15 | printed page 12 | fig:matched-128-people
+Source: sections/08_comparison_galleries.tex
+The same three labelled people under four added-weather conditions, using the identical pipeline and thresholds as Figure~\ref{fig:matched-128-vehicles}. Full saved overlays are shown. Relative to the 128 resize control, Restormer recovers one person in fog and removes an unmatched prediction in smoke; one person remains missed in snow. All three are found in rain. These are repeated views of one source scene, not independent benchmark images. Original sources already contain haze.
+
+Figure 16 | printed page 13 | fig:nano-runtime
+Source: sections/09_edge.tex
+Original Jetson Nano throughput and board input energy. Each point is one weather condition. The lines span conditions within a workload. Live application FPS and replay FPS have different timing boundaries. Energy uses integrated board input power divided by processed frames.
+
+Figure 17 | printed page 14 | fig:nano-latency-histograms
+Source: sections/09_edge.tex
+Measured per-frame pipeline latency on the Jetson Nano for YOLOv8n alone and Restormer ($128\!\times\!128$ restoration canvas) followed by YOLOv8n. The saved labelled replay uses 24 unique images per weather and five excluded warm-up frames. The raw path repeats the images to record 240/216/216 timed frames; the restored path records 24 per weather, with each window lasting at least 30 seconds. Histograms use 20 ms bins and normalize each run to 100\%; dashed lines mark medians. The two rows deliberately use different latency ranges. Timing covers synchronized restoration/resize and detector preprocessing, inference and NMS; capture, decoding, weather synthesis, scoring and preview are excluded.
+
+Figure 18 | printed page 14 | fig:nano-resources
+Source: sections/09_edge.tex
+Resource observations from the completed Nano replay. The cascade uses the GPU more heavily, while board-wide RAM peaks remain near 3 GB. These logged peaks include other board processes and do not measure the restorer's isolated allocation.
+
+Figure 19 | printed page 15 | fig:weight-grid
+Source: sections/09_edge.tex
+Weight-grid screen. Convolution weights are discretized per output channel and reconstructed in FP32. Clean-target quality uses cropped valid RGB pixels. Numerical agreement uses the full normalized output tensor.
+
+Figure 20 | printed page 15 | fig:edge
+Source: sections/09_edge.tex
+Offline numerical screens. \textbf{(a)} Weight-grid RMSE on normalized outputs, alongside clean-target PSNR changes. Fog and smoke exceed the 0.004 gate. \textbf{(b)} Local FP32 PyTorch--ONNX agreement by canvas size. Earlier build observations describe the path to the separately evaluated mixed engine in Appendix~\ref{app:hardware}.
+
+Figure 21 | printed page 15 | fig:pruning-screen
+Source: sections/09_edge.tex
+Pruning changes in PSNR on four fixtures. The mean weights fixtures equally. Every masked variant fails the retention screen.
+
+Figure S1 | printed page S1 | fig:validation-trajectories
+Source: sections/appendix.tex
+Native-resolution validation PSNR across 60 epochs. Diamonds identify the best validation macro PSNR and selected epoch. Shared axes support comparison; each curve represents one training seed, with initialization sources differing across models.
+
+Figure S2 | printed page S1 | fig:ssim-map
+Source: sections/appendix.tex
+Per-weather structural similarity on 2,334 test pairs, displayed as $\mathrm{SSIM}\times100$. Outlined cells mark the best model per weather. This scaled similarity score is not detection accuracy.
+
+Figure S3 | printed page S2 | fig:rain-progress
+Source: sections/appendix.tex
+Measured progress in the preliminary rain-only experiment: degraded input, pretrained restoration and fine-tuned restoration. Both panels use the same 224 rain test pairs; this is separate from the six-model four-weather comparison.
+
+Figure S4 | printed page S3 | fig:nano-detection-counts
+Source: sections/appendix.tex
+Object-level outcomes in labelled Nano replay. Each row in (a) accounts for all 541 annotations at confidence 0.25 and class-aware matching at IoU 0.50. The loss of matches is larger than the reduction in unmatched predictions.
+
+Figure S5 | printed page S4 | fig:replay-fidelity
+Source: sections/appendix.tex
+Changes in pixel fidelity on saved-camera replay. SSIM differences use the $\times100$ display scale; neither panel measures detection accuracy.
+
+Figure S6 | printed page S5 | fig:native-truck
+Source: sections/appendix.tex
+Fixed-input native-resolution comparisons for the DAWN truck/car scene. The same detector finds the truck after restoration under rain and misses it after restoration under smoke. The overlays illustrate the matched counts in Table~\ref{tab:resolution-control}.
+
+Figure S7 | printed page S6 | fig:fixed-canvas
+Source: sections/appendix.tex
+Fixed-canvas controls without added synthetic weather. The truck is detected at source size and missed in both 128 paths. All three paths detect the annotated people in the small RTTS source. Images are enlarged from saved outputs.
+
+Figure S8 | printed page S6 | fig:camera-path
+Source: sections/appendix.tex
+A separate saved $640\times480$ camera frame. The frame occupies $128\times96$ image pixels before padding. Synthetic rain is applied on the canvas. The restored result maps back to source geometry for detection.

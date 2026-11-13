@@ -1,0 +1,5 @@
+{
+  "cases": 90,
+  "exact_yolo_tensor_image_pairs": 90,
+  "shared_weather_sources": 15
+}

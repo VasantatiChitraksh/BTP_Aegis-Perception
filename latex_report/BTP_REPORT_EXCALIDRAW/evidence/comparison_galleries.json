@@ -1,0 +1,52 @@
+{
+  "generator": "scripts/build_comparison_gallery.py",
+  "input_manifest": "figures/comparison_inputs/provenance.json",
+  "figures": [
+    {
+      "figure": "matched_128_vehicles.pdf",
+      "height_inches": 6.823125,
+      "width_inches": 6.85,
+      "source": "truck_car",
+      "weather_conditions": [
+        "fog",
+        "rain",
+        "snow",
+        "smoke"
+      ],
+      "modes": [
+        "direct",
+        "resize_128",
+        "restored_128"
+      ],
+      "panels": 12,
+      "crop_xyxy": [
+        160,
+        65,
+        480,
+        270
+      ]
+    },
+    {
+      "figure": "matched_128_people.pdf",
+      "height_inches": 8.159285714285714,
+      "width_inches": 6.85,
+      "source": "small_people",
+      "weather_conditions": [
+        "fog",
+        "rain",
+        "snow",
+        "smoke"
+      ],
+      "modes": [
+        "direct",
+        "resize_128",
+        "restored_128"
+      ],
+      "panels": 12,
+      "crop_xyxy": null
+    }
+  ],
+  "scope": "Three-scene local FP32 accuracy diagnostic, not mAP benchmark or Nano timing/power experiment. Two labelled source images contain five GT objects total; camera unlabelled. Five weather variants are dependent copies, not independent scenes.",
+  "runtime": "CPU PyTorch FP32 restoration / ONNX Runtime FP32 detector",
+  "no_new_inference": true
+}

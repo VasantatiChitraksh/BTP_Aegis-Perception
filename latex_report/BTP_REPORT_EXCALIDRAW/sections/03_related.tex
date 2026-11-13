@@ -1,0 +1,51 @@
+\section{Related Work}
+\label{sec:related}
+\subsection{Restoration under multiple degradations}
+Restormer~\cite{Zamir_2022_CVPR} uses transposed channel attention and gated
+feed-forward layers for high-resolution restoration. Its channel-space
+attention avoids constructing a full attention matrix over all image pixels.
+This makes it a relevant quality baseline, while the convolutional projections
+and intermediate features still impose a substantial execution cost.
+
+TransWeather~\cite{Valanarasu_2022_CVPR} addresses different adverse-weather
+corruptions within a transformer-based restoration model. PromptIR~\cite{NEURIPS2023_e187897e}
+uses learned prompts to condition restoration on degradation information.
+RAMiT~\cite{Choi_2024_CVPR} combines spatial and channel attention within a
+lightweight restoration architecture. These methods motivate the comparison
+of both quality and model size. Their original published results use different
+datasets and training regimes; the results here belong to the project's
+common fine-tuning and test protocol.
+
+The project adds two implementation baselines: an attention-gated Pix2Pix
+system and LiteWeather v2. The former combines an attention U-Net generator
+and patch discriminator. The latter uses local residual blocks at high
+resolution and attention with soft prompt conditioning at lower resolution.
+Neither is presented as a reproduction of a separate published method with
+the same name.
+
+\subsection{Task utility and weather data}
+Task-oriented restoration considers the downstream prediction objective,
+rather than image fidelity alone~\cite{Chen_2025_CVPR,Gupta_2024_WACV}.
+This motivates the fixed-detector experiments, but the completed Aegis models
+are trained with reconstruction objectives. DAWN~\cite{Kenk_2020_DAWN}
+provides real adverse-weather object annotations without paired clean targets.
+It therefore answers a different question from the paired restoration benchmark.
+RealRain-1k~\cite{Li_2022_RealRain} and SmokeBench~\cite{Jin_2025_SmokeBench}
+also differ in scene type and reference acquisition; these distinctions
+remain part of the interpretation of each weather score.
+
+\subsection{Compression and efficient inference}
+Integer-arithmetic quantization~\cite{Jacob_2018_CVPR} and hardware-aware
+precision selection~\cite{Wang_2019_HAQ} connect representation choices to
+an executable inference path. Transformer post-training quantization studies
+address sensitivity and scale selection~\cite{Yuan_2022_PTQ4ViT,Li_2023_RepQ}.
+A simulated weight grid is only an early check in that process: reconstructed
+floating-point weights do not imply packed integer storage or integer kernels.
+
+The NTIRE efficient super-resolution comparison reports runtime alongside
+parameter count and quality~\cite{Ren_2025_CVPRW}. This distinction guides the
+Aegis report: parameter count is a model property, while throughput depends
+on resolution, operators, precision and the actual runtime. Focal frequency
+loss~\cite{Jiang_2021_FFL} supplies an auxiliary objective for the controlled
+continuation study; its inclusion is evaluated against the unchanged
+architecture trained for the same additional budget.

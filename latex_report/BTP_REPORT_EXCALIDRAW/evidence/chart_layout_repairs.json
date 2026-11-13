@@ -1,0 +1,19 @@
+{
+  "generator": "scripts/build_chart_layout_repairs.py",
+  "figures": [
+    {
+      "source": "figures/dawn_operating_points.pdf",
+      "output": "figures/dawn_operating_points_spaced.pdf",
+      "source_sha256": "840b8ec4191179971e21fc111e2c4cc2b829e9df67d6fd9a8dc5445af9415423",
+      "output_sha256": "202de672e9c3337197da7acf70ed954709a66c120056888a90514bc9a85e2cb4",
+      "change": "Add 12 pt below the chart and shift only the legend by 10 pt; plotted region pixel-equal at 144 dpi."
+    },
+    {
+      "source": "figures/edge_acceptance.pdf",
+      "output": "figures/edge_acceptance_current.pdf",
+      "source_sha256": "6649158852ede28b52796a87f310d483c2b6972c11b9de0290f238d0adf8d1b6",
+      "output_sha256": "a53803fa6999fd280348bd8434915ee24f60cb5940be37bb7aa8a8b5bf2ac5a6",
+      "change": "Correct stale appendix letter D to C (Detection, Resolution Controls, and Nano Execution)."
+    }
+  ]
+}

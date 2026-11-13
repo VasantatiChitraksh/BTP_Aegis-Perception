@@ -1,0 +1,23 @@
+\noindent\begin{minipage}{\linewidth}
+\centering\small\renewcommand{\arraystretch}{1.12}\setlength{\tabcolsep}{3.5pt}
+\captionof{table}{Original Jetson Nano measurements. Each cell lists YOLO only / Restormer + YOLO. Live FPS includes camera and application overhead. Replay FPS excludes capture, weather synthesis, disk I/O, scoring, and output writes. Input-rail energy includes board idle consumption.}
+\label{tab:nano-runtime}
+\begin{tabular}{@{}llrrrr@{}}\toprule
+Workload & Weather & FPS & Pipeline p50 (ms) & Input power (W) & Input J/frame\\
+\midrule
+Live camera & Fog & 4.72 / 0.60 & 108.2 / 1576.8 & 5.00 / 6.99 & 1.06 / 11.73\\
+ & Rain & 5.02 / 0.60 & 108.4 / 1568.5 & 5.44 / 7.11 & 1.08 / 11.83\\
+ & Snow & 5.28 / 0.60 & 108.4 / 1571.1 & 5.22 / 7.22 & 0.99 / 11.94\\
+ & Smoke & 3.68 / 0.57 & 108.9 / 1564.8 & 4.91 / 6.91 & 1.33 / 12.21\\
+\midrule
+Labelled DAWN replay & Fog & 7.28 / 0.62 & 129.2 / 1596.7 & 5.71 / 7.11 & 0.78 / 11.40\\
+ & Rain & 6.55 / 0.61 & 147.2 / 1617.0 & 5.38 / 7.13 & 0.82 / 11.59\\
+ & Snow & 6.58 / 0.61 & 140.4 / 1619.6 & 5.34 / 6.95 & 0.81 / 11.35\\
+\midrule
+Saved-camera replay & Fog & 9.16 / 0.64 & 108.7 / 1560.6 & 6.17 / 7.02 & 0.67 / 10.95\\
+ & Rain & 8.96 / 0.64 & 111.2 / 1562.6 & 6.11 / 7.09 & 0.68 / 11.08\\
+ & Snow & 9.11 / 0.64 & 109.1 / 1556.3 & 6.18 / 7.17 & 0.68 / 11.15\\
+ & Smoke & 9.11 / 0.64 & 109.1 / 1554.2 & 6.16 / 7.15 & 0.68 / 11.12\\
+\bottomrule
+\end{tabular}
+\end{minipage}\par

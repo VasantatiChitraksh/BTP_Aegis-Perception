@@ -1,0 +1,36 @@
+{
+  "predictions": [
+    {
+      "xyxy": [
+        214.570068359375,
+        165.64688110351562,
+        320.06951904296875,
+        242.10897827148438
+      ],
+      "class_id": 2,
+      "class_name": "car",
+      "confidence": 0.8045376539230347
+    }
+  ],
+  "matches": {
+    "tp": 1,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.5,
+    "matches": [
+      {
+        "gt_index": 0,
+        "iou": 0.9621305236292902
+      }
+    ]
+  },
+  "input_shape": [
+    1,
+    3,
+    128,
+    128
+  ],
+  "local_restorer_seconds_unbenchmarked": 2.8204459859989583,
+  "weather_source_sha256": "956fcd0bb3bdff188447afc44714308a15efb7ba06207b9dd936a31e51ecf773"
+}

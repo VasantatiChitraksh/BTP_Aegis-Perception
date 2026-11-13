@@ -1,0 +1,102 @@
+{
+  "scope": "Flowchart styling only; source topology and labels retained. Quantitative panels are preserved.",
+  "font": {
+    "file": "fonts/Virgil.ttf",
+    "sha256": "e8318b0641e3208120154cefde599c3150e275405291aebe6d446f2acb794674",
+    "source": "https://github.com/excalidraw/virgil",
+    "license": "fonts/LICENSE.md"
+  },
+  "figures": [
+    {
+      "source": "figures/project_evidence_flow.pdf",
+      "source_sha256": "805525f1e66881f1c24ed80a906e86b92f2b5a12902fbed0704efbfe46979576",
+      "output": "figures/project_evidence_flow_excalidraw.pdf",
+      "output_sha256": "ee63115585244ae6290aaef6788675bdb2b0e88bd84d3c15082550e79c62d662",
+      "styled_region_points": [
+        0.0,
+        0.0,
+        493.20001220703125,
+        122.4000015258789
+      ],
+      "dimensions_points": [
+        0.0,
+        0.0,
+        493.20001220703125,
+        122.4000015258789
+      ]
+    },
+    {
+      "source": "figures/benchmark_protocol.pdf",
+      "source_sha256": "cb34eeaa843fe38baef43534c7961c68491adafe02cad7263621e88286051b7d",
+      "output": "figures/benchmark_protocol_excalidraw.pdf",
+      "output_sha256": "d2e990ebcdfe31a753a8ea3886eb61b3284c576d7dedd2221600c0a8434fb753",
+      "styled_region_points": [
+        0.0,
+        128.5,
+        234.72,
+        148.32
+      ],
+      "dimensions_points": [
+        0.0,
+        0.0,
+        234.72000122070312,
+        148.32000732421875
+      ]
+    },
+    {
+      "source": "figures/restorer_architectures.pdf",
+      "source_sha256": "06561230171ad83dad7231b8795ad6a02f4b0f3351ff8fb9e0774931483eb3e7",
+      "output": "figures/restorer_architectures_excalidraw.pdf",
+      "output_sha256": "735b5bc52965d8b35ca737ee2ac500d7a23d76b36d81d85cbf27444c6651a90b",
+      "styled_region_points": [
+        0.0,
+        0.0,
+        495.0,
+        182.8800048828125
+      ],
+      "dimensions_points": [
+        0.0,
+        0.0,
+        495.0,
+        182.8800048828125
+      ]
+    },
+    {
+      "source": "figures/controlled_resolution.pdf",
+      "source_sha256": "e2b35c56f64487073496905776e1e4a11a42197fd11d59ed44b64bbaa84085fc",
+      "output": "figures/controlled_resolution_excalidraw.pdf",
+      "output_sha256": "bef2d0590c20947610bc697416e254ed798b5bba00e765b05bed50f33b2ed169",
+      "styled_region_points": [
+        0.0,
+        0.0,
+        248.0,
+        151.92
+      ],
+      "dimensions_points": [
+        0.0,
+        0.0,
+        495.0,
+        151.9199981689453
+      ]
+    },
+    {
+      "source": "figures/style_sources/weight_grid_workflow.pdf",
+      "source_sha256": "d43ba3c1af83472586b4d82024b277941aa45d0e8ed65c68f43004a171f1596d",
+      "output": "figures/weight_grid_workflow_excalidraw.pdf",
+      "output_sha256": "5743d9d8164ddc23037a6f554070d2ffa56c9f1cae1740eae88f0f4cb7c55db5",
+      "styled_region_points": [
+        0.0,
+        0.0,
+        490.89892578125,
+        96.7186279296875
+      ],
+      "dimensions_points": [
+        0.0,
+        0.0,
+        490.89892578125,
+        96.7186279296875
+      ]
+    }
+  ],
+  "generator": "scripts/build_sketch_flowcharts.py"
+}

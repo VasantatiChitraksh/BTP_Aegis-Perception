@@ -1,0 +1,288 @@
+{
+  "as_of": "2026-11-13",
+  "style_reference": "MTP report: dated Gantt and module-by-contributor table",
+  "timeline_policy": "Bars join dated project records, not continuous attendance or measured effort. Circular markers identify dated records. No start date or completion date is inferred for ongoing phase 07.",
+  "status_policy": "The user reports six completed experimental work packages and one ongoing RAMiT + YOLOv12 edge-deployment exploration. Completion of a study does not imply positive experimental results or successful acceleration.",
+  "attribution_policy": "Contributions are recorded areas of work, not exclusive ownership or effort percentages. Rishikesh attribution is inherited from the supplied prior report; no separate git-authored record was found. Chitraksh quantizer and pruning work is additionally supported by named documentation and commits. Sudhanva tooling roles are supported by the report and corresponding commits.",
+  "sources": [
+    {
+      "id": "prior_contributions",
+      "path": "artifacts/report_backups/pre_split_flat_files_20261113/sections/08_project_record.tex",
+      "sha256": "b7feaa0485ef9186cc4cc79c76e90144830c5f9797c293de5cb1360603b6ba8c",
+      "supports": "Prior report attribution of Chitraksh to framing/data, Sudhanva to training/continuation, Rishikesh to evaluation/deployment; shared review by all three."
+    },
+    {
+      "id": "quantizer_attribution",
+      "path": "docs/edge_integrated_handoff.txt",
+      "sha256": "f74c4bf70ce60e38955da9890ce743d10cdcf004f2dd1399659f030cc74158e2",
+      "supports": "Explicitly credits Chitraksh\u2019s DevisedEdgeQuantizer and documents the trained ONNX adapter and rejection screen."
+    },
+    {
+      "id": "benchmark_report",
+      "path": "docs/manuscript/reports/six_model_benchmark.txt",
+      "sha256": "6a4366d68ddfeb7735ad27f4348dd80f6bb42d57bfc5c7e4d6140fafaf4ca5c0",
+      "supports": "Dated 24 October 2026; all six completed runs."
+    },
+    {
+      "id": "rain_report",
+      "path": "docs/manuscript/evidence/rain_baseline_historical.json",
+      "sha256": "0191a6d69b28c0c4948c88dc663e62dae18e16138e9e51008031e5293aca74b4",
+      "supports": "Rain-baseline reports timestamped 6\u20137 October 2026."
+    },
+    {
+      "id": "continuation_records",
+      "path": "docs/manuscript/evidence/joint_experiments.json",
+      "sha256": "dd30c7a97dd6bfdeb337b0074033b4b667ef04414dd4fabb3dd5937f07b2b693",
+      "supports": "Saved 26\u201327 October continuation run identities and eight-arm study."
+    },
+    {
+      "id": "mtp_reference",
+      "path": "latex_report/BTP_REPORT/reference/mtech_ref_report.pdf",
+      "sha256": "36352aaf3a9d6f38c63a2e9efbe4f5807166a88126d649be73f9e63f479a2806",
+      "supports": "Visual reference: full-width dated Gantt on physical page 4; module-by-contributor table on page 20."
+    }
+  ],
+  "git_records": [
+    {
+      "commit": "551fedcf90a44e0f9ccd104eebedf3adea16399a",
+      "date": "2026-08-26",
+      "author": "Sudhanva Bharadwaj B M",
+      "subject": "docs: add project setup and experiment quickstart"
+    },
+    {
+      "commit": "fdea52fd42a064597567c03c1e35929d9912a3fd",
+      "date": "2026-09-19",
+      "author": "Chitraksh Vasantati",
+      "subject": "Initial Pipeline"
+    },
+    {
+      "commit": "e4e8688f8f46a223b06c5d3fda7d2e4f2f9bc5b6",
+      "date": "2026-09-20",
+      "author": "Sudhanva Bharadwaj B M",
+      "subject": "Added: dataset-card"
+    },
+    {
+      "commit": "40b02f5f60c7e8f7120ae3783a58d194d41c1653",
+      "date": "2026-10-07",
+      "author": "Sudhanva Bharadwaj B M",
+      "subject": "Rain-training-completed"
+    },
+    {
+      "commit": "5d5233927468667a1f69dc324f4053f814e30832",
+      "date": "2026-10-21",
+      "author": "Sudhanva Bharadwaj B M",
+      "subject": "Add frozen weather benchmark and sequential Attention Pix2Pix and Restormer training"
+    },
+    {
+      "commit": "3bde621468db9b62980c4ae588c8d7b67e951d39",
+      "date": "2026-10-24",
+      "author": "Sudhanva Bharadwaj B M",
+      "subject": "reports-post-training"
+    },
+    {
+      "commit": "5e5b49e107a6ec3374f0ce78aa4fd1eb42f3af82",
+      "date": "2026-10-24",
+      "author": "Sudhanva Bharadwaj B M",
+      "subject": "Add Restormer edge inference setup and measured pilot report"
+    },
+    {
+      "commit": "ab0ab35b942f044242a810b9d52e7d19f2d96a3c",
+      "date": "2026-10-20",
+      "author": "Chitraksh Vasantati",
+      "subject": "Quantization and Pruning Files added"
+    },
+    {
+      "commit": "51626482873bc28a0275157edb09d3ae5e991b1e",
+      "date": "2026-10-28",
+      "author": "Chitraksh Vasantati",
+      "subject": "Edge Deployment Quantization Methods and Reports"
+    },
+    {
+      "commit": "2014a3f53e6c97a0ffcadbac45d9c93aa80f7368",
+      "date": "2026-10-30",
+      "author": "Sudhanva Bharadwaj B M",
+      "subject": "Integrate trained edge deployment, custom quantization screening and weather tests"
+    },
+    {
+      "commit": "9527ca8bc8791a3f421de31ac8c3fe48e65bc878",
+      "date": "2026-10-30",
+      "author": "Sudhanva Bharadwaj B M",
+      "subject": "Add trained Restormer build and combined Nano camera inference"
+    },
+    {
+      "commit": "ec6b6af98bb1fce027e9a7b3ffb3ce21396b67b6",
+      "date": "2026-10-30",
+      "author": "Sudhanva Bharadwaj B M",
+      "subject": "Add trained 128x128 Restormer export for Nano trial"
+    },
+    {
+      "commit": "1aa4ea0f5e497afbbed6cef035430fea34b34348",
+      "date": "2026-11-05",
+      "author": "Sudhanva Bharadwaj B M",
+      "subject": "Publish manuscript evidence pack and verified project status"
+    }
+  ],
+  "phases": [
+    {
+      "number": "01",
+      "label": "Data and shared protocol",
+      "events": [
+        "2026-08-26",
+        "2026-09-20",
+        "2026-10-24"
+      ],
+      "status": "Completed",
+      "sources": [
+        "551fedc",
+        "e4e8688",
+        "benchmark_report"
+      ]
+    },
+    {
+      "number": "02",
+      "label": "Restoration benchmark",
+      "events": [
+        "2026-10-07",
+        "2026-10-20",
+        "2026-10-24"
+      ],
+      "status": "Completed",
+      "sources": [
+        "rain_report",
+        "5d52339",
+        "benchmark_report"
+      ]
+    },
+    {
+      "number": "03",
+      "label": "Controlled continuation",
+      "events": [
+        "2026-10-26",
+        "2026-10-27"
+      ],
+      "status": "Completed",
+      "sources": [
+        "continuation_records"
+      ]
+    },
+    {
+      "number": "04",
+      "label": "Downstream detection",
+      "events": [
+        "2026-10-24",
+        "2026-11-11"
+      ],
+      "status": "Completed",
+      "sources": [
+        "5e5b49e",
+        "prior_contributions"
+      ]
+    },
+    {
+      "number": "05",
+      "label": "Compression and export",
+      "events": [
+        "2026-10-20",
+        "2026-10-28",
+        "2026-10-30"
+      ],
+      "status": "Completed",
+      "sources": [
+        "ab0ab35",
+        "5162648",
+        "2014a3f",
+        "ec6b6af",
+        "quantizer_attribution"
+      ]
+    },
+    {
+      "number": "06",
+      "label": "Nano accuracy and cost",
+      "events": [
+        "2026-10-30",
+        "2026-11-11"
+      ],
+      "status": "Completed",
+      "sources": [
+        "9527ca8",
+        "ec6b6af",
+        "prior_contributions"
+      ]
+    },
+    {
+      "number": "07",
+      "label": "RAMiT + YOLOv12 on edge",
+      "events": [
+        "2026-11-13"
+      ],
+      "status": "Ongoing",
+      "sources": [
+        "user_current_status_20261113"
+      ]
+    }
+  ],
+  "allocation": [
+    {
+      "phase": "01  Data and\nprotocol",
+      "Chitraksh": "Source / split review;\nmetric interpretation",
+      "Sudhanva": "Split tooling;\ntraining configuration",
+      "Rishikesh": "Weather-level\nevaluation",
+      "output": "22,955 active pairs;\nfrozen benchmark"
+    },
+    {
+      "phase": "02  Six-model\nbenchmark",
+      "Chitraksh": "Result review;\nbenchmark context",
+      "Sudhanva": "Implementation;\ntraining / selection",
+      "Rishikesh": "Cross-weather\nevaluation",
+      "output": "6 trained recipes;\n2,334 test pairs"
+    },
+    {
+      "phase": "03  Controlled\ncontinuation",
+      "Chitraksh": "Joint result review",
+      "Sudhanva": "8 matched arms;\nvalidation selection",
+      "Rishikesh": "Joint result review",
+      "output": "Epoch-51 checkpoint\nretained"
+    },
+    {
+      "phase": "04  Downstream\ndetection",
+      "Chitraksh": "Joint result review",
+      "Sudhanva": "Pilot tooling;\nresolution controls",
+      "Rishikesh": "Raw / resize /\nrestored analysis",
+      "output": "72 labelled DAWN\nimages; 90 local paths"
+    },
+    {
+      "phase": "05  Compression\nand export",
+      "Chitraksh": "Custom quantizer;\npruning tooling",
+      "Sudhanva": "Trained export;\nadapter / checks",
+      "Rishikesh": "Compression / export\nevaluation",
+      "output": "Rejection screens;\nengine agreement"
+    },
+    {
+      "phase": "06  Device\nmeasurements",
+      "Chitraksh": "Joint result review",
+      "Sudhanva": "Nano runtime;\nexport integration",
+      "Rishikesh": "Device-path analysis;\nFPS / power review",
+      "output": "AP, latency, energy\nand memory"
+    }
+  ],
+  "people": [
+    {
+      "name": "Chitraksh",
+      "roll": "CS23B054"
+    },
+    {
+      "name": "Sudhanva",
+      "roll": "CS23B051"
+    },
+    {
+      "name": "Rishikesh",
+      "roll": "CS23B015"
+    }
+  ],
+  "shared_work": "All three reviewed benchmark outputs, unexpected results and the final interpretation. Phase 07 is shown as shared ongoing work; no individual future schedule is assigned.",
+  "captions": {
+    "work_timeline": "Project Gantt from dated records. Bars connect the first and last recorded milestones; dots mark the records, not continuous daily effort. The axis is condensed before 7 October. Six experimental work packages are complete; RAMiT + YOLOv12 deployment is ongoing as of 13 November, with no completion date assigned.",
+    "work_allocation": "Work allocation by completed experimental phase. Entries identify recorded contributions, with shared review stated explicitly. Chitraksh\u2019s custom quantizer and pruning tooling, Sudhanva\u2019s training and runtime integration, and Rishikesh\u2019s evaluation and device-path analysis contribute to one shared benchmark and deployment study."
+  },
+  "presentation": "Gantt on physical page 4; allocation is now an editable LaTeX table in sections/11_contributions.tex."
+}

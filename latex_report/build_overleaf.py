@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package both documents for Overleaf, plus the complete archival source bundle.
+"""Package the reports for Overleaf, plus the complete archival source bundle.
 
 Uses Python's standard library. Each upload ZIP has main.tex at its root and
 contains every local TeX, bibliography, style and figure dependency. The full
@@ -129,12 +129,13 @@ def main():
         package('BTP_REPORT', 'BTP_REPORT_Overleaf.zip', 'XeLaTeX'),
         package('WORKSHOP PAPER', 'WORKSHOP_PAPER_Overleaf.zip', 'pdfLaTeX',
                 {'main.tex': WORKSHOP_MAIN.encode()}),
+        package('BTP_REPORT_EXCALIDRAW', 'BTP_REPORT_Excalidraw_Overleaf.zip', 'XeLaTeX'),
     ]
     record = {'generator': 'build_overleaf.py', 'packages': packages,
               'scope': 'Compilation sources; full evidence and generators remain in the source folders.'}
     (ROOT / 'overleaf_packages.json').write_text(json.dumps(record, indent=2) + '\n')
     archive_files = {}
-    for folder in ('BTP_REPORT', 'WORKSHOP PAPER'):
+    for folder in ('BTP_REPORT', 'WORKSHOP PAPER', 'BTP_REPORT_EXCALIDRAW'):
         for path in (ROOT / folder).rglob('*'):
             rel = path.relative_to(ROOT)
             if not path.is_file() or any(p in ('.build', '__pycache__') for p in rel.parts):

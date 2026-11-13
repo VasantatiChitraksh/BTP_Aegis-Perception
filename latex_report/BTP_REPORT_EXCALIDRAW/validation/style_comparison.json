@@ -1,0 +1,172 @@
+{
+  "base_commit": "06b4cbc556e2a6bc0d87f3667a3f08c7d5dd15e6",
+  "base_pdf_sha256": "32fb1a8ce19ce206062cad3292332c60fd97167eb8dba95ac86d9fa718e31aa5",
+  "alternate_pdf_sha256": "78752ceceb86aac248fe8f671bbeac660f6787f7cdb6785d29883ee6775ebf41",
+  "pages": 25,
+  "changed_physical_pages": [
+    1,
+    6,
+    7,
+    9,
+    13,
+    17
+  ],
+  "untouched_pages_pixel_identical": 19,
+  "body_text_sources_unchanged_except_figure_references": true,
+  "base_and_workshop_files_unchanged": true,
+  "mixed_figure_quantitative_panels_pixel_identical": true,
+  "page_checks": [
+    {
+      "page": 1,
+      "render_identical": false,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 2,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 3,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 4,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 5,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 6,
+      "render_identical": false,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 7,
+      "render_identical": false,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 8,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 9,
+      "render_identical": false,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 10,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 11,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 12,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 13,
+      "render_identical": false,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 14,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 15,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 16,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 17,
+      "render_identical": false,
+      "all_changes_in_diagram_at_108dpi": false,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 18,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 19,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 20,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 21,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 22,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 23,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 24,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    },
+    {
+      "page": 25,
+      "render_identical": true,
+      "all_changes_in_diagram_at_108dpi": true,
+      "text_positions_preserved_within_0_01_pt": true
+    }
+  ],
+  "font_license": "fonts/LICENSE.md",
+  "note": "The weight-grid PDF replacement has under 0.01 pt of TeX placement rounding; surrounding text and line breaks are identical. All other changes are confined to the diagram rectangles. Mathematical weight notation is typeset equivalently."
+}

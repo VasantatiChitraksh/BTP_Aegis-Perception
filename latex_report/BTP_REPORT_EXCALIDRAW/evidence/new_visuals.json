@@ -1,0 +1,25 @@
+{
+  "figures": {
+    "weather_psnr.pdf": {
+      "source": "evidence/six_models.csv",
+      "measure": "native-resolution balanced per-weather PSNR"
+    },
+    "weather_ssim.pdf": {
+      "source": "evidence/six_models.csv",
+      "measure": "SSIM multiplied by 100 for display"
+    },
+    "continuation_millidb.pdf": {
+      "source": "evidence/joint_test.csv",
+      "measure": "1000 times arm test PSNR minus continuation-control test PSNR; not original checkpoint"
+    },
+    "historical_rain_progress.pdf": {
+      "source": "evidence/rain_baseline_historical.json",
+      "scope": "historical rain-only protocol, not four-weather benchmark"
+    },
+    "nano_resources.pdf": {
+      "source": "evidence/S2_dawn_performance.csv",
+      "scope": "per-weather logged board-wide RAM peak and mean GPU utilization, no new experiment"
+    }
+  },
+  "display_precision": "two decimals maximum; raw evidence retained unchanged"
+}

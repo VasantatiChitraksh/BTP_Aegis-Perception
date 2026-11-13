@@ -1,0 +1,61 @@
+{
+  "predictions": [
+    {
+      "xyxy": [
+        132.57388305664062,
+        8.738635063171387,
+        211.05787658691406,
+        175.8180694580078
+      ],
+      "class_id": 0,
+      "class_name": "person",
+      "confidence": 0.8717584609985352
+    },
+    {
+      "xyxy": [
+        9.247255325317383,
+        23.152877807617188,
+        70.37931060791016,
+        178.37278747558594
+      ],
+      "class_id": 0,
+      "class_name": "person",
+      "confidence": 0.6861129403114319
+    },
+    {
+      "xyxy": [
+        189.62399291992188,
+        18.88385009765625,
+        223.92181396484375,
+        175.9561767578125
+      ],
+      "class_id": 0,
+      "class_name": "person",
+      "confidence": 0.5956339240074158
+    }
+  ],
+  "matches": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "matches": [
+      {
+        "gt_index": 0,
+        "iou": 0.9280080945326639
+      },
+      {
+        "gt_index": 2,
+        "iou": 0.9607610381589193
+      },
+      {
+        "gt_index": 1,
+        "iou": 0.7781653574362631
+      }
+    ]
+  },
+  "input_shape": null,
+  "local_restorer_seconds_unbenchmarked": null,
+  "weather_source_sha256": "07571e4e2449b0386d1077be5eea8868d36ba3a36d400f73c8c60db64f124a6f"
+}

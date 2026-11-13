@@ -1,0 +1,4598 @@
+{
+  "scope": "Three-scene local FP32 accuracy diagnostic, not mAP benchmark or Nano timing/power experiment. Two labelled source images contain five GT objects total; camera unlabelled. Five weather variants are dependent copies, not independent scenes.",
+  "restormer_checkpoint": "artifacts/models/restormer/inference.pt",
+  "restormer_sha256": "5268af32c161413502a8978a839b311152a1dd2bf093ade137e07d58166a8555",
+  "epoch": 51,
+  "yolo_sha256": "31511f31e44b3a15d3cd5feed2d7cb4290c5b61ab0e87bc152ff4dc410543ef7",
+  "weather_sha256": "5e7a59675a4509067c3d7e086b923cbfb8a61e8b5f6fcd9d58b70fd80312c877",
+  "preprocessing_sha256": "7f2a5a9ee11d4f60dc2f4815846c1aee1141c1b7bee12153a1a0111c805894d8",
+  "decoder_sha256": "15dac9d14e7a2f9ddefe2b4dcd9aa3bd310e78e748af5fc579f0e6f72cfda547",
+  "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+  "torch": "2.5.1+cpu",
+  "runtime": "CPU PyTorch FP32 restoration / ONNX Runtime FP32 detector",
+  "weather_order": "Apply once at original source dimensions BEFORE branching or resizing. Identical degraded pixels shared by all paths. No added weather / fog / rain / snow / smoke, level 2 seed 43 time 0.",
+  "geometry": "128 and 256 aspect-preserving square canvases, bottom/right edge padding; return to source dimensions before identical 640x640 detector letterbox. Native retains original pixels and pads bottom/right to multiple of 8, then crops. No anisotropic stretch.",
+  "thresholds": {
+    "confidence": 0.25,
+    "nms_iou": 0.7,
+    "match_iou": 0.5
+  },
+  "sources": {
+    "truck_car": {
+      "dimensions": [
+        600,
+        315
+      ],
+      "source_sha256": "addada00e512f61c444e6e0ee36f5a18e29ba327d5831d16da258c9049f37db4",
+      "gt": [
+        {
+          "class_name": "car",
+          "class_id": 2,
+          "xyxy": [
+            214.0,
+            167.0,
+            320.0,
+            241.0
+          ]
+        },
+        {
+          "class_name": "truck",
+          "class_id": 7,
+          "xyxy": [
+            348.0,
+            103.0,
+            433.0,
+            224.0
+          ]
+        }
+      ],
+      "existing_weather": "existing real haze/fog",
+      "cases": {
+        "none__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                216.94476318359375,
+                164.51382446289062,
+                319.22491455078125,
+                243.0439910888672
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8273875713348389
+            },
+            {
+              "xyxy": [
+                348.7068786621094,
+                110.74398803710938,
+                433.6534729003906,
+                223.53587341308594
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.698909342288971
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9110889626142431
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9178347209956695
+              }
+            ]
+          },
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "addada00e512f61c444e6e0ee36f5a18e29ba327d5831d16da258c9049f37db4"
+        },
+        "none__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                214.0535125732422,
+                165.4029998779297,
+                319.95733642578125,
+                242.82205200195312
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.5666359663009644
+            }
+          ],
+          "matches": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.5,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.955008088798135
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "addada00e512f61c444e6e0ee36f5a18e29ba327d5831d16da258c9049f37db4"
+        },
+        "none__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                214.33851623535156,
+                165.81178283691406,
+                320.40509033203125,
+                242.60781860351562
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.7301324009895325
+            }
+          ],
+          "matches": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.5,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9569682680051945
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 3.204930983003578,
+          "weather_source_sha256": "addada00e512f61c444e6e0ee36f5a18e29ba327d5831d16da258c9049f37db4"
+        },
+        "none__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                217.27247619628906,
+                167.7046356201172,
+                320.2386474609375,
+                243.62525939941406
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.7958792448043823
+            },
+            {
+              "xyxy": [
+                348.101806640625,
+                108.21776580810547,
+                433.5346984863281,
+                223.4817352294922
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.4661015272140503
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9259262472317706
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9457863679705896
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "addada00e512f61c444e6e0ee36f5a18e29ba327d5831d16da258c9049f37db4"
+        },
+        "none__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                216.82705688476562,
+                168.19369506835938,
+                320.3510437011719,
+                242.86239624023438
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8313525319099426
+            },
+            {
+              "xyxy": [
+                348.7240295410156,
+                113.07941436767578,
+                432.5011901855469,
+                223.73623657226562
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.400607168674469
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9316924694236802
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9013626298918328
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 13.920560170998215,
+          "weather_source_sha256": "addada00e512f61c444e6e0ee36f5a18e29ba327d5831d16da258c9049f37db4"
+        },
+        "none__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                216.9599609375,
+                166.7035675048828,
+                320.064697265625,
+                243.17001342773438
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8446798324584961
+            },
+            {
+              "xyxy": [
+                349.1583557128906,
+                107.88018798828125,
+                433.6524353027344,
+                223.0313262939453
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.5282018780708313
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9409944894670291
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.931886148806607
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            320,
+            600
+          ],
+          "local_restorer_seconds_unbenchmarked": 41.03530228199088,
+          "weather_source_sha256": "addada00e512f61c444e6e0ee36f5a18e29ba327d5831d16da258c9049f37db4"
+        },
+        "fog__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                216.0406951904297,
+                164.4157257080078,
+                318.4447326660156,
+                242.12648010253906
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8213776350021362
+            },
+            {
+              "xyxy": [
+                348.5617370605469,
+                111.71258544921875,
+                433.57452392578125,
+                223.44674682617188
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.5368334054946899
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.92143752820507
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9116303088787236
+              }
+            ]
+          },
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "956fcd0bb3bdff188447afc44714308a15efb7ba06207b9dd936a31e51ecf773"
+        },
+        "fog__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                213.0197296142578,
+                164.91485595703125,
+                319.8494567871094,
+                242.00477600097656
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.703995406627655
+            }
+          ],
+          "matches": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.5,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9498249289688333
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "956fcd0bb3bdff188447afc44714308a15efb7ba06207b9dd936a31e51ecf773"
+        },
+        "fog__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                214.570068359375,
+                165.64688110351562,
+                320.06951904296875,
+                242.10897827148438
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8045376539230347
+            }
+          ],
+          "matches": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.5,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9621305236292902
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.8204459859989583,
+          "weather_source_sha256": "956fcd0bb3bdff188447afc44714308a15efb7ba06207b9dd936a31e51ecf773"
+        },
+        "fog__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                216.92213439941406,
+                167.6405487060547,
+                319.5516052246094,
+                243.1474151611328
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.7749397158622742
+            },
+            {
+              "xyxy": [
+                348.6261291503906,
+                111.75064086914062,
+                433.4255676269531,
+                223.35650634765625
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.33643898367881775
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9335911631535848
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9113596024550022
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "956fcd0bb3bdff188447afc44714308a15efb7ba06207b9dd936a31e51ecf773"
+        },
+        "fog__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                216.8642578125,
+                167.98495483398438,
+                320.4124450683594,
+                243.3800048828125
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8485673666000366
+            },
+            {
+              "xyxy": [
+                348.6654357910156,
+                112.60293579101562,
+                432.8355712890625,
+                223.4793701171875
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.30195891857147217
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9273326914494185
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.907387882839086
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 14.554431475000456,
+          "weather_source_sha256": "956fcd0bb3bdff188447afc44714308a15efb7ba06207b9dd936a31e51ecf773"
+        },
+        "fog__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                217.39556884765625,
+                168.09637451171875,
+                320.0422668457031,
+                242.70704650878906
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.835321307182312
+            },
+            {
+              "xyxy": [
+                348.02490234375,
+                107.58773803710938,
+                432.67822265625,
+                222.9676971435547
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.6425524950027466
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9324297589024818
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9496642561983472
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            320,
+            600
+          ],
+          "local_restorer_seconds_unbenchmarked": 34.243649550000555,
+          "weather_source_sha256": "956fcd0bb3bdff188447afc44714308a15efb7ba06207b9dd936a31e51ecf773"
+        },
+        "rain__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                216.85020446777344,
+                164.36073303222656,
+                317.56182861328125,
+                242.45704650878906
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.4621134400367737
+            }
+          ],
+          "matches": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.5,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.902636509897407
+              }
+            ]
+          },
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "49e6f93af0c3c771ba351205adb973e9dd4dfef8c98bccb9973cf72c6be71602"
+        },
+        "rain__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                214.3671875,
+                165.56448364257812,
+                319.7519836425781,
+                242.54774475097656
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.5157137513160706
+            },
+            {
+              "xyxy": [
+                213.6209716796875,
+                165.41204833984375,
+                319.409423828125,
+                242.1145782470703
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.4356229603290558
+            }
+          ],
+          "matches": {
+            "tp": 1,
+            "fp": 1,
+            "fn": 1,
+            "precision": 0.5,
+            "recall": 0.5,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.955884017414701
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "49e6f93af0c3c771ba351205adb973e9dd4dfef8c98bccb9973cf72c6be71602"
+        },
+        "rain__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                214.36740112304688,
+                165.94570922851562,
+                319.93084716796875,
+                242.35848999023438
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.6338512301445007
+            }
+          ],
+          "matches": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.5,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9645614212920615
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.2397534750052728,
+          "weather_source_sha256": "49e6f93af0c3c771ba351205adb973e9dd4dfef8c98bccb9973cf72c6be71602"
+        },
+        "rain__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                217.55731201171875,
+                167.58973693847656,
+                318.7281188964844,
+                243.02964782714844
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.6927375793457031
+            },
+            {
+              "xyxy": [
+                348.17333984375,
+                108.0130615234375,
+                433.5789794921875,
+                224.80767822265625
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.5383175015449524
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9226811520857228
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.944118394284543
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "49e6f93af0c3c771ba351205adb973e9dd4dfef8c98bccb9973cf72c6be71602"
+        },
+        "rain__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                216.81593322753906,
+                168.0227813720703,
+                320.160888671875,
+                242.90850830078125
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8310308456420898
+            },
+            {
+              "xyxy": [
+                348.8784484863281,
+                111.73390197753906,
+                433.28271484375,
+                222.52267456054688
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.431626558303833
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.935068771546845
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9033959882243027
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 11.549465575997601,
+          "weather_source_sha256": "49e6f93af0c3c771ba351205adb973e9dd4dfef8c98bccb9973cf72c6be71602"
+        },
+        "rain__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                215.96421813964844,
+                164.45513916015625,
+                318.720458984375,
+                242.34483337402344
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.817908525466919
+            },
+            {
+              "xyxy": [
+                348.7488098144531,
+                110.76370239257812,
+                433.1183166503906,
+                223.6402130126953
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.4748820662498474
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9223977783879466
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9234464954739281
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            320,
+            600
+          ],
+          "local_restorer_seconds_unbenchmarked": 33.960655294999015,
+          "weather_source_sha256": "49e6f93af0c3c771ba351205adb973e9dd4dfef8c98bccb9973cf72c6be71602"
+        },
+        "snow__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                217.6290283203125,
+                165.72195434570312,
+                318.35552978515625,
+                242.82492065429688
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8091071844100952
+            },
+            {
+              "xyxy": [
+                348.5354919433594,
+                110.1900634765625,
+                433.8983459472656,
+                223.78634643554688
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.7569140195846558
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9138373801313754
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9237324293469024
+              }
+            ]
+          },
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "2e82896fccfa963682c5fcb9b52fe238dedc8566c2360dcad462345afee4400a"
+        },
+        "snow__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                214.04542541503906,
+                165.2267303466797,
+                319.77520751953125,
+                242.82220458984375
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.5806365013122559
+            }
+          ],
+          "matches": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.5,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.951345164324154
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "2e82896fccfa963682c5fcb9b52fe238dedc8566c2360dcad462345afee4400a"
+        },
+        "snow__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                214.76731872558594,
+                165.77487182617188,
+                320.06854248046875,
+                242.71420288085938
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.7160361409187317
+            },
+            {
+              "xyxy": [
+                347.06005859375,
+                105.0971908569336,
+                435.8974609375,
+                224.66465759277344
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.2914468050003052
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9544812325859073
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9357810120023871
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.2736633619933855,
+          "weather_source_sha256": "2e82896fccfa963682c5fcb9b52fe238dedc8566c2360dcad462345afee4400a"
+        },
+        "snow__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                217.0550994873047,
+                167.9604949951172,
+                319.41827392578125,
+                242.82626342773438
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8167500495910645
+            },
+            {
+              "xyxy": [
+                348.6898498535156,
+                110.31383514404297,
+                433.3764953613281,
+                223.85821533203125
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.654454231262207
+            },
+            {
+              "xyxy": [
+                576.5732421875,
+                192.20346069335938,
+                591.2427368164062,
+                274.0268859863281
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.25756245851516724
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.6666666666666666,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9309686986345391
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.926914865457933
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "2e82896fccfa963682c5fcb9b52fe238dedc8566c2360dcad462345afee4400a"
+        },
+        "snow__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                217.24234008789062,
+                168.3107147216797,
+                319.4499206542969,
+                242.71322631835938
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.856110155582428
+            },
+            {
+              "xyxy": [
+                348.8749694824219,
+                110.93353271484375,
+                433.23565673828125,
+                223.3092498779297
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.6320029497146606
+            },
+            {
+              "xyxy": [
+                577.0107421875,
+                192.8588409423828,
+                590.9998168945312,
+                273.5505676269531
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.37665918469429016
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.6666666666666666,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9264620476041585
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9168042488532433
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 11.108546110001043,
+          "weather_source_sha256": "2e82896fccfa963682c5fcb9b52fe238dedc8566c2360dcad462345afee4400a"
+        },
+        "snow__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                217.26751708984375,
+                166.23745727539062,
+                318.3245544433594,
+                242.54458618164062
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8110431432723999
+            },
+            {
+              "xyxy": [
+                349.5135498046875,
+                110.81474304199219,
+                433.2663269042969,
+                222.63153076171875
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.751724362373352
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9258487341186044
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9050301191347438
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            320,
+            600
+          ],
+          "local_restorer_seconds_unbenchmarked": 35.963772727001924,
+          "weather_source_sha256": "2e82896fccfa963682c5fcb9b52fe238dedc8566c2360dcad462345afee4400a"
+        },
+        "smoke__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                216.7288055419922,
+                164.65553283691406,
+                319.104736328125,
+                242.99468994140625
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8268176317214966
+            },
+            {
+              "xyxy": [
+                348.5856628417969,
+                111.12033081054688,
+                433.5696105957031,
+                223.32896423339844
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.6212788224220276
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9140459889549324
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9152666948835032
+              }
+            ]
+          },
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "334789bc9fd5b4a80b0a056c99e79d2df3b27c49eb133fe4841226379f501b09"
+        },
+        "smoke__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                214.03146362304688,
+                165.48764038085938,
+                319.6710205078125,
+                242.46014404296875
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.5620452761650085
+            }
+          ],
+          "matches": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.5,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9582389922953012
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "334789bc9fd5b4a80b0a056c99e79d2df3b27c49eb133fe4841226379f501b09"
+        },
+        "smoke__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                214.22837829589844,
+                165.88563537597656,
+                319.85791015625,
+                242.38394165039062
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.6891632080078125
+            }
+          ],
+          "matches": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.5,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9640708532329518
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 3.1583651839900995,
+          "weather_source_sha256": "334789bc9fd5b4a80b0a056c99e79d2df3b27c49eb133fe4841226379f501b09"
+        },
+        "smoke__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                217.15927124023438,
+                167.84454345703125,
+                320.0763244628906,
+                243.60443115234375
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.7781527042388916
+            },
+            {
+              "xyxy": [
+                348.5757751464844,
+                111.47864532470703,
+                433.12579345703125,
+                223.05780029296875
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.31144219636917114
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9267934245015631
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.9146471371776045
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "334789bc9fd5b4a80b0a056c99e79d2df3b27c49eb133fe4841226379f501b09"
+        },
+        "smoke__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                216.65811157226562,
+                168.38983154296875,
+                320.3189392089844,
+                242.89761352539062
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.8363679051399231
+            },
+            {
+              "xyxy": [
+                348.98779296875,
+                113.48504638671875,
+                432.7648620605469,
+                223.188232421875
+              ],
+              "class_id": 7,
+              "class_name": "truck",
+              "confidence": 0.28586214780807495
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9305302599926932
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.893593712019932
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 13.098180497006979,
+          "weather_source_sha256": "334789bc9fd5b4a80b0a056c99e79d2df3b27c49eb133fe4841226379f501b09"
+        },
+        "smoke__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                217.1731414794922,
+                161.78616333007812,
+                318.5381774902344,
+                242.13026428222656
+              ],
+              "class_id": 2,
+              "class_name": "car",
+              "confidence": 0.7541377544403076
+            }
+          ],
+          "matches": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.5,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.8838165342316437
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            320,
+            600
+          ],
+          "local_restorer_seconds_unbenchmarked": 39.057234018997406,
+          "weather_source_sha256": "334789bc9fd5b4a80b0a056c99e79d2df3b27c49eb133fe4841226379f501b09"
+        }
+      }
+    },
+    "small_people": {
+      "dimensions": [
+        224,
+        180
+      ],
+      "source_sha256": "523e45436aa86759b8a46a1786bc4934ea37259f00be516cf37089f6473c4dd8",
+      "gt": [
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "xyxy": [
+            131.0,
+            7.0,
+            209.0,
+            179.0
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "xyxy": [
+            181.0,
+            17.0,
+            224.0,
+            178.0
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "xyxy": [
+            10.0,
+            21.0,
+            71.0,
+            179.0
+          ]
+        }
+      ],
+      "existing_weather": "existing real haze/fog",
+      "cases": {
+        "none__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.61569213867188,
+                8.884902954101562,
+                210.50405883789062,
+                176.61392211914062
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8906925320625305
+            },
+            {
+              "xyxy": [
+                11.158717155456543,
+                22.671295166015625,
+                69.29483032226562,
+                178.2991485595703
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8702535629272461
+            },
+            {
+              "xyxy": [
+                189.4245147705078,
+                18.87190818786621,
+                223.97120666503906,
+                176.3949432373047
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6171481013298035
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9373432566704284
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9387423358386076
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7860609421267876
+              }
+            ]
+          },
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "c86d42dac204365b7b377d6bb9453591f8824f1396990336ecaa42b056741191"
+        },
+        "none__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.1590118408203,
+                7.088845729827881,
+                211.39305114746094,
+                176.9394989013672
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8535112142562866
+            },
+            {
+              "xyxy": [
+                3.2058358192443848,
+                22.31805992126465,
+                67.44499206542969,
+                178.21092224121094
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7482503652572632
+            },
+            {
+              "xyxy": [
+                190.05264282226562,
+                17.61362648010254,
+                223.97445678710938,
+                173.9728546142578
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.30874931812286377
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9442233921023246
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.8371626426335116
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7661401532933699
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "c86d42dac204365b7b377d6bb9453591f8824f1396990336ecaa42b056741191"
+        },
+        "none__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.17071533203125,
+                6.107787132263184,
+                211.333984375,
+                176.65211486816406
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8595294952392578
+            },
+            {
+              "xyxy": [
+                3.6906371116638184,
+                22.23896598815918,
+                68.0276107788086,
+                178.07125854492188
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7111713886260986
+            },
+            {
+              "xyxy": [
+                190.09214782714844,
+                18.49336814880371,
+                223.8756866455078,
+                175.7803497314453
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.3571070730686188
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.938891442129831
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.8513701949633126
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.767544552578362
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 3.0786616890109144,
+          "weather_source_sha256": "c86d42dac204365b7b377d6bb9453591f8824f1396990336ecaa42b056741191"
+        },
+        "none__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.47044372558594,
+                8.381158828735352,
+                211.34994506835938,
+                176.00338745117188
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8950716853141785
+            },
+            {
+              "xyxy": [
+                11.233918190002441,
+                21.941608428955078,
+                69.69017028808594,
+                178.09364318847656
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8154689073562622
+            },
+            {
+              "xyxy": [
+                189.32504272460938,
+                19.035287857055664,
+                223.9753875732422,
+                175.5144500732422
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.504090428352356
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9289025873225282
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9470910434283565
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7831946613642929
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "c86d42dac204365b7b377d6bb9453591f8824f1396990336ecaa42b056741191"
+        },
+        "none__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.3734893798828,
+                8.295586585998535,
+                211.97702026367188,
+                175.07647705078125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8767988681793213
+            },
+            {
+              "xyxy": [
+                10.530217170715332,
+                22.0363712310791,
+                69.79511260986328,
+                178.04428100585938
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7620958685874939
+            },
+            {
+              "xyxy": [
+                189.00038146972656,
+                18.671770095825195,
+                223.98516845703125,
+                174.6129150390625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.37444406747817993
+            },
+            {
+              "xyxy": [
+                189.578857421875,
+                19.94098472595215,
+                223.99215698242188,
+                93.38565826416016
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.3334054946899414
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.75,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9185859855415204
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9593060792890122
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7880352262160552
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 15.616552660998423,
+          "weather_source_sha256": "c86d42dac204365b7b377d6bb9453591f8824f1396990336ecaa42b056741191"
+        },
+        "none__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.54258728027344,
+                8.863946914672852,
+                210.35366821289062,
+                176.91650390625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8976430892944336
+            },
+            {
+              "xyxy": [
+                11.219636917114258,
+                21.893836975097656,
+                70.3902816772461,
+                177.93228149414062
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8389977216720581
+            },
+            {
+              "xyxy": [
+                189.3065948486328,
+                18.56382179260254,
+                223.94573974609375,
+                177.03192138671875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6299982666969299
+            },
+            {
+              "xyxy": [
+                189.81541442871094,
+                19.3653564453125,
+                223.99122619628906,
+                93.3695297241211
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.2621021270751953
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.75,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9417579959169665
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9579680934192779
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7928931415210169
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            184,
+            224
+          ],
+          "local_restorer_seconds_unbenchmarked": 7.0465250379929785,
+          "weather_source_sha256": "c86d42dac204365b7b377d6bb9453591f8824f1396990336ecaa42b056741191"
+        },
+        "fog__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.48208618164062,
+                8.668913841247559,
+                210.84530639648438,
+                176.9012451171875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.886298656463623
+            },
+            {
+              "xyxy": [
+                11.081315994262695,
+                22.20327377319336,
+                69.0574951171875,
+                178.26287841796875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8495478630065918
+            },
+            {
+              "xyxy": [
+                189.51068115234375,
+                19.25002098083496,
+                223.9033203125,
+                177.3983612060547
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.48253530263900757
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9378095415492279
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9387569265213218
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7856621638243897
+              }
+            ]
+          },
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "e14606a276fa6d372f5bafb1f1e9b626b0ea4117792ff16457c33d9784cd0573"
+        },
+        "fog__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                131.79837036132812,
+                6.47701358795166,
+                211.67352294921875,
+                177.21173095703125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7731406688690186
+            },
+            {
+              "xyxy": [
+                4.067831516265869,
+                21.658023834228516,
+                68.60423278808594,
+                178.00209045410156
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5895574688911438
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.6666666666666666,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9444962332836462
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.8672054733838507
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "e14606a276fa6d372f5bafb1f1e9b626b0ea4117792ff16457c33d9784cd0573"
+        },
+        "fog__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                131.4496307373047,
+                9.1882905960083,
+                211.18228149414062,
+                176.45445251464844
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7813959121704102
+            },
+            {
+              "xyxy": [
+                2.7076613903045654,
+                21.790090560913086,
+                67.60520935058594,
+                178.24696350097656
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6689521670341492
+            },
+            {
+              "xyxy": [
+                189.84664916992188,
+                19.935222625732422,
+                223.8662109375,
+                175.8177490234375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.43681126832962036
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9412620174861818
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.8361429611384871
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7660053698947349
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.575894231995335,
+          "weather_source_sha256": "e14606a276fa6d372f5bafb1f1e9b626b0ea4117792ff16457c33d9784cd0573"
+        },
+        "fog__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.28384399414062,
+                8.216070175170898,
+                211.93014526367188,
+                175.81898498535156
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8778613805770874
+            },
+            {
+              "xyxy": [
+                10.307114601135254,
+                21.047685623168945,
+                69.967041015625,
+                177.97781372070312
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7778334617614746
+            },
+            {
+              "xyxy": [
+                189.48928833007812,
+                19.719030380249023,
+                223.88746643066406,
+                175.89170837402344
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.40423858165740967
+            },
+            {
+              "xyxy": [
+                189.34329223632812,
+                20.505996704101562,
+                223.87408447265625,
+                98.04074096679688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.2561008334159851
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.75,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9245529673511905
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9714090506004877
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7759722178336703
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "e14606a276fa6d372f5bafb1f1e9b626b0ea4117792ff16457c33d9784cd0573"
+        },
+        "fog__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.06080627441406,
+                8.538363456726074,
+                215.55752563476562,
+                176.95806884765625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8364606499671936
+            },
+            {
+              "xyxy": [
+                9.664306640625,
+                21.52309799194336,
+                68.21085357666016,
+                177.8362579345703
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7179832458496094
+            },
+            {
+              "xyxy": [
+                189.04747009277344,
+                19.81708335876465,
+                223.8880157470703,
+                174.9095458984375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.3082095980644226
+            },
+            {
+              "xyxy": [
+                189.18226623535156,
+                20.977174758911133,
+                223.88836669921875,
+                96.0479736328125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.3011277914047241
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.75,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.8924039105832918
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9389760243759135
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7805151448297342
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 13.79982176500198,
+          "weather_source_sha256": "e14606a276fa6d372f5bafb1f1e9b626b0ea4117792ff16457c33d9784cd0573"
+        },
+        "fog__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.35133361816406,
+                8.801483154296875,
+                210.5800323486328,
+                176.20281982421875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8891085386276245
+            },
+            {
+              "xyxy": [
+                11.11400032043457,
+                21.421520233154297,
+                70.57508087158203,
+                178.271728515625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7995613813400269
+            },
+            {
+              "xyxy": [
+                188.8581085205078,
+                18.587127685546875,
+                223.95355224609375,
+                177.3833465576172
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.663107693195343
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9379108602997428
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9676782940898008
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.8050012892938394
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            184,
+            224
+          ],
+          "local_restorer_seconds_unbenchmarked": 8.788064666994615,
+          "weather_source_sha256": "e14606a276fa6d372f5bafb1f1e9b626b0ea4117792ff16457c33d9784cd0573"
+        },
+        "rain__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.57388305664062,
+                8.738635063171387,
+                211.05787658691406,
+                175.8180694580078
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8717584609985352
+            },
+            {
+              "xyxy": [
+                9.247255325317383,
+                23.152877807617188,
+                70.37931060791016,
+                178.37278747558594
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6861129403114319
+            },
+            {
+              "xyxy": [
+                189.62399291992188,
+                18.88385009765625,
+                223.92181396484375,
+                175.9561767578125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5956339240074158
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9280080945326639
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9607610381589193
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7781653574362631
+              }
+            ]
+          },
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "07571e4e2449b0386d1077be5eea8868d36ba3a36d400f73c8c60db64f124a6f"
+        },
+        "rain__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.24432373046875,
+                10.646865844726562,
+                214.0373077392578,
+                177.975341796875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6992767453193665
+            },
+            {
+              "xyxy": [
+                190.53201293945312,
+                17.836200714111328,
+                223.89515686035156,
+                173.33615112304688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.3343007564544678
+            },
+            {
+              "xyxy": [
+                3.7833869457244873,
+                22.65073013305664,
+                69.05194091796875,
+                177.90870666503906
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.30358830094337463
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9007303656099191
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7493813787601112
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.8646732521094729
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "07571e4e2449b0386d1077be5eea8868d36ba3a36d400f73c8c60db64f124a6f"
+        },
+        "rain__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.33938598632812,
+                11.361845970153809,
+                213.1931915283203,
+                178.00323486328125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6746166944503784
+            },
+            {
+              "xyxy": [
+                190.4748077392578,
+                17.415084838867188,
+                223.89382934570312,
+                175.0229034423828
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.35904860496520996
+            },
+            {
+              "xyxy": [
+                0.42867201566696167,
+                21.642690658569336,
+                67.9835433959961,
+                177.39712524414062
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.328788161277771
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9050689767548663
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7608116598430955
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.8115172828593537
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.4704844179941574,
+          "weather_source_sha256": "07571e4e2449b0386d1077be5eea8868d36ba3a36d400f73c8c60db64f124a6f"
+        },
+        "rain__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.399658203125,
+                8.170931816101074,
+                214.53135681152344,
+                175.90602111816406
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8570467233657837
+            },
+            {
+              "xyxy": [
+                6.409898281097412,
+                21.717138290405273,
+                70.3985824584961,
+                178.15576171875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.526166558265686
+            },
+            {
+              "xyxy": [
+                189.91781616210938,
+                16.937061309814453,
+                223.885498046875,
+                174.58929443359375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.49632543325424194
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.89575725449687
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9263738239145534
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7729727546681043
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "07571e4e2449b0386d1077be5eea8868d36ba3a36d400f73c8c60db64f124a6f"
+        },
+        "rain__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.29238891601562,
+                7.700512886047363,
+                214.34242248535156,
+                176.73641967773438
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7995550036430359
+            },
+            {
+              "xyxy": [
+                7.405766487121582,
+                22.019136428833008,
+                70.40534973144531,
+                177.8379669189453
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5630804896354675
+            },
+            {
+              "xyxy": [
+                189.1855926513672,
+                17.682199478149414,
+                223.9736785888672,
+                174.1954345703125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.40328189730644226
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9055300754485693
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9372709720167105
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7864792573216092
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 11.330409116999363,
+          "weather_source_sha256": "07571e4e2449b0386d1077be5eea8868d36ba3a36d400f73c8c60db64f124a6f"
+        },
+        "rain__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                9.762049674987793,
+                22.80267906188965,
+                69.20600891113281,
+                178.35009765625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8320711255073547
+            },
+            {
+              "xyxy": [
+                132.252197265625,
+                8.137222290039062,
+                211.80592346191406,
+                177.0936737060547
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7947945594787598
+            },
+            {
+              "xyxy": [
+                189.58253479003906,
+                18.8300724029541,
+                223.97926330566406,
+                92.69096374511719
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.40556806325912476
+            },
+            {
+              "xyxy": [
+                189.04025268554688,
+                17.251855850219727,
+                223.92250061035156,
+                175.77151489257812
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.35728520154953003
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.75,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 2,
+                "iou": 0.9518687834919745
+              },
+              {
+                "gt_index": 0,
+                "iou": 0.9335466387417365
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7987176040237253
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            184,
+            224
+          ],
+          "local_restorer_seconds_unbenchmarked": 6.2204193110083,
+          "weather_source_sha256": "07571e4e2449b0386d1077be5eea8868d36ba3a36d400f73c8c60db64f124a6f"
+        },
+        "snow__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.46226501464844,
+                9.19609260559082,
+                210.67637634277344,
+                175.6706085205078
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8737902641296387
+            },
+            {
+              "xyxy": [
+                8.969797134399414,
+                22.885929107666016,
+                68.54907989501953,
+                178.4615478515625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8198316693305969
+            },
+            {
+              "xyxy": [
+                189.5911407470703,
+                19.576053619384766,
+                223.87789916992188,
+                175.87025451660156
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5239554643630981
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9303770672952391
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9296340514305271
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7740606351789325
+              }
+            ]
+          },
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "2b77f47d69c3f2d3dbdd151400074b50a1382abfab0e00ff4aaa4410466605e7"
+        },
+        "snow__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                131.9827880859375,
+                10.446663856506348,
+                211.20172119140625,
+                177.9527130126953
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7168058156967163
+            },
+            {
+              "xyxy": [
+                5.319913387298584,
+                23.328550338745117,
+                67.83807373046875,
+                178.0775146484375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.4530322551727295
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.6666666666666666,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9358747664179197
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.8637497868287638
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "2b77f47d69c3f2d3dbdd151400074b50a1382abfab0e00ff4aaa4410466605e7"
+        },
+        "snow__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                131.91448974609375,
+                6.899746894836426,
+                211.1583251953125,
+                177.75787353515625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7725222706794739
+            },
+            {
+              "xyxy": [
+                6.598634243011475,
+                22.90667724609375,
+                68.2410659790039,
+                177.75851440429688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5910882353782654
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 1,
+            "precision": 1.0,
+            "recall": 0.6666666666666666,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9543565186701928
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.8872597052882387
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.2736969270044938,
+          "weather_source_sha256": "2b77f47d69c3f2d3dbdd151400074b50a1382abfab0e00ff4aaa4410466605e7"
+        },
+        "snow__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.28712463378906,
+                8.946660995483398,
+                211.1804656982422,
+                175.89752197265625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8527905941009521
+            },
+            {
+              "xyxy": [
+                8.43043041229248,
+                22.78104019165039,
+                68.77192687988281,
+                177.9022674560547
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7687254548072815
+            },
+            {
+              "xyxy": [
+                189.5048065185547,
+                19.21951675415039,
+                223.96533203125,
+                173.04290771484375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.3614201545715332
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9294087581953666
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9226127788005365
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7656846686317348
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "2b77f47d69c3f2d3dbdd151400074b50a1382abfab0e00ff4aaa4410466605e7"
+        },
+        "snow__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                8.462457656860352,
+                22.887531280517578,
+                69.04611206054688,
+                178.11355590820312
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7791290283203125
+            },
+            {
+              "xyxy": [
+                132.25430297851562,
+                9.012222290039062,
+                211.20826721191406,
+                178.92745971679688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6824407577514648
+            },
+            {
+              "xyxy": [
+                189.4735107421875,
+                20.09503936767578,
+                223.99029541015625,
+                98.19209289550781
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.35284698009490967
+            }
+          ],
+          "matches": {
+            "tp": 2,
+            "fp": 1,
+            "fn": 1,
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "matches": [
+              {
+                "gt_index": 2,
+                "iou": 0.9279946120887368
+              },
+              {
+                "gt_index": 0,
+                "iou": 0.9455483353749614
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 11.324621706997277,
+          "weather_source_sha256": "2b77f47d69c3f2d3dbdd151400074b50a1382abfab0e00ff4aaa4410466605e7"
+        },
+        "snow__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.52243041992188,
+                9.103273391723633,
+                210.55960083007812,
+                176.45535278320312
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8967908024787903
+            },
+            {
+              "xyxy": [
+                9.481595039367676,
+                23.008312225341797,
+                68.39258575439453,
+                178.5894012451172
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8529518246650696
+            },
+            {
+              "xyxy": [
+                189.4276123046875,
+                19.03042221069336,
+                223.96485900878906,
+                175.59637451171875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.39065152406692505
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9357811220524187
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9347778151096862
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7810713467562834
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            184,
+            224
+          ],
+          "local_restorer_seconds_unbenchmarked": 6.879934741009492,
+          "weather_source_sha256": "2b77f47d69c3f2d3dbdd151400074b50a1382abfab0e00ff4aaa4410466605e7"
+        },
+        "smoke__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.61441040039062,
+                8.829297065734863,
+                210.59767150878906,
+                177.03001403808594
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.883694052696228
+            },
+            {
+              "xyxy": [
+                10.847762107849121,
+                22.60302734375,
+                69.30753326416016,
+                178.3785400390625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8683568239212036
+            },
+            {
+              "xyxy": [
+                189.53948974609375,
+                19.118515014648438,
+                223.97210693359375,
+                176.27125549316406
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5829879641532898
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9388648179183774
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9448641404790932
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7816235989861693
+              }
+            ]
+          },
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "c94cae3eb1659e59b9c293f2398c440c0900019950a062c8d0c11eabb0add62c"
+        },
+        "smoke__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.0562286376953,
+                7.212362766265869,
+                211.41600036621094,
+                176.76303100585938
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8543649315834045
+            },
+            {
+              "xyxy": [
+                2.5967965126037598,
+                22.2766056060791,
+                67.68677520751953,
+                178.1205596923828
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7118273973464966
+            },
+            {
+              "xyxy": [
+                190.54893493652344,
+                20.20280647277832,
+                223.88917541503906,
+                175.7962188720703
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.3855587840080261
+            },
+            {
+              "xyxy": [
+                189.5463409423828,
+                21.217403411865234,
+                223.87693786621094,
+                97.99382781982422
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.25461840629577637
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.75,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.943599965171009
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.8330566337232862
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7493170551287376
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "c94cae3eb1659e59b9c293f2398c440c0900019950a062c8d0c11eabb0add62c"
+        },
+        "smoke__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.11419677734375,
+                6.442999362945557,
+                211.19329833984375,
+                176.9766082763672
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8582608699798584
+            },
+            {
+              "xyxy": [
+                3.30818247795105,
+                22.45490074157715,
+                67.63682556152344,
+                178.07183837890625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7838399410247803
+            },
+            {
+              "xyxy": [
+                190.50424194335938,
+                19.985332489013672,
+                223.86532592773438,
+                176.072509765625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.438618004322052
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9447641676556556
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.8398692747552998
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7521648569532717
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.552626296004746,
+          "weather_source_sha256": "c94cae3eb1659e59b9c293f2398c440c0900019950a062c8d0c11eabb0add62c"
+        },
+        "smoke__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.45376586914062,
+                8.287142753601074,
+                211.52757263183594,
+                176.14852905273438
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8862839937210083
+            },
+            {
+              "xyxy": [
+                10.809229850769043,
+                22.006912231445312,
+                69.50895690917969,
+                178.10250854492188
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.834497332572937
+            },
+            {
+              "xyxy": [
+                189.49729919433594,
+                19.856348037719727,
+                223.88671875,
+                176.77394104003906
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5040095448493958
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9283883780434645
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9506919023332123
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7794748934710386
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "c94cae3eb1659e59b9c293f2398c440c0900019950a062c8d0c11eabb0add62c"
+        },
+        "smoke__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.31997680664062,
+                8.299506187438965,
+                213.51600646972656,
+                175.35487365722656
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8632953763008118
+            },
+            {
+              "xyxy": [
+                10.622934341430664,
+                22.092937469482422,
+                69.54346466064453,
+                177.896728515625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7760521173477173
+            },
+            {
+              "xyxy": [
+                189.03640747070312,
+                19.71770668029785,
+                223.96641540527344,
+                174.9657745361328
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.40362825989723206
+            },
+            {
+              "xyxy": [
+                189.54405212402344,
+                20.10497283935547,
+                223.9873504638672,
+                93.09081268310547
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.3089311718940735
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.75,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.9039821585690779
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.9524841245266134
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.783304335976997
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 13.036805793992244,
+          "weather_source_sha256": "c94cae3eb1659e59b9c293f2398c440c0900019950a062c8d0c11eabb0add62c"
+        },
+        "smoke__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                132.5012969970703,
+                8.8115873336792,
+                210.2262420654297,
+                177.03086853027344
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8869134187698364
+            },
+            {
+              "xyxy": [
+                11.193804740905762,
+                21.777523040771484,
+                70.46812438964844,
+                177.98585510253906
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8157143592834473
+            },
+            {
+              "xyxy": [
+                189.20469665527344,
+                18.89310073852539,
+                223.94398498535156,
+                177.348876953125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6362473964691162
+            }
+          ],
+          "matches": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "matches": [
+              {
+                "gt_index": 0,
+                "iou": 0.944669983616973
+              },
+              {
+                "gt_index": 2,
+                "iou": 0.960691282229197
+              },
+              {
+                "gt_index": 1,
+                "iou": 0.7951236621813159
+              }
+            ]
+          },
+          "input_shape": [
+            1,
+            3,
+            184,
+            224
+          ],
+          "local_restorer_seconds_unbenchmarked": 7.073132181001711,
+          "weather_source_sha256": "c94cae3eb1659e59b9c293f2398c440c0900019950a062c8d0c11eabb0add62c"
+        }
+      }
+    },
+    "camera_320": {
+      "dimensions": [
+        320,
+        240
+      ],
+      "source_sha256": "11da84bf41f4242c01e3b307702d006d77b1d276a5bfc4f49cb7cb4995d16225",
+      "gt": null,
+      "existing_weather": "indoor camera",
+      "cases": {
+        "none__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.5694580078125,
+                105.33294677734375,
+                199.10220336914062,
+                209.47540283203125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9254215955734253
+            },
+            {
+              "xyxy": [
+                0.01215362548828125,
+                157.10986328125,
+                18.308883666992188,
+                208.73751831054688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7118549346923828
+            }
+          ],
+          "matches": null,
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "11da84bf41f4242c01e3b307702d006d77b1d276a5bfc4f49cb7cb4995d16225"
+        },
+        "none__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.71075439453125,
+                103.87286376953125,
+                200.48336791992188,
+                207.9544677734375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8820074796676636
+            },
+            {
+              "xyxy": [
+                0.028453826904296875,
+                156.57330322265625,
+                18.94379425048828,
+                207.9906005859375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6060037612915039
+            },
+            {
+              "xyxy": [
+                113.80630493164062,
+                137.35858154296875,
+                139.89720153808594,
+                205.98358154296875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.26784056425094604
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "11da84bf41f4242c01e3b307702d006d77b1d276a5bfc4f49cb7cb4995d16225"
+        },
+        "none__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.7371826171875,
+                103.85348510742188,
+                200.67938232421875,
+                207.96871948242188
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8809144496917725
+            },
+            {
+              "xyxy": [
+                0.03055572509765625,
+                156.60598754882812,
+                19.070472717285156,
+                207.953857421875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5698954463005066
+            },
+            {
+              "xyxy": [
+                113.78749084472656,
+                137.11685180664062,
+                140.21551513671875,
+                205.77706909179688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.2701535224914551
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.629585827991832,
+          "weather_source_sha256": "11da84bf41f4242c01e3b307702d006d77b1d276a5bfc4f49cb7cb4995d16225"
+        },
+        "none__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                115.4078369140625,
+                104.53839111328125,
+                201.19210815429688,
+                208.33175659179688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9237584471702576
+            },
+            {
+              "xyxy": [
+                0.027154922485351562,
+                156.8195037841797,
+                17.88107681274414,
+                208.42201232910156
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.70192950963974
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "11da84bf41f4242c01e3b307702d006d77b1d276a5bfc4f49cb7cb4995d16225"
+        },
+        "none__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                115.22809600830078,
+                104.52706909179688,
+                201.2568359375,
+                208.52603149414062
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9240932464599609
+            },
+            {
+              "xyxy": [
+                0.026336669921875,
+                156.8544921875,
+                17.753875732421875,
+                208.34930419921875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6921273469924927
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 12.603629750999971,
+          "weather_source_sha256": "11da84bf41f4242c01e3b307702d006d77b1d276a5bfc4f49cb7cb4995d16225"
+        },
+        "none__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.5030746459961,
+                105.26443481445312,
+                199.16574096679688,
+                209.40780639648438
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9258551597595215
+            },
+            {
+              "xyxy": [
+                0.012189865112304688,
+                157.07797241210938,
+                18.1544246673584,
+                208.60891723632812
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7136102914810181
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            240,
+            320
+          ],
+          "local_restorer_seconds_unbenchmarked": 14.307196127992938,
+          "weather_source_sha256": "11da84bf41f4242c01e3b307702d006d77b1d276a5bfc4f49cb7cb4995d16225"
+        },
+        "fog__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.81739807128906,
+                105.13424682617188,
+                198.62977600097656,
+                209.20681762695312
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9270222783088684
+            },
+            {
+              "xyxy": [
+                0.015382766723632812,
+                156.72332763671875,
+                18.401714324951172,
+                208.70382690429688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.629706859588623
+            }
+          ],
+          "matches": null,
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "2aa74a52f5b72c42648cfb4fe5887173556fb857a43fde4d02c9c3f2c7013c5d"
+        },
+        "fog__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.60914611816406,
+                103.84207153320312,
+                199.4292449951172,
+                208.18020629882812
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8961989879608154
+            },
+            {
+              "xyxy": [
+                0.013559341430664062,
+                156.17526245117188,
+                19.941673278808594,
+                207.88970947265625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.4050731658935547
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "2aa74a52f5b72c42648cfb4fe5887173556fb857a43fde4d02c9c3f2c7013c5d"
+        },
+        "fog__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.84025573730469,
+                103.78518676757812,
+                199.99183654785156,
+                208.27169799804688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8786696195602417
+            },
+            {
+              "xyxy": [
+                0.013982772827148438,
+                156.59793090820312,
+                20.00632667541504,
+                207.80068969726562
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.3902444541454315
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.259303760001785,
+          "weather_source_sha256": "2aa74a52f5b72c42648cfb4fe5887173556fb857a43fde4d02c9c3f2c7013c5d"
+        },
+        "fog__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                115.47457885742188,
+                104.43572998046875,
+                201.25579833984375,
+                208.26605224609375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9182199239730835
+            },
+            {
+              "xyxy": [
+                0.035610198974609375,
+                156.65335083007812,
+                18.286590576171875,
+                208.37945556640625
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6665729880332947
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "2aa74a52f5b72c42648cfb4fe5887173556fb857a43fde4d02c9c3f2c7013c5d"
+        },
+        "fog__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                115.40592193603516,
+                104.56742858886719,
+                201.42922973632812,
+                208.4141387939453
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.922156572341919
+            },
+            {
+              "xyxy": [
+                0.021213531494140625,
+                156.6253662109375,
+                17.963642120361328,
+                208.39419555664062
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7216511964797974
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 11.727862056999584,
+          "weather_source_sha256": "2aa74a52f5b72c42648cfb4fe5887173556fb857a43fde4d02c9c3f2c7013c5d"
+        },
+        "fog__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.6778564453125,
+                105.15310668945312,
+                198.68655395507812,
+                209.28793334960938
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9321624040603638
+            },
+            {
+              "xyxy": [
+                0.010519027709960938,
+                157.1269073486328,
+                18.213123321533203,
+                208.4938201904297
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6973577737808228
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            240,
+            320
+          ],
+          "local_restorer_seconds_unbenchmarked": 12.607300556002883,
+          "weather_source_sha256": "2aa74a52f5b72c42648cfb4fe5887173556fb857a43fde4d02c9c3f2c7013c5d"
+        },
+        "rain__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.95464324951172,
+                105.27354431152344,
+                198.42181396484375,
+                209.5482635498047
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9195528030395508
+            },
+            {
+              "xyxy": [
+                0.011190414428710938,
+                157.25086975097656,
+                18.470294952392578,
+                208.86158752441406
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6923660635948181
+            }
+          ],
+          "matches": null,
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "18d7f448aad6b90da471a92f4936c3f582452f36d22d7e4c77ccd4156afa61dd"
+        },
+        "rain__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.8370361328125,
+                103.83799743652344,
+                199.46743774414062,
+                207.83311462402344
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8507723808288574
+            },
+            {
+              "xyxy": [
+                0.022787094116210938,
+                156.23757934570312,
+                20.14013671875,
+                207.65591430664062
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6002293229103088
+            },
+            {
+              "xyxy": [
+                113.7391357421875,
+                137.67596435546875,
+                141.1602325439453,
+                206.21771240234375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.30588388442993164
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "18d7f448aad6b90da471a92f4936c3f582452f36d22d7e4c77ccd4156afa61dd"
+        },
+        "rain__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                115.18536376953125,
+                103.82528686523438,
+                200.53680419921875,
+                207.82565307617188
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8431105613708496
+            },
+            {
+              "xyxy": [
+                0.024900436401367188,
+                156.37545776367188,
+                20.134695053100586,
+                207.65792846679688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5932664275169373
+            },
+            {
+              "xyxy": [
+                113.8037109375,
+                137.3754119873047,
+                141.49966430664062,
+                205.67283630371094
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.265657901763916
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.2118039470078656,
+          "weather_source_sha256": "18d7f448aad6b90da471a92f4936c3f582452f36d22d7e4c77ccd4156afa61dd"
+        },
+        "rain__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                116.01847839355469,
+                104.51663208007812,
+                199.9580841064453,
+                208.60641479492188
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9054968357086182
+            },
+            {
+              "xyxy": [
+                0.01831817626953125,
+                156.57623291015625,
+                18.105649948120117,
+                208.39495849609375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7002727389335632
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "18d7f448aad6b90da471a92f4936c3f582452f36d22d7e4c77ccd4156afa61dd"
+        },
+        "rain__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                115.86207580566406,
+                104.4134521484375,
+                200.07908630371094,
+                208.6669921875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9078482389450073
+            },
+            {
+              "xyxy": [
+                0.0061664581298828125,
+                156.81869506835938,
+                18.338497161865234,
+                208.32339477539062
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7195241451263428
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 12.031866378994891,
+          "weather_source_sha256": "18d7f448aad6b90da471a92f4936c3f582452f36d22d7e4c77ccd4156afa61dd"
+        },
+        "rain__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                115.19781494140625,
+                105.15599060058594,
+                198.38162231445312,
+                209.44651794433594
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.916600227355957
+            },
+            {
+              "xyxy": [
+                0.0074005126953125,
+                157.16482543945312,
+                18.47801971435547,
+                208.86074829101562
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6623399257659912
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            240,
+            320
+          ],
+          "local_restorer_seconds_unbenchmarked": 12.950961882001138,
+          "weather_source_sha256": "18d7f448aad6b90da471a92f4936c3f582452f36d22d7e4c77ccd4156afa61dd"
+        },
+        "snow__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.76750183105469,
+                105.31271362304688,
+                198.50868225097656,
+                209.40103149414062
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9246317148208618
+            },
+            {
+              "xyxy": [
+                0.00893402099609375,
+                157.05636596679688,
+                18.185970306396484,
+                208.66622924804688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7393609285354614
+            }
+          ],
+          "matches": null,
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "b975c1d9e9cae6ac13d7866a81414468a01f203466a260ece13458fdccc41601"
+        },
+        "snow__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                118.09548950195312,
+                103.88734436035156,
+                199.40277099609375,
+                207.77134704589844
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.755673885345459
+            },
+            {
+              "xyxy": [
+                0.027492523193359375,
+                156.56101989746094,
+                18.51116943359375,
+                207.9712677001953
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6573188304901123
+            },
+            {
+              "xyxy": [
+                113.80386352539062,
+                137.46141052246094,
+                139.13980102539062,
+                206.1017303466797
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5209879279136658
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "b975c1d9e9cae6ac13d7866a81414468a01f203466a260ece13458fdccc41601"
+        },
+        "snow__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                127.66910552978516,
+                103.92127990722656,
+                199.52420043945312,
+                207.9301300048828
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7559562921524048
+            },
+            {
+              "xyxy": [
+                0.031147003173828125,
+                156.61978149414062,
+                18.68937110900879,
+                207.9423828125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5923328399658203
+            },
+            {
+              "xyxy": [
+                113.79536437988281,
+                137.31765747070312,
+                139.3452911376953,
+                205.94015502929688
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5270082950592041
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.347228297003312,
+          "weather_source_sha256": "b975c1d9e9cae6ac13d7866a81414468a01f203466a260ece13458fdccc41601"
+        },
+        "snow__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                115.56967163085938,
+                104.47027587890625,
+                199.672607421875,
+                208.23187255859375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9003492593765259
+            },
+            {
+              "xyxy": [
+                0.0187530517578125,
+                156.5221405029297,
+                17.762676239013672,
+                208.37916564941406
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7528355121612549
+            },
+            {
+              "xyxy": [
+                114.05670928955078,
+                138.33905029296875,
+                142.1019287109375,
+                206.70635986328125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.3506237268447876
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "b975c1d9e9cae6ac13d7866a81414468a01f203466a260ece13458fdccc41601"
+        },
+        "snow__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                115.50767517089844,
+                104.45706176757812,
+                199.86695861816406,
+                208.38919067382812
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9000059962272644
+            },
+            {
+              "xyxy": [
+                0.0191497802734375,
+                156.56576538085938,
+                17.675535202026367,
+                208.30227661132812
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7349231839179993
+            },
+            {
+              "xyxy": [
+                114.08744049072266,
+                138.3262176513672,
+                142.68698120117188,
+                203.46763610839844
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.2817671597003937
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 11.73930941899016,
+          "weather_source_sha256": "b975c1d9e9cae6ac13d7866a81414468a01f203466a260ece13458fdccc41601"
+        },
+        "snow__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.57479858398438,
+                105.02232360839844,
+                198.31295776367188,
+                208.67247009277344
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.924159586429596
+            },
+            {
+              "xyxy": [
+                0.008220672607421875,
+                157.04574584960938,
+                18.085159301757812,
+                208.47885131835938
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7280004620552063
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            240,
+            320
+          ],
+          "local_restorer_seconds_unbenchmarked": 14.266730661998736,
+          "weather_source_sha256": "b975c1d9e9cae6ac13d7866a81414468a01f203466a260ece13458fdccc41601"
+        },
+        "smoke__direct": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.63775634765625,
+                105.31167602539062,
+                198.720703125,
+                209.41073608398438
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9283192157745361
+            },
+            {
+              "xyxy": [
+                0.013051986694335938,
+                156.98208618164062,
+                18.319908142089844,
+                208.606689453125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6822333931922913
+            }
+          ],
+          "matches": null,
+          "input_shape": null,
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "693ef8bd2ae2264c45108739c7132053d62f3324cdc9a212e223941ba3d99b8c"
+        },
+        "smoke__resize_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.64653015136719,
+                103.84048461914062,
+                199.56629943847656,
+                207.98699951171875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8780614733695984
+            },
+            {
+              "xyxy": [
+                0.03184318542480469,
+                156.3802032470703,
+                19.44402503967285,
+                207.94129943847656
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.5466041564941406
+            },
+            {
+              "xyxy": [
+                113.76228332519531,
+                137.33969116210938,
+                140.48268127441406,
+                206.27493286132812
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.2659878134727478
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "693ef8bd2ae2264c45108739c7132053d62f3324cdc9a212e223941ba3d99b8c"
+        },
+        "smoke__restored_128": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.59896850585938,
+                103.89122009277344,
+                200.07955932617188,
+                207.79603576660156
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.8736114501953125
+            },
+            {
+              "xyxy": [
+                0.012365341186523438,
+                156.3784637451172,
+                20.47929573059082,
+                207.64476013183594
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.49514511227607727
+            },
+            {
+              "xyxy": [
+                113.70086669921875,
+                137.1396484375,
+                141.23721313476562,
+                205.9237060546875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.2647729218006134
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            128,
+            128
+          ],
+          "local_restorer_seconds_unbenchmarked": 2.2694668129988713,
+          "weather_source_sha256": "693ef8bd2ae2264c45108739c7132053d62f3324cdc9a212e223941ba3d99b8c"
+        },
+        "smoke__resize_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                115.42623901367188,
+                104.54330444335938,
+                201.11105346679688,
+                208.30657958984375
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9219211339950562
+            },
+            {
+              "xyxy": [
+                0.031152725219726562,
+                156.69906616210938,
+                18.084720611572266,
+                208.39013671875
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.6826005578041077
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": null,
+          "weather_source_sha256": "693ef8bd2ae2264c45108739c7132053d62f3324cdc9a212e223941ba3d99b8c"
+        },
+        "smoke__restored_256": {
+          "predictions": [
+            {
+              "xyxy": [
+                115.16926574707031,
+                104.57852172851562,
+                201.4365692138672,
+                208.49984741210938
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9257402420043945
+            },
+            {
+              "xyxy": [
+                0.03339385986328125,
+                156.84014892578125,
+                17.770891189575195,
+                208.27520751953125
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.700422465801239
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "local_restorer_seconds_unbenchmarked": 12.898631418007426,
+          "weather_source_sha256": "693ef8bd2ae2264c45108739c7132053d62f3324cdc9a212e223941ba3d99b8c"
+        },
+        "smoke__restored_native": {
+          "predictions": [
+            {
+              "xyxy": [
+                114.49951171875,
+                105.20164489746094,
+                198.84881591796875,
+                209.39598083496094
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.9303158521652222
+            },
+            {
+              "xyxy": [
+                0.011913299560546875,
+                157.11355590820312,
+                18.039934158325195,
+                208.46243286132812
+              ],
+              "class_id": 0,
+              "class_name": "person",
+              "confidence": 0.7021401524543762
+            }
+          ],
+          "matches": null,
+          "input_shape": [
+            1,
+            3,
+            240,
+            320
+          ],
+          "local_restorer_seconds_unbenchmarked": 12.992741734997253,
+          "weather_source_sha256": "693ef8bd2ae2264c45108739c7132053d62f3324cdc9a212e223941ba3d99b8c"
+        }
+      }
+    }
+  }
+}

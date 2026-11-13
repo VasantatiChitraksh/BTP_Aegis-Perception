@@ -1,0 +1,3 @@
+Virgil by Ellinor Rapp, from https://github.com/excalidraw/virgil
+SIL Open Font License 1.1; see LICENSE.md.
+Virgil.ttf is a format conversion of the supplied WOFF2, for local vector rendering.

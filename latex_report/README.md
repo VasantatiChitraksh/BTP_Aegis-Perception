@@ -7,7 +7,12 @@ has eight pages.
 | Document | Upload-ready source ZIP | Overleaf settings | PDF |
 |---|---|---|---|
 | BTP report | [BTP_REPORT_Overleaf.zip](https://github.com/VasantatiChitraksh/BTP_Aegis-Perception/raw/refs/heads/main/latex_report/BTP_REPORT_Overleaf.zip) | `main.tex`, **XeLaTeX** | [BTP_Report.pdf](BTP_REPORT/BTP_Report.pdf) |
+| BTP — Excalidraw-style flowcharts | [BTP_REPORT_Excalidraw_Overleaf.zip](https://github.com/VasantatiChitraksh/BTP_Aegis-Perception/raw/refs/heads/main/latex_report/BTP_REPORT_Excalidraw_Overleaf.zip) | `main.tex`, **XeLaTeX** | [BTP_Report.pdf](BTP_REPORT_EXCALIDRAW/BTP_Report.pdf) |
 | Workshop paper | [WORKSHOP_PAPER_Overleaf.zip](https://github.com/VasantatiChitraksh/BTP_Aegis-Perception/raw/refs/heads/main/latex_report/WORKSHOP_PAPER_Overleaf.zip) | `main.tex`, **pdfLaTeX** | [Workshop_Paper.pdf](WORKSHOP%20PAPER/Workshop_Paper.pdf) |
+
+The Excalidraw-style version changes only six diagram areas. It retains the
+25-page report's content, evidence, photographs, results, tables and page order.
+The original BTP project remains unchanged.
 
 ## Use in Overleaf
 
@@ -31,10 +36,12 @@ Official instructions: [uploading a project](https://docs.overleaf.com/managing-
 
 - [BTP_REPORT/](BTP_REPORT/) includes the LaTeX, figures, bibliography, evidence,
   chart generators, MTP reference, build scripts and validation records.
+- [BTP_REPORT_EXCALIDRAW/](BTP_REPORT_EXCALIDRAW/) is an independent copy with
+  sketch-style vector flowcharts, their generator and the licensed Virgil font.
 - [WORKSHOP PAPER/](WORKSHOP%20PAPER/) includes the original workshop sources,
   styles, figures, bibliography, preserved PDF and build instructions.
 - [LaTeX_Projects.zip](https://github.com/VasantatiChitraksh/BTP_Aegis-Perception/raw/refs/heads/main/latex_report/LaTeX_Projects.zip)
-  is the complete archival bundle of both folders. For a direct Overleaf upload,
+  is the complete archival bundle of all three folders. For a direct Overleaf upload,
   use the individual ZIPs above.
 
 ## Rebuild the upload ZIPs after editing

@@ -228,6 +228,170 @@
           "render_equal_108dpi": true
         }
       ]
+    },
+    {
+      "archive": "BTP_REPORT_Excalidraw_Overleaf.zip",
+      "archive_sha256": "148a318829a8fba6b55c27edc3065544c420a5115f261d29c15b3a07e6a70be7",
+      "files": 63,
+      "clean_extraction": true,
+      "main_at_archive_root": true,
+      "source_hashes_passed": true,
+      "compile_issues": [],
+      "compiled_pages": 25,
+      "comparison_pdf": "BTP_REPORT_EXCALIDRAW/BTP_Report.pdf",
+      "all_pages_match": true,
+      "page_checks": [
+        {
+          "page": 1,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 2,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 3,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 4,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 5,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 6,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 7,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 8,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 9,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 10,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 11,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 12,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 13,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 14,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 15,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 16,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 17,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 18,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 19,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 20,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 21,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 22,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 23,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 24,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        },
+        {
+          "page": 25,
+          "geometry_equal": true,
+          "text_equal": true,
+          "render_equal_108dpi": true
+        }
+      ]
     }
   ],
   "note": "BTP matches the delivered report. Workshop matches the local eight-page rebuild; the original supplied Workshop_Paper.pdf is preserved separately."

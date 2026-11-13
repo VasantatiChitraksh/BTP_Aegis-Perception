@@ -1,0 +1,7 @@
+PyMuPDF
+# Optional: regenerate the included charts and cover diagram.
+matplotlib
+numpy
+Pillow
+fonttools
+brotli

@@ -1,0 +1,17 @@
+\begin{center}\begin{minipage}{\linewidth}
+\centering\small
+\captionof{table}{Follow-up test breakdown: balanced PSNR (dB) / $\mathrm{SSIM}\times100$ for each weather. Checkpoints are selected by validation, and the original deployment model is retained before test.}
+\label{tab:jointweather}
+\begin{tabular}{@{}lcccc@{}}\toprule
+Model / arm & Rain & Fog & Snow & Smoke\\\midrule
+Original & 38.77 / 97.68 & 31.51 / 96.66 & 39.51 / 98.16 & 20.55 / 79.37\\
+Continuation control & 38.70 / 97.62 & 31.79 / 96.81 & 39.57 / 98.17 & 20.75 / 79.71\\
+Spatial & 38.71 / 97.63 & 31.79 / 96.82 & 39.57 / 98.17 & 20.76 / 79.71\\
+Detail & 38.70 / 97.62 & 31.79 / 96.81 & 39.57 / 98.18 & 20.76 / 79.71\\
+Combined & 38.70 / 97.62 & 31.80 / 96.82 & 39.57 / 98.18 & 20.76 / 79.71\\
+Recipe only & 38.72 / 97.66 & 31.80 / 96.86 & 39.60 / 98.20 & 20.80 / 79.94\\
+Combined + SSIM & 38.71 / 97.66 & 31.81 / 96.87 & 39.60 / 98.20 & 20.75 / 79.96\\
+Combined + FFL & 38.68 / 97.59 & 31.80 / 96.82 & 39.57 / 98.17 & 20.78 / 79.66\\
+Combined + recipe & 38.72 / 97.65 & 31.79 / 96.85 & 39.59 / 98.19 & 20.73 / 79.88\\
+\bottomrule\end{tabular}
+\end{minipage}\end{center}

@@ -1,0 +1,12 @@
+{
+  "pdf": "BTP_Report.pdf",
+  "pages": 25,
+  "standalone": true,
+  "workshop_pages_included": 0,
+  "all_pages_a4": true,
+  "compile_issues": [],
+  "immutable_inputs_verified": 42,
+  "underfull_hbox_notices": 11,
+  "pdf_sha256": "78752ceceb86aac248fe8f671bbeac660f6787f7cdb6785d29883ee6775ebf41",
+  "scope": "Document build only; no new model or device experiments."
+}

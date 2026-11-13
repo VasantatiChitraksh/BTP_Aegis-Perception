@@ -1,0 +1,237 @@
+{
+  "date": "2026-11-13",
+  "standalone": true,
+  "workshop_pages_included": 0,
+  "reference": "reference/mtech_ref_report.pdf",
+  "reference_sha256": "36352aaf3a9d6f38c63a2e9efbe4f5807166a88126d649be73f9e63f479a2806",
+  "source_files": {
+    "figures/weight_grid_workflow.tex": "bb557ab09d7aee8e582334d32f53f89a03edfc4a50c15b28f9a2ec5ce25947ea",
+    "frontmatter.tex": "f2bab7a6f36e107ab48cc3ffe6290f154e105875f1bab35bd801a742691ee740",
+    "main.tex": "4cfda1eff952971dffc2623b603eceb73e38c350f407dbfaee4675a7b3b44a76",
+    "preamble.tex": "51d82d3a55a7f4dedca457defd4d313b64184e21e378ee1e4a570f388052b3e6",
+    "sections/00_outcomes.tex": "22e468ff1795d9fc25d8233fbdb7e3e65a212643aaf02a462a7e48882f54faa0",
+    "sections/00_vehicle_results.tex": "c08d24dd1721c3ba9a2c30f758c3aa46fc96b93fc788700819ebd62604fb1208",
+    "sections/00_workflow.tex": "80aeadcb6361e0f33cb1607a3519de9623b846368acd75d1b4399e83d4583e11",
+    "sections/01_introduction.tex": "299935d7218d393a061c851970d264e443302f3c8a913247dfdd15b6886f2cfd",
+    "sections/02_system.tex": "62601bf00ee912a8ac77066b02125c5416e68fa6193ca42c9ba4cdcd0e73711a",
+    "sections/03_related.tex": "b7d10d8bb0c2f59fe80cb31569a092f21a21aee58fe7c130141aa95b9d987b70",
+    "sections/04_data.tex": "f329d1189bcc79d008b5c21d17b63e1f518c72d2c850f7d2a48af62232f41dec",
+    "sections/05_method.tex": "ef7b1ca41746f6af6f29b636d49b39c8894a45b65c5ec395b8608e90b428652e",
+    "sections/06_restoration.tex": "ab38a34eb601e31f3fa63893bacf8f838f2654038b6fdedb127c9ccf7f87cf55",
+    "sections/07_continuation.tex": "2fc659d2c92aa6f32ece5af7f5cbacb05d0aaf1cae27a6d59b6c12d018fd8925",
+    "sections/08_comparison_galleries.tex": "917b04053e72983f93e437463ef25fc06f052f3816d5634edf7daa096949ed3e",
+    "sections/08_detection.tex": "f771240d58675c90761cc9ea70c1443af7bf535ed8bd890a4805b75c7fbd0f77",
+    "sections/09_edge.tex": "1bba43463bec01ace66619c71b0f9a0cd8c12bafdc77958fa5df97ef9db264e2",
+    "sections/10_discussion.tex": "8842f9ed68e1b0c89ef319deeaf4cf1bfecf1aa57d1681d6ca7c47fee2b81b6f",
+    "sections/11_contributions.tex": "d8433334e87c09051b50fa28bec97f2130c081e5840e686c34123795e1480c8f",
+    "sections/appendix.tex": "7b09bff1cefcb33f7fc65b385390b379f3e8732214300b8ee36fc95bc94894d0",
+    "tables/dawn_operating_points.tex": "ac903a5ae56497f3e240e5de45b6b9e0aa7dd81e2f42ccbca9c05190d3918ca9",
+    "tables/fixed_canvas_diagnostics.tex": "c138a268bff66a725481f16bf73ad52e2d9187e897da726ee8df6f9d61504edc",
+    "tables/joint_validation.tex": "74d5388c92a8e88614256eded56b55ea23f1a372e4412ab22189d6b09871e41b",
+    "tables/joint_weather.tex": "aec8c5941e8a1e705327041aa89b2d32169e9cc061d0befd3c7e4eaa9ebdb924",
+    "tables/matched_resolution_metrics.tex": "3565fca503336b19089516561c6aaffee8be099279b5aebc42a209dd716e88a0",
+    "tables/nano_engine_agreement.tex": "ce622289064b7f68ee4bdbf07c4e1b2d1959223f3c9e3ee7ea0c3314a3f03505",
+    "tables/nano_memory.tex": "550ba4b779529471c72fd697d74a2f7477d59636bd13a10971a925173b88e620",
+    "tables/nano_runtime_metrics.tex": "817e91d74b764b5839696088c688fd61906516ab1e07221ee0434bf2e6782d16"
+  },
+  "graphics": [
+    {
+      "asset": "figures/cover_pipeline_excalidraw.pdf",
+      "used_in": "frontmatter.tex",
+      "sha256": "ccecc83aacf679bfc05405fe7fb2d32eb670f912da2eea153545e6820cc8d20b"
+    },
+    {
+      "asset": "figures/weather_examples_mono.pdf",
+      "used_in": "sections/00_outcomes.tex",
+      "sha256": "a4f4c7d5a040eed70a6851c113cfeafc9d29e1bb550d94a4463620675e271cdb"
+    },
+    {
+      "asset": "figures/work_timeline.pdf",
+      "used_in": "sections/11_contributions.tex",
+      "sha256": "eaf094d63156290ae6c5214ac2432204b2b5f8b6b4ab84e8194d6885b13ece5d"
+    },
+    {
+      "asset": "figures/matched_128_vehicles.pdf",
+      "used_in": "sections/00_vehicle_results.tex",
+      "sha256": "bd083372c29e9b6df2abd422097a05ad6626fb361d77945bc81ecd8af65d3220"
+    },
+    {
+      "asset": "figures/project_evidence_flow_excalidraw.pdf",
+      "used_in": "sections/00_workflow.tex",
+      "sha256": "ee63115585244ae6290aaef6788675bdb2b0e88bd84d3c15082550e79c62d662"
+    },
+    {
+      "asset": "figures/benchmark_protocol_excalidraw.pdf",
+      "used_in": "sections/04_data.tex",
+      "sha256": "d2e990ebcdfe31a753a8ea3886eb61b3284c576d7dedd2221600c0a8434fb753"
+    },
+    {
+      "asset": "figures/dataset_coverage.pdf",
+      "used_in": "sections/04_data.tex",
+      "sha256": "1a408ab283cd499509f0714617ddf6af979f3ec5942e341d8d70af0585b1c8e4"
+    },
+    {
+      "asset": "figures/restorer_architectures_excalidraw.pdf",
+      "used_in": "sections/05_method.tex",
+      "sha256": "735b5bc52965d8b35ca737ee2ac500d7a23d76b36d81d85cbf27444c6651a90b"
+    },
+    {
+      "asset": "figures/benchmark_tradeoffs.pdf",
+      "used_in": "sections/06_restoration.tex",
+      "sha256": "a9e53d441a3a2fe43ac0a1c6a95b14d08d3773d4863eb9da6db5084b40e96044"
+    },
+    {
+      "asset": "figures/weather_psnr.pdf",
+      "used_in": "sections/06_restoration.tex",
+      "sha256": "786c6477e6e3977f0e36d776250ae87ec52d692003ad52e45e725f5ace8c34c5"
+    },
+    {
+      "asset": "figures/restoration_gain_histograms.pdf",
+      "used_in": "sections/06_restoration.tex",
+      "sha256": "112ddd82e2b8fb50853cb9c7c025849b6a0032b5f49ae135ca6764f13bd376fd"
+    },
+    {
+      "asset": "figures/continuation_millidb.pdf",
+      "used_in": "sections/07_continuation.tex",
+      "sha256": "df3c6bb2f31e311226e86cf9d27a07fea922aed4e8b55e99a0817467e4f7d06a"
+    },
+    {
+      "asset": "figures/continuation_validation_gate.pdf",
+      "used_in": "sections/07_continuation.tex",
+      "sha256": "854469a679f8ab51b15f1a3a3e05e4f7ad0e4d29e43a424939f3ffe628fdfb80"
+    },
+    {
+      "asset": "figures/dawn_operating_points_spaced.pdf",
+      "used_in": "sections/08_detection.tex",
+      "sha256": "202de672e9c3337197da7acf70ed954709a66c120056888a90514bc9a85e2cb4"
+    },
+    {
+      "asset": "figures/controlled_resolution_excalidraw.pdf",
+      "used_in": "sections/08_detection.tex",
+      "sha256": "bef2d0590c20947610bc697416e254ed798b5bba00e765b05bed50f33b2ed169"
+    },
+    {
+      "asset": "figures/matched_128_people.pdf",
+      "used_in": "sections/08_comparison_galleries.tex",
+      "sha256": "b76ff41ed9fac8167dc87857572dbaa1ff4ff804ac74e2af10f13db34649afe9"
+    },
+    {
+      "asset": "figures/nano_runtime.pdf",
+      "used_in": "sections/09_edge.tex",
+      "sha256": "2bdeb34e6b310ed8f43c5f2145c6c094f5a8d590c4a112c4c2f030f2f52dec6c"
+    },
+    {
+      "asset": "figures/nano_pipeline_latency_histograms.pdf",
+      "used_in": "sections/09_edge.tex",
+      "sha256": "b47d1f58370330ee09ca9598404e8a07b188eecd9d1524b2f22a1092800fb334"
+    },
+    {
+      "asset": "figures/nano_resources.pdf",
+      "used_in": "sections/09_edge.tex",
+      "sha256": "b5f256eddfde05a34a94adb46535c8b0b00a1689d00153e46ee8cc46569f2386"
+    },
+    {
+      "asset": "figures/weight_grid_workflow_excalidraw.pdf",
+      "used_in": "sections/09_edge.tex",
+      "sha256": "5743d9d8164ddc23037a6f554070d2ffa56c9f1cae1740eae88f0f4cb7c55db5"
+    },
+    {
+      "asset": "figures/edge_acceptance_current.pdf",
+      "used_in": "sections/09_edge.tex",
+      "sha256": "a53803fa6999fd280348bd8434915ee24f60cb5940be37bb7aa8a8b5bf2ac5a6"
+    },
+    {
+      "asset": "figures/pruning_screen_matrix.pdf",
+      "used_in": "sections/09_edge.tex",
+      "sha256": "8f8db8c108b2499e194b94dc0738c9528797f1debd4d30e3688b753f498b53d7"
+    },
+    {
+      "asset": "figures/validation_trajectories.pdf",
+      "used_in": "sections/appendix.tex",
+      "sha256": "ab72bcc9cee1c6dad7138bbf0f09024997fceb92ccbc259b020c55010a5aa10e"
+    },
+    {
+      "asset": "figures/weather_ssim.pdf",
+      "used_in": "sections/appendix.tex",
+      "sha256": "d6b9373566fa51625943f361b9c4bde9ee260417eec52c5cadbdfb03eda3205f"
+    },
+    {
+      "asset": "figures/historical_rain_progress.pdf",
+      "used_in": "sections/appendix.tex",
+      "sha256": "dd01846b66ccaf9512f9f7b8843c9a5ad722a6d561dea9b2f914cd6a49e01512"
+    },
+    {
+      "asset": "figures/nano_detection_counts.pdf",
+      "used_in": "sections/appendix.tex",
+      "sha256": "65c7322fbefe43f06c02023f8806697e2ff081ea2b6a21a11cadd8adb6fb6e89"
+    },
+    {
+      "asset": "figures/camera_fidelity_scaled.pdf",
+      "used_in": "sections/appendix.tex",
+      "sha256": "2c95d14b56a4c96e80987cf22a8172b77b0b0f6253fb97cb512d75fcf721e88d"
+    },
+    {
+      "asset": "figures/native_detection_cases.jpg",
+      "used_in": "sections/appendix.tex",
+      "sha256": "f1262a101a90080f31ea6176ae26296c2cc6e26311c448957d00372cb07e8afa"
+    },
+    {
+      "asset": "figures/truck_128_control.jpg",
+      "used_in": "sections/appendix.tex",
+      "sha256": "506e529a75de0a4394e09ce30f54317e1c56a8d7a11d47e6031432dc22fef4c9"
+    },
+    {
+      "asset": "figures/small_source_128_control.jpg",
+      "used_in": "sections/appendix.tex",
+      "sha256": "bdca22665b87aaf1ef6e5541686b51926402f50872b96ff6e07af611889b4a37"
+    },
+    {
+      "asset": "figures/camera_path_example.jpg",
+      "used_in": "sections/appendix.tex",
+      "sha256": "2a753895a996de91f81f2e7a9f565142c6a74c6283a716ea99ff473e30503532"
+    }
+  ],
+  "visual_generators": {
+    "scripts/build_chart_layout_repairs.py": "737a7291f7a1469dc6f4680c13d14bd7fc5aae35aa0fbd52b82fc8ce8d8c67c4",
+    "scripts/build_comparison_gallery.py": "d75f7877a1c175006ebe158020a2dac26b180de7414ccaa24af0da656aa59178",
+    "scripts/build_cover.py": "e44fe1ca4e0503c51885f8b3a5c2e2113eb6722730fbf84a173df5246e35a947",
+    "scripts/build_distribution_charts.py": "158dc4e7c27fa589929718046e494ddece59b952af385f55c81aa9c24b161028",
+    "scripts/build_neutral_comparison.py": "fe1ad36fbf4b0e71d5f224920c2d00808253d26cfafa2333603c6521cdbffad7",
+    "scripts/build_project_visuals.py": "d2f42dcac342b55133cb57f64dd88fcb421f704f237e9550f4d70ffd5d0494a6",
+    "scripts/build_results_visuals.py": "1c2b2db8e739111e086245b0526519e966ed93a66eb4eda4b382df57ae854122",
+    "scripts/build_sketch_flowcharts.py": "f2c365b2e9b081445fb4936fc0c402d108a3aaf4eb7ab6a190b23e2c7cd80a9d",
+    "scripts/build_work_timeline.py": "6649e66e9252643a978b1abe1818e0c1955f3c3d6e44606c78919c5bc4c4daf3"
+  },
+  "evidence": {
+    "cover_hardware.json": "17fa97d5d5eab9917fd46a7878eeb9762d58097729f6bed1e700bbd595dc3b12",
+    "chart_layout_repairs.json": "3a998fd76b725906d4baf3edbba0a7076dfb212bce2e6045bb585134f7ae4e77",
+    "pruning_screen.csv": "07fbe25b2e6eb144c7eb1ebc03f898f215f6eb2e642b4f114b2f5ef5fa1290f4",
+    "joint_test.csv": "4673ac079046f9fdfaf467eb126d9ebee8bd15687bcf9e7d08d1c86159d6904b",
+    "new_visuals.json": "ae8d0ce06bc0b4306f270dd6e6cdc03906493140125562a1a21394be0c62cf37",
+    "comparison_galleries.json": "45451458a18e462b3dd615e13ea4ecb64ac0e0bc76476af38207407865603d04",
+    "identity.json": "5118adf0c2f16b2746b87d885e3c8d2641fbee2ed5b270a07c68e645e2025c11",
+    "sketch_flowcharts.json": "a2689f29c49f1036900dd9a15faadc0f1f2c7eb6e5aa3a48f128f33522ffd2e6",
+    "nano_latency_histogram.json": "5250c59ace0b1684a74ec3fdf3a0b651930b031d9e9bc72960dc6916c3f4a768",
+    "detection_pilot72.csv": "6ab6592cc4094942cd5e47487eb96dc73ec19bcdee3bf79f46957e27f31eb759",
+    "S13_nano_restorer_validation.json": "276dcd6860dcf238e064977ac028f251765260a87c33afe61a5c9dd5001dc496",
+    "neutral_comparison.json": "90fc0a1612324dfb90449171db236173b7bf32afaaef88d6a569a740dc373031",
+    "joint_validation.csv": "e6b44f983c7b67aa1ed48308ef7bf09ebf779e7904b842fbfcc50e2df29cb5af",
+    "S8_resolution_comparison.csv": "1d890304c8b6d1d7d67cbde250598e4f65553b3a0cb060f1125c2683f26758de",
+    "S4_live_suite.csv": "9882e0cdd5f034a2dce4e1099913eaf294a300a0e48f1bdd8f5278455f438250",
+    "immutable_inputs.json": "fdc4d59b96bb6efcfe800888b62852c48a9be2999f0731f581523c434022b0af",
+    "rain_baseline_historical.json": "0191a6d69b28c0c4948c88dc663e62dae18e16138e9e51008031e5293aca74b4",
+    "S2_dawn_performance.csv": "b04decd0d3385800320e3a997db08f68d8042603dac49ae78efac8b3709bf4a1",
+    "distribution_charts_provenance.json": "7e164809f944c5ca8f0ecb0ec28b97b8c6ca9e080ab675bb4be859bb0d5cb336",
+    "S3_camera_replay.csv": "1696242dcac44259315d79992698ced5ee17d779e0dba9ecc366c704d729e0fc",
+    "project_visuals.json": "262c7067720b1176530094cdb8534bddb091f138ab837c60a04b95655dbeecf8",
+    "restoration_gain_histogram.json": "d137fd0e884c604876f3a507a8be2253af5815e6436a1b9013c484ce03d94d07",
+    "dataset_split.csv": "d1bfcdfb7ac3630fa53c291a03e187b2dd4b56e7056cdda4c3c28c513a229357",
+    "work_timeline_provenance.json": "9ffc6a20fffb922e6029ce94001328d6275d9a080f9e8b27c02709ec19185bd6",
+    "six_models.csv": "7bcc9c6a778e853805c045c3321100f20a84a615d5fc73bebd50becaccaed32b",
+    "S1_accuracy.csv": "33c30ae15ba3cdf3f98235565ae254dd8228784e16f09de4a0401d4db17e9343"
+  },
+  "format": "A4; 18 mm side margins; 10 pt Termes; two-column body; compact captions; S-prefixed appendix. Derived from the supplied MTP.",
+  "precision": "Appendix measurements at most two decimals; scaled units preserve small differences. Saved evidence retains full precision.",
+  "experiments": "Saved docs/manuscript and artifacts/edge_v1 results; no new model or device run.",
+  "identity": "Confirmed by user: Chitraksh CS23B054; Sudhanva CS23B051; Rishikesh CS23B015; Guide Dr Vishnu Chalavadi."
+}

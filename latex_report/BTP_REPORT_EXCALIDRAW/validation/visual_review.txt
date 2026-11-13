@@ -1,0 +1,16 @@
+EXCALIDRAW-STYLE ALTERNATE REPORT — 13 NOVEMBER 2026
+
+25 pages; 29 numbered figures plus the cover diagram. Six diagram regions
+are restyled: cover, project workflow, aggregation flow, architectures,
+resolution-control flow and weight-grid flow. Original labels and connections
+are retained. Mixed-figure quantitative panels are pixel-identical at 144 dpi.
+Report text, photos, results, tables, authors and page order are preserved.
+The 19 other pages are pixel-identical to the standard version at 108 dpi.
+The weight-grid replacement has less than 0.01 pt of TeX placement rounding;
+its surrounding text, line breaks and figure order are unchanged.
+
+Handwritten Virgil labels, soft blue/green/purple fills and lightly sketched
+outlines follow the supplied visual reference. The font license is included.
+Visual inspection confirms readable labels and spacing on all six pages.
+Original report/workshop files and all 42 protected inputs retain their hashes.
+See style_comparison.json, evidence_checks.json and clean_build.json.

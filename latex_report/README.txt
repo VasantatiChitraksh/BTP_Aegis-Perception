@@ -11,11 +11,17 @@ WORKSHOP PAPER/
   paper.tex            Editable workshop entry point (pdfLaTeX).
   build_workshop.py    Rebuilds only the workshop, separately from the BTP.
 
+BTP_REPORT_EXCALIDRAW/
+  BTP_Report.pdf      Separate 25-page version with sketch-style flowcharts.
+  main.tex            Independent source; original report content is preserved.
+  scripts/            Vector diagram generators; licensed font in fonts/.
+
 Each folder includes its own sections, figures, bibliography and build guide.
 The BTP cover uses the supplied hardware photos and the confirmed student/guide details.
-The downloadable LaTeX_Projects.zip contains these two folders and their PDFs.
+The downloadable LaTeX_Projects.zip contains all three folders and their PDFs.
 For Overleaf, upload BTP_REPORT_Overleaf.zip (XeLaTeX) or
 WORKSHOP_PAPER_Overleaf.zip (pdfLaTeX); both use main.tex at the ZIP root.
+The alternate report uses BTP_REPORT_Excalidraw_Overleaf.zip (XeLaTeX, main.tex).
 See README.md for direct downloads and complete upload instructions.
 
 The previous flat folder and combined report have been relocated intact to

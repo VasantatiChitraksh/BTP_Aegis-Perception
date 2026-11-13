@@ -1,0 +1,67 @@
+% Measured from mtech_ref_report.pdf: A4, 18 mm side margins, 10 pt Termes,
+% 12 pt baseline, two columns, 12/10 pt bold section/subsection headings.
+\usepackage[a4paper,left=18mm,right=18mm,top=20mm,bottom=20mm,headheight=12pt,headsep=8mm,footskip=10mm]{geometry}
+\usepackage{newtxtext,newtxmath}
+\usepackage{graphicx,amsmath}
+\usepackage{booktabs,array,tabularx,multirow}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage{microtype}
+\usepackage{titlesec,fancyhdr,caption,enumitem,placeins}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{url,multicol}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,bookmarksnumbered=true,pdfauthor={Chitraksh (CS23B054), Sudhanva (CS23B051), Rishikesh (CS23B015)},pdftitle={Aegis Perception: B.Tech Project Report}]{hyperref}
+\usepackage{bookmark}
+\definecolor{aegishead}{HTML}{E9EEF1}
+\definecolor{aegisbest}{HTML}{E6EFEB}
+\definecolor{aegisblue}{HTML}{246967}
+\definecolor{aegisgray}{HTML}{555C68}
+\definecolor{aegisamber}{HTML}{994E3A}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\clip}{\operatorname{clip}}
+\newcommand{\softmax}{\operatorname{softmax}}
+\newcommand{\GAP}{\operatorname{GAP}}
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\metric}[1]{\mathrm{#1}}
+\setlength{\columnsep}{7mm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt plus 1pt minus 1pt}
+\setlength{\emergencystretch}{1em}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\titleformat{\section}{\large\bfseries}{\thesection}{.7em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{.7em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{.6em}{}
+\titlespacing*{\section}{0pt}{11pt plus 2pt}{5pt}
+\titlespacing*{\subsection}{0pt}{8pt plus 2pt}{3pt}
+\titlespacing*{\paragraph}{0pt}{5pt}{.6em}
+\captionsetup{hypcap=false,font=small,labelfont=normalfont,labelsep=colon,skip=5pt}
+\captionsetup[table]{position=top}
+\setlist{leftmargin=*,nosep,topsep=3pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small Aegis Perception}
+\fancyhead[R]{\small B.Tech Project Report}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\renewcommand{\footrulewidth}{0pt}
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{2}
+\renewcommand{\topfraction}{.92}
+\renewcommand{\bottomfraction}{.8}
+\renewcommand{\textfraction}{.06}
+\renewcommand{\floatpagefraction}{.75}
+\renewcommand{\dbltopfraction}{.94}
+\renewcommand{\dblfloatpagefraction}{.75}
+\setcounter{topnumber}{3}\setcounter{totalnumber}{5}
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{10pt plus 2pt minus 2pt}
+\raggedbottom
+\urlstyle{same}
+
+% Thin neutral frames group measured comparisons without decorative panels.
+\newcommand{\comparisonplot}[2][\linewidth]{%
+  \begingroup\setlength{\fboxsep}{3pt}\setlength{\fboxrule}{.35pt}%
+  \fbox{\includegraphics[width=\dimexpr#1-2\fboxsep-2\fboxrule\relax]{#2}}%
+  \endgroup}

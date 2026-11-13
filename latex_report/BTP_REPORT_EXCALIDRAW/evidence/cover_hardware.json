@@ -1,0 +1,16 @@
+{
+  "generator": "scripts/build_cover.py",
+  "label": "Aegis Perception module",
+  "flow": [
+    "four saved inputs",
+    "camera on the supplied rover photo",
+    "combined Jetson USB/board and neural-network module",
+    "four saved restored outputs"
+  ],
+  "hardware_photos": {
+    "figures/cover_inputs/rover_camera.png": "052600096ac249c87b2d6319a0a0e74d7b84ee0cc29f5f01143d11beffbaae0c",
+    "figures/cover_inputs/jetson_connections.png": "92b434c85e9b41309b585666c6747079d8441ab5eab5d1b3ac0bbbc6c7fb167b"
+  },
+  "photo_edits": "None: original hardware files are embedded with proportional scaling.",
+  "scope": "Cover illustration only; saved weather pairs are representative examples, not new device experiments."
+}

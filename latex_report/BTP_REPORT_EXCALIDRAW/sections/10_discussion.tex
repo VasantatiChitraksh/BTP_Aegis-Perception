@@ -1,0 +1,41 @@
+\section{Lessons and Ongoing Deployment}
+\label{sec:discussion}
+
+\subsection{What the measurements establish}
+\textbf{Reconstruction.} Restormer leads the six-model benchmark; RAMiT is
+smaller but has no matched cascade/device measurements. All continuation
+variants fail validation replacement, so epoch 51 remains selected.
+
+\textbf{Detection and cost.} Local AP improves; Nano AP and throughput decline.
+Different canvases, runtimes and scoring prevent attributing the gap to
+resolution or precision alone. The five-object geometry diagnostic cannot
+replace a full labelled resize-only Nano arm. Camera fidelity scores and
+illustrative overlays do not establish object accuracy.
+
+\subsection{Threats to validity}
+\textbf{Data and training.} Prior test inspection, six smoke backgrounds,
+imperfect scene independence, synthetic weather and differing pretraining limit
+generalization. Single seeds leave training variability unmeasured; bootstrap
+intervals condition on the checkpoints.
+
+\textbf{Detection and device.} The pilot has 72 images; weather variants reuse
+objects. Unlabelled camera counts are not AP. Short, single Nano trials do not
+establish thermal stability. Live and replay timing boundaries differ, and
+input-rail energy includes idle power.
+
+\textbf{Compression.} Four fixtures cannot establish full-set task retention.
+FP32-stored weight grids lack integer kernels; dense masks preserve tensor
+shapes and file size. Rejection applies to the tested settings.
+
+\subsection{Phase 7: RAMiT + YOLOv12 edge deployment}
+\label{sec:ongoing}
+As of 13 November 2026, this sole ongoing phase integrates RAMiT with YOLOv12.
+Export checks precede matched labelled controls and repeated device measurements.
+\textbf{No end-to-end accuracy or throughput is yet measured.} Broader validation
+needs independent smoke scenes, multiple seeds, camera annotations and sustained
+runs.
+
+\subsection{Conclusion}
+Restoration quality, detector accuracy and device cost require separate
+measurements. The six completed phases establish these trade-offs and the
+controls for the ongoing RAMiT + YOLOv12 deployment study.
