@@ -1,19 +1,23 @@
 AEGIS PERCEPTION — STANDALONE BTP REPORT
 
 OPEN BTP_Report.pdf — the independent 25-page report, with 29 numbered figures
-and an unlabelled cover diagram, without workshop pages.
+and a hardware-photo cover diagram, without workshop pages.
 EDIT main.tex — the BTP entry point, with no sibling-folder dependencies.
 The separate workshop project lives in ../WORKSHOP PAPER/.
 The current page count and validation results are recorded in validation/.
 Page 3 contains the black-labelled weather comparison and principal results;
-page 4 contains the Gantt and contributions; page 5 introduces the workflow.
+page 4 contains the Gantt and contributions; page 5 shows the matched vehicle
+detections (formerly Figure 14, now Figure 3). The workflow begins page 6.
 Every main-body page (physical pages 3–17) contains figures or tables.
 Thin neutral frames group comparisons; important results use bold type.
 Repetition was condensed and the mostly empty closing page was removed.
 
 COVER AND REPORT STRUCTURE
-The enlarged, unlabelled cover pipeline uses saved input/restored examples and
-schematic network/chip icons. It contains no status text or invented detections.
+The cover uses the two supplied hardware photos: four saved inputs point to
+the rover camera, then a plain arrow leads to the Jetson board/USB view.
+The network is labelled "Aegis Perception module" and leads to four saved
+restored outputs. The chip symbol is removed. Original hardware images are in
+figures/cover_inputs/; hashes and scope are in evidence/cover_hardware.json.
 Chitraksh — CS23B054
 Sudhanva — CS23B051
 Rishikesh — CS23B015

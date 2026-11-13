@@ -1,42 +1,28 @@
-FINAL VISUAL REVIEW — NEUTRAL COMPARISONS AND VISUAL SPREAD
-13 NOVEMBER 2026
+FINAL VISUAL REVIEW — PROFESSOR'S TWO CHANGES, 13 NOVEMBER 2026
 
-25 A4 pages: cover, abstract/contents, 15 main-body pages, one references page,
-and seven supplementary pages. 29 numbered figures plus an unlabelled cover.
+25 A4 pages; 29 numbered figures plus the hardware-photo cover.
 
-Opening and distribution
-Physical page 3 contains the four-weather comparison and principal results.
-Page 4 contains the Gantt, contribution table and attribution. The workflow
-now starts page 5. Figures or tables appear on every main-body page, physical
-pages 3–17; the caption-by-page audit is in visual_spread.json. Dataset coverage
-and model architecture support the early methods pages. Histograms, restoration,
-continuation, detection and Nano comparisons continue throughout the body.
-The mostly empty closing page was removed by condensing repeated explanation.
+Cover
+Four saved adverse-weather images point to the upper camera in the supplied
+rover photograph. A plain horizontal arrow connects the rover to the supplied
+Jetson board/USB view. A downward arrow leads to the existing network motif,
+labelled "Aegis Perception module"; a plain arrow then leads to four saved
+restored images. The chip symbol is removed. Original hardware files are kept
+unchanged under figures/cover_inputs/. The author names, roll numbers and
+Dr Vishnu Chalavadi's guide line remain unchanged.
 
-Comparison presentation
-Weather-grid and detector-gallery headings are black. Gallery and data-table
-headers have no coloured fill. Thin neutral rules group matched image rows,
-principal results and quantitative comparisons. Key table results use bold
-text. Plot colours still identify measured series or numerical values. There
-are no KPI cards, completion badges, checkmarks or decorative status banners.
-The detection chart's x-axis titles and legend are separated. The export chart
-now refers to Appendix C. The two corrected plots retain their plotted regions
-pixel-for-pixel at 144 dpi. The weather-grid derivative preserves all 16 embedded
-image streams, and the 24 saved detector panels retain their original overlays.
+Early comparison
+The former Figure 14 matched vehicle comparison occupies physical page 5,
+now numbered Figure 3. Its saved panels, counts and caption are unchanged.
+Only its heading/context and cross-references adjust to the new position.
+The later people comparison remains with the detection study. The overview
+and contribution pages remain on physical pages 3 and 4; the workflow begins
+page 6. Every main-body page (3–17) retains a figure or table.
 
-Content and checks
-The introduction, implementation summary and discussion are shorter. Detailed
-methods, controls and limitations remain in the body and Supplementary Material.
-The report compiles without overfull boxes, undefined references/citations,
-missing glyph warnings or duplicate figure destinations. Word bounds, chart
-bounds and internal PDF links pass. Eleven noncritical underfull-line notices
-remain. Supplementary measurements retain at most two decimals; raw numerical
-evidence stays at full precision. Numerical, histogram, input-hash and Nano
-source-index checks pass. The 42 immutable report inputs remain unchanged.
-The separate workshop project and supplied MTP reference retain their hashes.
-
-Scope
-Six experimental work packages are complete, including negative results and
-rejected settings. RAMiT + YOLOv12 is the sole ongoing deployment phase, with
-no end-to-end performance claim. No new model or device experiment was run.
-Independent ZIP rebuild results are recorded in clean_build.json.
+Validation
+The build retains 25 pages and passes reference, glyph and overflow checks.
+The numerical verifier, original image/evidence hashes and PDF bounds checks
+pass. Eleven noncritical underfull-line notices remain. The 42 protected report
+inputs, workshop project and MTP reference retain their hashes. No experimental
+measurement or saved detection overlay was changed. Clean ZIP rebuild details
+are in clean_build.json and ../../overleaf_validation.json.

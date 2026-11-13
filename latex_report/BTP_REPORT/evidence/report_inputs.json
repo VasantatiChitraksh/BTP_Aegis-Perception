@@ -7,9 +7,10 @@
   "source_files": {
     "figures/weight_grid_workflow.tex": "bb557ab09d7aee8e582334d32f53f89a03edfc4a50c15b28f9a2ec5ce25947ea",
     "frontmatter.tex": "9cc229217a9598b6017e3df533246013ca2f8d8236b94a08643ae4dd72f393b5",
-    "main.tex": "3bba2b522a25f3f463e8549a8fe70cd9bbc122c54f69e664d68dd9d90b9b5fb6",
+    "main.tex": "4cfda1eff952971dffc2623b603eceb73e38c350f407dbfaee4675a7b3b44a76",
     "preamble.tex": "51d82d3a55a7f4dedca457defd4d313b64184e21e378ee1e4a570f388052b3e6",
     "sections/00_outcomes.tex": "22e468ff1795d9fc25d8233fbdb7e3e65a212643aaf02a462a7e48882f54faa0",
+    "sections/00_vehicle_results.tex": "c08d24dd1721c3ba9a2c30f758c3aa46fc96b93fc788700819ebd62604fb1208",
     "sections/00_workflow.tex": "f1f98058cca056f9da2923492cc9df569f2f9c97de83c786da6583a3e480b67b",
     "sections/01_introduction.tex": "299935d7218d393a061c851970d264e443302f3c8a913247dfdd15b6886f2cfd",
     "sections/02_system.tex": "62601bf00ee912a8ac77066b02125c5416e68fa6193ca42c9ba4cdcd0e73711a",
@@ -18,7 +19,7 @@
     "sections/05_method.tex": "7c701b754da499dfc3e9cd0d565a1f346faf45d0b8614875d817057b8059ac43",
     "sections/06_restoration.tex": "ab38a34eb601e31f3fa63893bacf8f838f2654038b6fdedb127c9ccf7f87cf55",
     "sections/07_continuation.tex": "2fc659d2c92aa6f32ece5af7f5cbacb05d0aaf1cae27a6d59b6c12d018fd8925",
-    "sections/08_comparison_galleries.tex": "f09139d5e1b2797fcf2800eff9065ccbd20ba1352c198f78c5280c1870e11d7a",
+    "sections/08_comparison_galleries.tex": "917b04053e72983f93e437463ef25fc06f052f3816d5634edf7daa096949ed3e",
     "sections/08_detection.tex": "17de4b994592f798b7ae4d2e972344b4c904ccde00165e168a089097476b87e3",
     "sections/09_edge.tex": "2260742a4e4774149ae7424a8732bc8f68141edf47e05741ca4e34116e1f91ca",
     "sections/10_discussion.tex": "8842f9ed68e1b0c89ef319deeaf4cf1bfecf1aa57d1681d6ca7c47fee2b81b6f",
@@ -37,7 +38,7 @@
     {
       "asset": "figures/cover_pipeline.pdf",
       "used_in": "frontmatter.tex",
-      "sha256": "e4d634e9e9c7a031e0143dadfd7536fb7c249cb9f06575cbf74329ad3e98bb89"
+      "sha256": "2ca6823f2a04fa3f11445170da5eb787874046d2388433cc011633db630ef8c5"
     },
     {
       "asset": "figures/weather_examples_mono.pdf",
@@ -48,6 +49,11 @@
       "asset": "figures/work_timeline.pdf",
       "used_in": "sections/11_contributions.tex",
       "sha256": "eaf094d63156290ae6c5214ac2432204b2b5f8b6b4ab84e8194d6885b13ece5d"
+    },
+    {
+      "asset": "figures/matched_128_vehicles.pdf",
+      "used_in": "sections/00_vehicle_results.tex",
+      "sha256": "bd083372c29e9b6df2abd422097a05ad6626fb361d77945bc81ecd8af65d3220"
     },
     {
       "asset": "figures/project_evidence_flow.pdf",
@@ -103,11 +109,6 @@
       "asset": "figures/controlled_resolution.pdf",
       "used_in": "sections/08_detection.tex",
       "sha256": "e2b35c56f64487073496905776e1e4a11a42197fd11d59ed44b64bbaa84085fc"
-    },
-    {
-      "asset": "figures/matched_128_vehicles.pdf",
-      "used_in": "sections/08_comparison_galleries.tex",
-      "sha256": "bd083372c29e9b6df2abd422097a05ad6626fb361d77945bc81ecd8af65d3220"
     },
     {
       "asset": "figures/matched_128_people.pdf",
@@ -188,7 +189,7 @@
   "visual_generators": {
     "scripts/build_chart_layout_repairs.py": "737a7291f7a1469dc6f4680c13d14bd7fc5aae35aa0fbd52b82fc8ce8d8c67c4",
     "scripts/build_comparison_gallery.py": "d75f7877a1c175006ebe158020a2dac26b180de7414ccaa24af0da656aa59178",
-    "scripts/build_cover.py": "1f6dbcf9d628e5b6ee692dc99682e3ec62db801adb4d7216f50dd9a946265085",
+    "scripts/build_cover.py": "d4efe460df09d0f1d589527a298866ac7a24522cf1837f6d1846427e774f3771",
     "scripts/build_distribution_charts.py": "158dc4e7c27fa589929718046e494ddece59b952af385f55c81aa9c24b161028",
     "scripts/build_neutral_comparison.py": "fe1ad36fbf4b0e71d5f224920c2d00808253d26cfafa2333603c6521cdbffad7",
     "scripts/build_project_visuals.py": "d2f42dcac342b55133cb57f64dd88fcb421f704f237e9550f4d70ffd5d0494a6",
@@ -196,6 +197,7 @@
     "scripts/build_work_timeline.py": "6649e66e9252643a978b1abe1818e0c1955f3c3d6e44606c78919c5bc4c4daf3"
   },
   "evidence": {
+    "cover_hardware.json": "5628f197c95c048e0914f3341f025727a491c4ff6a8e5a65126994f55bca3265",
     "chart_layout_repairs.json": "3a998fd76b725906d4baf3edbba0a7076dfb212bce2e6045bb585134f7ae4e77",
     "pruning_screen.csv": "07fbe25b2e6eb144c7eb1ebc03f898f215f6eb2e642b4f114b2f5ef5fa1290f4",
     "joint_test.csv": "4673ac079046f9fdfaf467eb126d9ebee8bd15687bcf9e7d08d1c86159d6904b",

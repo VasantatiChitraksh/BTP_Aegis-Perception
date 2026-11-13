@@ -12,7 +12,7 @@ WORKSHOP PAPER/
   build_workshop.py    Rebuilds only the workshop, separately from the BTP.
 
 Each folder includes its own sections, figures, bibliography and build guide.
-The BTP cover uses an unlabelled diagram and the confirmed student/guide details.
+The BTP cover uses the supplied hardware photos and the confirmed student/guide details.
 The downloadable LaTeX_Projects.zip contains these two folders and their PDFs.
 For Overleaf, upload BTP_REPORT_Overleaf.zip (XeLaTeX) or
 WORKSHOP_PAPER_Overleaf.zip (pdfLaTeX); both use main.tex at the ZIP root.

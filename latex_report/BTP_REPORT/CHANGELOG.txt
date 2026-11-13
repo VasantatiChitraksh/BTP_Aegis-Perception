@@ -1,3 +1,17 @@
+PROFESSOR'S TWO REQUESTED CHANGES — 13 NOVEMBER 2026
+
+- Replaced the cover's abstract chip flow with the supplied camera/rover and
+  Jetson USB photos. Plain arrows connect the four input images to the camera,
+  board, "Aegis Perception module" network and four output images. Authors,
+  roll numbers and guide are preserved. No hardware photo was synthesized.
+- Moved the former Figure 14 vehicle comparison to physical page 5 (now
+  Figure 3). The nearby text now points to the later people comparison.
+  Cross-references and subsequent figure numbering update automatically.
+
+The report remains 25 pages with 29 numbered figures. Measurements, saved
+comparison panels and workshop contents are unchanged. The PDF and source
+archives were rebuilt; current checks are in validation/.
+
 VISUAL SPREAD AND NEUTRAL COMPARISONS — 13 NOVEMBER 2026
 
 - Made all weather-grid and detector-gallery row/column labels black. Removed

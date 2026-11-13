@@ -209,12 +209,15 @@ def main():
     cover=doc[0].get_text()
     checks['cover_identity']=all(v in cover for v in ('Chitraksh','CS23B054','Sudhanva','CS23B051','Rishikesh','CS23B015','Guide: Dr Vishnu Chalavadi'))
     checks['cover_has_no_phase_status']=not any(v in cover.lower() for v in ('ongoing','completed','phase 0','six experimental'))
-    checks['cover_diagram_unlabelled']=not pdf.open(ROOT/'figures/cover_pipeline.pdf')[0].get_text().strip()
+    checks['cover_module_label']=pdf.open(ROOT/'figures/cover_pipeline.pdf')[0].get_text().strip()=='Aegis Perception module'
+    hardware=json.loads((ROOT/'evidence/cover_hardware.json').read_text())
+    checks['original_hardware_photos_preserved']=all(digest(ROOT/name)==value for name,value in hardware['hardware_photos'].items())
     checks['standalone_title_page']='B.Tech Project Report' in cover and 'Aegis Perception' in cover
     opening=doc[2].get_text(); work=doc[3].get_text()
     checks['opening_images_and_results_on_page_3']=all(v in opening for v in
         ('Project Overview','Degraded','Restormer','RAMiT','Clean target','Matched continuation','29.97','32.86','14.50'))
-    checks['workflow_moved_to_page_5']='Experimental workflow.' in doc[4].get_text() and 'Experimental workflow.' not in opening
+    checks['vehicle_comparison_on_page_5']=all(v in doc[4].get_text() for v in ('Matched Vehicle Detection','Matched vehicle comparison:','YOLOv8n only','Restormer + YOLOv8n'))
+    checks['workflow_moved_to_page_6']='Experimental workflow.' in doc[5].get_text() and 'Experimental workflow.' not in opening
     coverage=[]
     for i in range(2,17):
         captions=re.findall(r'^(?:Figure|Table)\s+(?:S)?\d+:.*',doc[i].get_text(),flags=re.M)
