@@ -4,8 +4,7 @@
   "flow": [
     "four saved inputs",
     "camera on the supplied rover photo",
-    "Jetson USB/board photo",
-    "network module",
+    "combined Jetson USB/board and neural-network module",
     "four saved restored outputs"
   ],
   "hardware_photos": {

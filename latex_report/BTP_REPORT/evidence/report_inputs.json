@@ -38,7 +38,7 @@
     {
       "asset": "figures/cover_pipeline.pdf",
       "used_in": "frontmatter.tex",
-      "sha256": "bf619a7257efdca27db5e2ad89e725102cf1d0d137a11ea9cca69129109fa107"
+      "sha256": "7cae46c86006ec1028f7795f4059c27e9319176e2dfdd7cba06dc346b2f5c0ec"
     },
     {
       "asset": "figures/weather_examples_mono.pdf",
@@ -189,7 +189,7 @@
   "visual_generators": {
     "scripts/build_chart_layout_repairs.py": "737a7291f7a1469dc6f4680c13d14bd7fc5aae35aa0fbd52b82fc8ce8d8c67c4",
     "scripts/build_comparison_gallery.py": "d75f7877a1c175006ebe158020a2dac26b180de7414ccaa24af0da656aa59178",
-    "scripts/build_cover.py": "ca0ba6cfd7b918760b696ba5940e101a4d7ded332494e14a42f99c4d24b8a5aa",
+    "scripts/build_cover.py": "f4311ce9b77f13c5a269c1fc4c17b4f5cfede1f1e10cd445a54ceb04bbffa201",
     "scripts/build_distribution_charts.py": "158dc4e7c27fa589929718046e494ddece59b952af385f55c81aa9c24b161028",
     "scripts/build_neutral_comparison.py": "fe1ad36fbf4b0e71d5f224920c2d00808253d26cfafa2333603c6521cdbffad7",
     "scripts/build_project_visuals.py": "d2f42dcac342b55133cb57f64dd88fcb421f704f237e9550f4d70ffd5d0494a6",
@@ -197,7 +197,7 @@
     "scripts/build_work_timeline.py": "6649e66e9252643a978b1abe1818e0c1955f3c3d6e44606c78919c5bc4c4daf3"
   },
   "evidence": {
-    "cover_hardware.json": "5628f197c95c048e0914f3341f025727a491c4ff6a8e5a65126994f55bca3265",
+    "cover_hardware.json": "17fa97d5d5eab9917fd46a7878eeb9762d58097729f6bed1e700bbd595dc3b12",
     "chart_layout_repairs.json": "3a998fd76b725906d4baf3edbba0a7076dfb212bce2e6045bb585134f7ae4e77",
     "pruning_screen.csv": "07fbe25b2e6eb144c7eb1ebc03f898f215f6eb2e642b4f114b2f5ef5fa1290f4",
     "joint_test.csv": "4673ac079046f9fdfaf467eb126d9ebee8bd15687bcf9e7d08d1c86159d6904b",

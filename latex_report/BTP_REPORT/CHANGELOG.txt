@@ -1,3 +1,10 @@
+GROUPED COVER MODULE — 13 NOVEMBER 2026
+
+- Combined the USB photo and neural network in one lightly sketched outline,
+  with a shared label and no internal arrow.
+- Increased clearance between the camera photo and output gallery, preserving
+  photo proportions and the spacing above the authors.
+
 COVER ALIGNMENT — 13 NOVEMBER 2026
 
 - Made the input-to-camera arrow horizontal, preserving image proportions.

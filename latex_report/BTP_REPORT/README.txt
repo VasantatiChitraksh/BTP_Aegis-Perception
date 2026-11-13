@@ -14,9 +14,10 @@ Repetition was condensed and the mostly empty closing page was removed.
 
 COVER AND REPORT STRUCTURE
 The cover uses the two supplied hardware photos: four saved inputs point to
-the rover camera, then a plain arrow leads to the Jetson board/USB view.
-The network is labelled "Aegis Perception module" and leads to four saved
-restored outputs. The chip symbol is removed. Original hardware images are in
+the rover camera, then a plain arrow leads to one outlined block containing
+the Jetson board/USB view and network, labelled "Aegis Perception module".
+The block leads to four saved restored outputs, with a clear gap below the
+camera photo. The chip symbol is removed. Original hardware images are in
 figures/cover_inputs/; hashes and scope are in evidence/cover_hardware.json.
 Chitraksh — CS23B054
 Sudhanva — CS23B051
