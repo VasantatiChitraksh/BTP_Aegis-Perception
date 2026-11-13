@@ -46,7 +46,7 @@ def build(root,output):
     front=photo(photo_paths[0],2.36,1.83,1.72,2.30)
     x,y,w,h=front
     camera=(x+.36*w,y+.865*h)
-    arrow((1.96,3.55),camera)
+    arrow((1.96,camera[1]),camera)
     # A plain horizontal link from the middle of the rover to the board photo.
     board=photo(photo_paths[1],5.05,1.61,1.48,2.63)
     arrow((4.16,2.93),(4.96,2.93))

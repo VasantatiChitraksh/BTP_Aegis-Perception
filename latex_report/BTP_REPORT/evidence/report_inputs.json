@@ -6,7 +6,7 @@
   "reference_sha256": "36352aaf3a9d6f38c63a2e9efbe4f5807166a88126d649be73f9e63f479a2806",
   "source_files": {
     "figures/weight_grid_workflow.tex": "bb557ab09d7aee8e582334d32f53f89a03edfc4a50c15b28f9a2ec5ce25947ea",
-    "frontmatter.tex": "9cc229217a9598b6017e3df533246013ca2f8d8236b94a08643ae4dd72f393b5",
+    "frontmatter.tex": "d6618ff4fa823c5eadcdf20d5bfddf1513ec99d1ddf9db141b67e3be8e0bc03a",
     "main.tex": "4cfda1eff952971dffc2623b603eceb73e38c350f407dbfaee4675a7b3b44a76",
     "preamble.tex": "51d82d3a55a7f4dedca457defd4d313b64184e21e378ee1e4a570f388052b3e6",
     "sections/00_outcomes.tex": "22e468ff1795d9fc25d8233fbdb7e3e65a212643aaf02a462a7e48882f54faa0",
@@ -38,7 +38,7 @@
     {
       "asset": "figures/cover_pipeline.pdf",
       "used_in": "frontmatter.tex",
-      "sha256": "2ca6823f2a04fa3f11445170da5eb787874046d2388433cc011633db630ef8c5"
+      "sha256": "bf619a7257efdca27db5e2ad89e725102cf1d0d137a11ea9cca69129109fa107"
     },
     {
       "asset": "figures/weather_examples_mono.pdf",
@@ -189,7 +189,7 @@
   "visual_generators": {
     "scripts/build_chart_layout_repairs.py": "737a7291f7a1469dc6f4680c13d14bd7fc5aae35aa0fbd52b82fc8ce8d8c67c4",
     "scripts/build_comparison_gallery.py": "d75f7877a1c175006ebe158020a2dac26b180de7414ccaa24af0da656aa59178",
-    "scripts/build_cover.py": "d4efe460df09d0f1d589527a298866ac7a24522cf1837f6d1846427e774f3771",
+    "scripts/build_cover.py": "ca0ba6cfd7b918760b696ba5940e101a4d7ded332494e14a42f99c4d24b8a5aa",
     "scripts/build_distribution_charts.py": "158dc4e7c27fa589929718046e494ddece59b952af385f55c81aa9c24b161028",
     "scripts/build_neutral_comparison.py": "fe1ad36fbf4b0e71d5f224920c2d00808253d26cfafa2333603c6521cdbffad7",
     "scripts/build_project_visuals.py": "d2f42dcac342b55133cb57f64dd88fcb421f704f237e9550f4d70ffd5d0494a6",

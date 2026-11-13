@@ -3,13 +3,15 @@ FINAL VISUAL REVIEW — PROFESSOR'S TWO CHANGES, 13 NOVEMBER 2026
 25 A4 pages; 29 numbered figures plus the hardware-photo cover.
 
 Cover
-Four saved adverse-weather images point to the upper camera in the supplied
-rover photograph. A plain horizontal arrow connects the rover to the supplied
+Four saved adverse-weather images point horizontally to the upper camera in
+the supplied rover photograph. A plain horizontal arrow connects the rover to the supplied
 Jetson board/USB view. A downward arrow leads to the existing network motif,
 labelled "Aegis Perception module"; a plain arrow then leads to four saved
 restored images. The chip symbol is removed. Original hardware files are kept
 unchanged under figures/cover_inputs/. The author names, roll numbers and
-Dr Vishnu Chalavadi's guide line remain unchanged.
+Dr Vishnu Chalavadi's guide line remain unchanged. A paragraph break and 7 mm
+of spacing separate the diagram from the author block. Photo proportions
+are unchanged.
 
 Early comparison
 The former Figure 14 matched vehicle comparison occupies physical page 5,

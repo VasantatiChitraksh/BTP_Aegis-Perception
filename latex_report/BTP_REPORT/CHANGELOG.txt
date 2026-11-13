@@ -1,3 +1,9 @@
+COVER ALIGNMENT — 13 NOVEMBER 2026
+
+- Made the input-to-camera arrow horizontal, preserving image proportions.
+- Added a paragraph break and 7 mm spacing before the author block.
+- Rebuilt the PDF and source packages; report content and page order are unchanged.
+
 PROFESSOR'S TWO REQUESTED CHANGES — 13 NOVEMBER 2026
 
 - Replaced the cover's abstract chip flow with the supplied camera/rover and
